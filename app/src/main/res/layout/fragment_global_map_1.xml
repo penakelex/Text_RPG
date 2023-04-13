@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_launcher_background"
     android:orientation="vertical"
     android:padding="4dp"
+    android:background="@drawable/map_part_1"
     tools:context=".GlobalMapFragments.GlobalMapFragment_1">
 
     <LinearLayout

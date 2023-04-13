@@ -29,7 +29,6 @@ public class DialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDialogActvivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Toast.makeText(this, String.valueOf(getPreferences(MODE_PRIVATE).getInt(ID_Dialog, 0)), Toast.LENGTH_LONG).show();
         initiateDialog(getPreferences(MODE_PRIVATE).getInt(ID_Dialog, 0));
     }
 
@@ -43,7 +42,7 @@ public class DialogActivity extends AppCompatActivity {
             case -1:
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 break;
-            //case -2: //TODO: В общем здесь сделать, чтобы при таком варианте возвращаться на карту
+            case -2: startActivity(new Intent(DialogActivity.this, Map.class));
             default:
                 fillReplicas(quotes[step]);
 

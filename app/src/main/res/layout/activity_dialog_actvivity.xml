@@ -5,15 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="4dp"
+    android:padding="1dp"
     tools:context=".DialogActivity">
 
     <TextView
         android:id="@+id/name"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/rectangle"
         android:gravity="center"
+        android:textColor="#F1E792"
         android:textSize="36sp" />
 
     <ImageView
@@ -26,29 +30,41 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp"
-        android:layout_weight="1.3">
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1.3"
+        android:background="@drawable/rectangle"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/text"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:gravity="start"
+            android:textColor="#F1E792"
             android:textSize="24sp" />
     </ScrollView>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1.2"
+        android:background="@drawable/background_for_dialog_variants"
         android:padding="4dp">
 
-        <LinearLayout
-            android:id="@+id/containerForReplicasVariants"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="wrap_content">
 
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/containerForReplicasVariants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </ScrollView>
+    </LinearLayout>
+
 </LinearLayout>

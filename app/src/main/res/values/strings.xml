@@ -47,7 +47,7 @@
     <string name="survivaling">Выживания:</string>
     <string name="intellectual">Интеллектуальные:</string>
     <string name="abilities">Способности:</string>
-    <string name="talents">Таланты:</string>
+    <string name="talents">Таланты</string>
     <string name="ending_form">Завершить\nанкету</string>
     <string name="back_to_skills">Назад к\nнавыкам</string>
     <string name="back_to_characteristics">Назад к\nхарактеристикам</string>
@@ -69,4 +69,13 @@
     <string name="back_to_main_information">Назад к\nосновной информации</string>
     <string name="ur_sex">Ваш пол:</string>
     <string name="choose_as_main_skill">Выбрать как основной навык</string>
+    <string name="homeland">Homeland</string>
+    <string name="singer">Певец</string>
+    <string name="bull">Бугай</string>
+    <string name="strong_kikc">Сильный удар</string>
+    <string name="experienced">Опытный</string>
+    <string name="trained">Натренированный</string>
+    <string name="heavyweight">Тяжеловес</string>
+    <string name="kind_one">Добрый малый</string>
+    <string name="choose_talent">Выбрать талант</string>
 </resources>
