@@ -1,20 +1,21 @@
 package com.example.textrpg.StartingFragments;
 
+import static com.example.textrpg.Constants.Characteristics_Points;
+import static com.example.textrpg.Constants.First_Visit_Characteristics;
+
 import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
+import com.example.textrpg.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import com.example.textrpg.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import com.example.textrpg.R;
 import com.example.textrpg.databinding.FragmentStartingCharacteristicsBinding;
@@ -22,8 +23,7 @@ import com.example.textrpg.databinding.FragmentStartingCharacteristicsBinding;
 public class StartingCharacteristicsFragment extends Fragment {
     private FragmentStartingCharacteristicsBinding binding;
     SharedPreferences sharedPreferences;
-    private final String Characteristics_Points = "Characteristics Points",
-            First_Visit_Characteristics = "First Visit Characteristics";
+
     SQLiteDatabase database;
     CharacteristicsDatabaseHelper databaseHelper;
 
@@ -114,97 +114,34 @@ public class StartingCharacteristicsFragment extends Fragment {
 
     @SuppressLint("DefaultLocale")
     private void downgrading(SQLiteDatabase database) {
-            binding.message.setText("");
-            sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-            int id = getIdByText();
-            boolean characteristicChosen = id != 0;
-            if (characteristicChosen) {
-                Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-                cursor.moveToFirst();
-                int idColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID),
-                        valueColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value),
-                        value = 0;
-                do {
-                    if (cursor.getInt(idColumnIndex) == id) {
-                        value = cursor.getInt(valueColumnIndex);
-                        break;
-                    }
-                } while (cursor.moveToNext());
-                cursor.close();
-                if (value - 1 >= 0) {
-                    database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %d",
-                            CharacteristicsDatabaseHelper.Table_Characteristics,
-                            CharacteristicsDatabaseHelper.KEY_Value,
-                            value - 1,
-                            CharacteristicsDatabaseHelper.KEY_ID,
-                            id));
-                    sharedPreferences.edit().putInt(Characteristics_Points, sharedPreferences.getInt(Characteristics_Points, 2) + 1).apply();
-                    Cursor afterCursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-                    afterCursor.moveToFirst();
-                    int newIdColumnIndex = afterCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID),
-                            newValueColumnIndex = afterCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value),
-                            newValue = 0;
-                    do {
-                        if (afterCursor.getInt(newIdColumnIndex) == id) {
-                            newValue = afterCursor.getInt(newValueColumnIndex);
-                            break;
-                        }
-                    } while (afterCursor.moveToNext());
-                    afterCursor.close();
-                    setNewValue(newValue, id);
-                } else {
-                    binding.message.setText("Слишком маленькое значение характеристики...");
-                }
-            }
+        binding.message.setText("");
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        int id = getIdByText(), result = CharacteristicsDatabase.downgradeCharacteristic(database, sharedPreferences, id);
+        switch (result) {
+            case 1:
+                setNewValue(CharacteristicsDatabase.getNewValue(database, id), id);
+                break;
+            case 2:
+                binding.message.setText("Слишком маленькое значение характеристики...");
+                break;
+        }
     }
 
     @SuppressLint("DefaultLocale")
     private void raising(SQLiteDatabase database) {
         binding.message.setText("");
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        int id = getIdByText();
-        boolean characteristicChosen = id != 0;
-        if (characteristicChosen) {
-            Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-            int idColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID),
-                    valueColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value),
-                    value = 0;
-            cursor.moveToFirst();
-            do {
-                if (cursor.getInt(idColumnIndex) == id) {
-                    value = cursor.getInt(valueColumnIndex);
-                    break;
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
-            if (value + 1 <= 5 && sharedPreferences.getInt(Characteristics_Points, 2) - 1 >= 0) {
-                database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %d",
-                        CharacteristicsDatabaseHelper.Table_Characteristics,
-                        CharacteristicsDatabaseHelper.KEY_Value,
-                        value + 1,
-                        CharacteristicsDatabaseHelper.KEY_ID,
-                        id));
-                sharedPreferences.edit().putInt(Characteristics_Points, sharedPreferences.getInt(Characteristics_Points, 2) - 1).apply();
-                Cursor afterCursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-                int newIdColumnIndex = afterCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID),
-                        newValueColumnIndex = afterCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value),
-                        newValue = 0;
-                afterCursor.moveToFirst();
-                do {
-                    if (afterCursor.getInt(newIdColumnIndex) == id) {
-                        newValue = afterCursor.getInt(newValueColumnIndex);
-                        break;
-                    }
-                } while (afterCursor.moveToNext());
-                afterCursor.close();
-                setNewValue(newValue, id);
-            } else {
-                if (value + 1 > 5) {
-                    binding.message.setText("Слишком большое значение характеристики...");
-                } else {
-                    binding.message.setText("Не хватет очков характеристик...");
-                }
-            }
+        int id = getIdByText(), result = CharacteristicsDatabase.raiseCharacteristic(database, sharedPreferences, id);
+        switch (result) {
+            case 1:
+                setNewValue(CharacteristicsDatabase.getNewValue(database, id), id);
+                break;
+            case 2:
+                binding.message.setText("Слишком большое значение характеристики...");
+                break;
+            case 3:
+                binding.message.setText("Не хватет очков характеристик...");
+                break;
         }
     }
 
@@ -212,93 +149,18 @@ public class StartingCharacteristicsFragment extends Fragment {
     private void settingCharacteristicInDatabase(SQLiteDatabase database) {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean(First_Visit_Characteristics, true)) {
-            database.delete(CharacteristicsDatabaseHelper.Table_Characteristics, null, null);
             sharedPreferences.edit().putBoolean(First_Visit_Characteristics, false).
                     putInt(Characteristics_Points, 2).apply();
-
-            ContentValues contentValuesStrength = new ContentValues(),
-                    contentValuesPhysique = new ContentValues(),
-                    contentValuesDexterity = new ContentValues(),
-                    contentValuesMentality = new ContentValues(),
-                    contentValuesLuckiness = new ContentValues(),
-                    contentValuesWatchfulness = new ContentValues(),
-                    contentValuesAttractiveness = new ContentValues();
-
-            contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_ID, 1);
-            contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_Name, "strength");
-            contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_ID, 2);
-            contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_Name, "physique");
-            contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_ID, 3);
-            contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_Name, "dexterity");
-            contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_ID, 4);
-            contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_Name, "mentality");
-            contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_ID, 5);
-            contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_Name, "luckiness");
-            contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_ID, 6);
-            contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_Name, "watchfulness");
-            contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_ID, 7);
-            contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_Name, "attractiveness");
-            contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
-
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesStrength);
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesPhysique);
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesDexterity);
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesMentality);
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesLuckiness);
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesWatchfulness);
-            database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesAttractiveness);
+            CharacteristicsDatabase.settingStartValuesInDatabase(database);
         }
-
-        int idColumnIndex, valueColumnIndex, value = 0, id = 0;
-        Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-        idColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID);
-        valueColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value);
-        cursor.moveToFirst();
-        do {
-            try {
-                id = cursor.getInt(idColumnIndex);
-                value = cursor.getInt(valueColumnIndex);
-                Log.d("value, id", value + " " + id);
-                switch (id) {
-                    case 1:
-                        binding.strengthValue.setText(String.valueOf(value));
-                        break;
-                    case 2:
-                        binding.physiqueValue.setText(String.valueOf(value));
-                        break;
-                    case 3:
-                        binding.dexterityValue.setText(String.valueOf(value));
-                        break;
-                    case 4:
-                        binding.mentalityValue.setText(String.valueOf(value));
-                        break;
-                    case 5:
-                        binding.luckinessValue.setText(String.valueOf(value));
-                        break;
-                    case 6:
-                        binding.watchfulnessValue.setText(String.valueOf(value));
-                        break;
-                    case 7:
-                        binding.attractivenessValue.setText(String.valueOf(value));
-                        break;
-                }
-            } catch (Exception exception) {
-                Log.d("characteristic exception", String.valueOf(exception));
-            }
-        } while (cursor.moveToNext());
-        cursor.close();
+        int[] values = CharacteristicsDatabase.getCharacteristicsValues(database);
+        binding.strengthValue.setText(String.valueOf(values[0]));
+        binding.physiqueValue.setText(String.valueOf(values[1]));
+        binding.dexterityValue.setText(String.valueOf(values[2]));
+        binding.mentalityValue.setText(String.valueOf(values[3]));
+        binding.luckinessValue.setText(String.valueOf(values[4]));
+        binding.watchfulnessValue.setText(String.valueOf(values[5]));
+        binding.attractivenessValue.setText(String.valueOf(values[6]));
         binding.characteristicsPoints.setText(String.format("Осталось очков характеристик: %d", sharedPreferences.getInt(Characteristics_Points, 2)));
         settingStrengthInformation();
     }
@@ -307,6 +169,7 @@ public class StartingCharacteristicsFragment extends Fragment {
         if (getActivity().getPreferences(Context.MODE_PRIVATE).getInt(Characteristics_Points, 2) > 0) {
             binding.message.setText("Вы не можете перейти на другую страницу, не распределив все очки характеристик...");
         } else {
+            binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingSkillsFragment()).commit();
         }
     }
@@ -315,6 +178,7 @@ public class StartingCharacteristicsFragment extends Fragment {
         if (getActivity().getPreferences(Context.MODE_PRIVATE).getInt(Characteristics_Points, 2) > 0) {
             binding.message.setText("Вы не можете перейти на другую страницу, не распределив все очки характеристик...");
         } else {
+            binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingInformationFragment()).commit();
         }
     }

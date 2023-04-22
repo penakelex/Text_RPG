@@ -6,7 +6,7 @@
     android:background="@drawable/cosmos"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainMenu">
+    tools:context=".Activities.MainMenu">
 
     <TextView
         android:layout_width="wrap_content"

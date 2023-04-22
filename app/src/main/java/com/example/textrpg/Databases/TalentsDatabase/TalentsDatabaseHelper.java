@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.annotations.Nullable;
 public class TalentsDatabaseHelper extends SQLiteOpenHelper {
     public final static int Database_Version = 1;
     public final static String Database_Name = "talentsdb", Table_Talents = "talents",
-            KEY_ID = "_id", KEY_Name = "name", KEY_Having = "having";
+            KEY_ID = "_id", KEY_Name = "name", KEY_Having = "availability";
 
     public TalentsDatabaseHelper(@Nullable Context context) {
         super(context, Database_Name, null, Database_Version);

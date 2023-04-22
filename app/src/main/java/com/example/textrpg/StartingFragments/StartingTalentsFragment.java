@@ -1,14 +1,17 @@
 package com.example.textrpg.StartingFragments;
 
+import static com.example.textrpg.Constants.First_Visit_Talents;
+import static com.example.textrpg.Constants.Talents_Points;
+
+import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +19,14 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.example.textrpg.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import com.example.textrpg.Databases.OtherInfromationDatabase.OtherInformationDatabase;
 import com.example.textrpg.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import com.example.textrpg.Databases.SkillsDatabase.SkillsDatabaseHelper;
+import com.example.textrpg.Databases.TalentsDatabase.TalentsDatabase;
 import com.example.textrpg.Databases.TalentsDatabase.TalentsDatabaseHelper;
+import com.example.textrpg.Activities.DialogActivity;
+import com.example.textrpg.R;
 import com.example.textrpg.databinding.FragmentStartingTalentsBinding;
-import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class StartingTalentsFragment extends Fragment {
@@ -32,7 +35,8 @@ public class StartingTalentsFragment extends Fragment {
     private SkillsDatabaseHelper skillsDatabaseHelper;
     private CharacteristicsDatabaseHelper characteristicsDatabaseHelper;
     private OtherInformationDatabaseHelper infoDatabaseHelper;
-    private final String First_Visit_Talents = "First Visit Talents";
+    private SharedPreferences sharedPreferences;
+    public static boolean endForm = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +51,7 @@ public class StartingTalentsFragment extends Fragment {
         talentsDatabaseHelper = new TalentsDatabaseHelper(getActivity());
         skillsDatabaseHelper = new SkillsDatabaseHelper(getActivity());
         characteristicsDatabaseHelper = new CharacteristicsDatabaseHelper(getActivity());
+        infoDatabaseHelper = new OtherInformationDatabaseHelper(getActivity());
         SQLiteDatabase talentsDatabase = talentsDatabaseHelper.getWritableDatabase(),
                 skillsDatabase = skillsDatabaseHelper.getWritableDatabase(),
                 characteristicDatabase = characteristicsDatabaseHelper.getWritableDatabase(),
@@ -55,176 +60,247 @@ public class StartingTalentsFragment extends Fragment {
         startingTalentsBinding.singer.setOnClickListener(listener -> settingSingerInformation(talentsDatabase));
         startingTalentsBinding.bull.setOnClickListener(listener -> settingBullInformation(talentsDatabase));
         startingTalentsBinding.strongKick.setOnClickListener(listener -> settingStrongKickInformation(talentsDatabase));
-        startingTalentsBinding.experienced.setOnClickListener(listener -> settingExpiriencedInformation(talentsDatabase));
+        startingTalentsBinding.experienced.setOnClickListener(listener -> settingExperiencedInformation(talentsDatabase));
         startingTalentsBinding.trained.setOnClickListener(listener -> settingTrainedInformation(talentsDatabase));
         startingTalentsBinding.heavyweight.setOnClickListener(listener -> settingHeavyweightInformation(talentsDatabase));
         startingTalentsBinding.kindOne.setOnClickListener(listener -> settingKindOneInformation(talentsDatabase));
-        //startingTalentsBinding.chooseTalent.setOnClickListener(listener -> choosingTalent());
+        startingTalentsBinding.chooseTalent.setOnClickListener(listener -> choosingTalent(talentsDatabase, skillsDatabase, characteristicDatabase, infoDatabase));
+        startingTalentsBinding.buttonToSkills.setOnClickListener(listener -> backToSkills());
+        startingTalentsBinding.buttonToEndForm.setOnClickListener(listener -> endForm());
     }
 
+    private void endForm() {
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        if (sharedPreferences.getInt(Talents_Points, 2) == 0) {
+            new AlertWindow().show(getFragmentManager().beginTransaction(), "end form");
+            if (endForm) {
+                startActivity(new Intent(getActivity(), DialogActivity.class));
+            }
+        } else {
+            startingTalentsBinding.message.setText("Вы не выбрали свои таланты");
+        }
+    }
+
+    private void backToSkills() {
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        if (sharedPreferences.getInt(Talents_Points, 2) == 0) {
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingSkillsFragment()).commit();
+        } else {
+            startingTalentsBinding.message.setText("Вы не выбрали свои таланты");
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void choosingTalent(SQLiteDatabase talentsDatabase, SQLiteDatabase skillsDatabase, SQLiteDatabase characteristicDatabase, SQLiteDatabase infoDatabase) {
+        int id = getIdByText();
+        boolean isAllGood = false, permission = permissionToUpdate(id, talentsDatabase);
+        if (permissionToUpdate(id, talentsDatabase)) {
+            switch (id) {
+                case 1:
+                    isAllGood = TalentsDatabase.choosingSinger(talentsDatabase, characteristicDatabase);
+                    break;
+                case 2:
+                    isAllGood = TalentsDatabase.choosingBull(talentsDatabase, characteristicDatabase, infoDatabase);
+                    break;
+                case 3:
+                    isAllGood = TalentsDatabase.choosingStrongKick(talentsDatabase, infoDatabase);
+                    break;
+                case 4:
+                    isAllGood = TalentsDatabase.choosingExperienced(talentsDatabase, skillsDatabase, characteristicDatabase);
+                    break;
+                case 5:
+                    isAllGood = TalentsDatabase.choosingTrained(talentsDatabase, characteristicDatabase, skillsDatabase);
+                    break;
+                case 6:
+                    isAllGood = TalentsDatabase.choosingHeavyweight(talentsDatabase, infoDatabase);
+                    break;
+                case 7:
+                    isAllGood = TalentsDatabase.choosingKindOne(talentsDatabase, skillsDatabase, characteristicDatabase);
+                    break;
+            }
+        }
+        if (!isAllGood && permission) {
+            startingTalentsBinding.message.setText("Талант не полностью раскрыт...");
+        } else if (!permission) {
+            startingTalentsBinding.message.setText("Не хватает очков талантов...");
+        } else if (isAllGood && permission){
+            startingTalentsBinding.message.setText("");
+            updatePointsValue(id, talentsDatabase);
+        }
+        startingTalentsBinding.talentsPoints.setText(String.format("Осталось очков талантов: %d", sharedPreferences.getInt(Talents_Points, 2)));
+        setTextById(id, talentsDatabase);
+    }
+
+    private void updatePointsValue(int ID, SQLiteDatabase talentsDatabase) {
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        if (TalentsDatabase.isHaving(ID, talentsDatabase)) {
+            sharedPreferences.edit().putInt(Talents_Points, sharedPreferences.getInt(Talents_Points, 2) - 1).apply();
+        } else {
+            sharedPreferences.edit().putInt(Talents_Points, sharedPreferences.getInt(Talents_Points, 2) + 1).apply();
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private boolean permissionToUpdate(int ID, SQLiteDatabase talentsDatabase) {
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean isHaving = TalentsDatabase.isHaving(ID, talentsDatabase);
+        return isHaving && sharedPreferences.getInt(Talents_Points, 2) + 1 <= 2 || !isHaving && sharedPreferences.getInt(Talents_Points, 2) - 1 >= 0;
+    }
+
+    private void setTextById(int ID, SQLiteDatabase talentsDatabase) {
+        switch (ID) {
+            case 1:
+                settingSingerInformation(talentsDatabase);
+                break;
+            case 2:
+                settingBullInformation(talentsDatabase);
+                break;
+            case 3:
+                settingStrongKickInformation(talentsDatabase);
+                break;
+            case 4:
+                settingExperiencedInformation(talentsDatabase);
+                break;
+            case 5:
+                settingTrainedInformation(talentsDatabase);
+                break;
+            case 6:
+                settingHeavyweightInformation(talentsDatabase);
+                break;
+            case 7:
+                settingKindOneInformation(talentsDatabase);
+                break;
+        }
+    }
+
+    private int getIdByText() {
+        switch (startingTalentsBinding.talentName.getText().toString()) {
+            case "Певец":
+                return 1;
+            case "Бугай":
+                return 2;
+            case "Сильный удар":
+                return 3;
+            case "Опытный":
+                return 4;
+            case "Натренированный":
+                return 5;
+            case "Тяжеловес":
+                return 6;
+            case "Добрый малый":
+                return 7;
+            default:
+                startingTalentsBinding.message.setText("Вы не выбрали талант...");
+                return 0;
+        }
+    }
 
     private void settingKindOneInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(7, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
-        startingTalentsBinding.talentName.setText("");
-        startingTalentsBinding.meaning.setText("");
+        setChosen(7, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(7, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        startingTalentsBinding.talentName.setText("Добрый малый");
+        startingTalentsBinding.meaning.setText("Общение, Медицина, Ремонт, Наука, Бартер: +5, Лёгкое оружие, Тяжёлое оружие, Оружие ближнего боя: -5");
         startingTalentsBinding.shortDescription.setText("");
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingHeavyweightInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(6, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
-        startingTalentsBinding.talentName.setText("");
-        startingTalentsBinding.meaning.setText("");
+        setChosen(6, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(6, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        startingTalentsBinding.talentName.setText("Тяжеловес");
+        startingTalentsBinding.meaning.setText("Максимальная грузоподъёмность: +20");
         startingTalentsBinding.shortDescription.setText("");
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingTrainedInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(5, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
-        startingTalentsBinding.talentName.setText("");
-        startingTalentsBinding.meaning.setText("");
+        setChosen(5, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(5, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        startingTalentsBinding.talentName.setText("Натренированный");
+        startingTalentsBinding.meaning.setText("Все характеристики: +1, Все навыки% -10%");
         startingTalentsBinding.shortDescription.setText("");
     }
 
-    private void settingExpiriencedInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(4, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
-        startingTalentsBinding.talentName.setText("");
-        startingTalentsBinding.meaning.setText("");
+    @SuppressLint("SetTextI18n")
+    private void settingExperiencedInformation(SQLiteDatabase talentsDatabase) {
+        setChosen(4, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(4, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        startingTalentsBinding.talentName.setText("Опытный");
+        startingTalentsBinding.meaning.setText("Все навыки: +10%");
         startingTalentsBinding.shortDescription.setText("");
     }
 
     private void settingStrongKickInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(3, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
-        startingTalentsBinding.talentName.setText("");
-        startingTalentsBinding.meaning.setText("");
-        startingTalentsBinding.shortDescription.setText("");
+        setChosen(3, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(3, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        startingTalentsBinding.talentName.setText("Сильный удар");
+        startingTalentsBinding.meaning.setText("Урон оружием ближнего боя: +1, Критические урон: -5%");
+        startingTalentsBinding.shortDescription.setText("Бедная подушка, зато есть набитый удар.");
     }
 
     private void settingBullInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(2, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
-        startingTalentsBinding.talentName.setText("");
-        startingTalentsBinding.meaning.setText("");
-        startingTalentsBinding.shortDescription.setText("");
+        setChosen(2, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(2, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        startingTalentsBinding.talentName.setText("Бугай");
+        startingTalentsBinding.meaning.setText("Сила: +1, Телосложение: +1, Очки действия: -2");
+        startingTalentsBinding.shortDescription.setText("Как-то так сложилось, что Вы здорово выросли в детстве, так ещё и накачались...");
     }
 
     private void settingSingerInformation(SQLiteDatabase talentsDatabase) {
-        startingTalentsBinding.chooseTalent.setText(!getIsHaving(1, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
+        setChosen(1, talentsDatabase);
+        startingTalentsBinding.chooseTalent.setText(!TalentsDatabase.isHaving(1, talentsDatabase) ? "Выбрать талант" : "Убрать талант");
         startingTalentsBinding.talentName.setText("Певец");
         startingTalentsBinding.meaning.setText("Привлекательность: +1");
         startingTalentsBinding.shortDescription.setText("У Вас от природы красивейший голос, за счёт чего Вы становитесь более привлекательными для окружающих.");
     }
 
-    private boolean getIsHaving(int ID, SQLiteDatabase talentsDatabase) {
-        Cursor havingTalentCursor = talentsDatabase.query(TalentsDatabaseHelper.Table_Talents, null, null, null, null, null, null);
-        havingTalentCursor.moveToFirst();
-        int idColumnIndex = havingTalentCursor.getColumnIndex(TalentsDatabaseHelper.KEY_ID),
-                havingColumnIndex = havingTalentCursor.getColumnIndex(TalentsDatabaseHelper.KEY_Having);
-        boolean isHaving = false;
-        do {
-            if (havingTalentCursor.getInt(idColumnIndex) == ID) {
-                isHaving = havingTalentCursor.getInt(havingColumnIndex) == 1;
-                break;
-            }
-        } while (havingTalentCursor.moveToNext());
-        havingTalentCursor.close();
-        return isHaving;
-    }
 
+    @SuppressLint("DefaultLocale")
     private void settingStartingValues(SQLiteDatabase talentsDatabase, SQLiteDatabase infoDatabase, SQLiteDatabase characteristicsDatabase, SQLiteDatabase skillsDatabase) {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
-            sharedPreferences.edit().putBoolean(First_Visit_Talents, false).apply();
-            settingStartValuesInTalentsDatabase(talentsDatabase);
-            settingStartValuesInInfoDatabase(infoDatabase, characteristicsDatabase, skillsDatabase);
+            sharedPreferences.edit().putBoolean(First_Visit_Talents, false).putInt(Talents_Points, 2).apply();
+            TalentsDatabase.settingStartingValuesInDatabase(talentsDatabase);
+            OtherInformationDatabase.settingStartingValuesInInformationDatabase(infoDatabase, characteristicsDatabase, skillsDatabase);
+        } else {
+            setChosen(0, talentsDatabase);
         }
+        startingTalentsBinding.talentsPoints.setText(String.format("Осталось очков талантов: %d", sharedPreferences.getInt(Talents_Points, 2)));
+        settingSingerInformation(talentsDatabase);
     }
 
-    private void settingStartValuesInInfoDatabase(SQLiteDatabase infoDatabase, SQLiteDatabase characteristicsDatabase, SQLiteDatabase skillsDatabase) {
-        int[] characteristics = getCharacteristicsValueArray(characteristicsDatabase);
-        boolean[] isMains = getIsMainValueArray(skillsDatabase);
-        int[] skills = getSkillsValueArray(skillsDatabase);
-        ContentValues[] contentValues = new ContentValues[6];
-
-        for (int id = 1; id <= 6; id++)
-            contentValues[id - 1].put(OtherInformationDatabaseHelper.KEY_ID, id);
-
-        contentValues[0].put(OtherInformationDatabaseHelper.KEY_Name, "armor_class");
-        contentValues[1].put(OtherInformationDatabaseHelper.KEY_Name, "ap");
-        contentValues[2].put(OtherInformationDatabaseHelper.KEY_Name, "load_capacity");
-        contentValues[3].put(OtherInformationDatabaseHelper.KEY_Name, "carry_volume");
-        contentValues[4].put(OtherInformationDatabaseHelper.KEY_Name, "melee_damage");
-        contentValues[5].put(OtherInformationDatabaseHelper.KEY_Name, "critical_hit");
-
-        contentValues[0].put(OtherInformationDatabaseHelper.KEY_Value, 0);
-        contentValues[1].put(OtherInformationDatabaseHelper.KEY_Value, Math.max(characteristics[2] + characteristics[1], 5));
-        contentValues[2].put(OtherInformationDatabaseHelper.KEY_Value, characteristics[0] * 10 + characteristics[2] * 3 + 20);
-        contentValues[3].put(OtherInformationDatabaseHelper.KEY_Value, characteristics[0] * 2000 + characteristics[2] * 1000 + 10000); // В кубических сантиметрах
-        contentValues[4].put(OtherInformationDatabaseHelper.KEY_Value, characteristics[0] + characteristics[2] / 2);
-        contentValues[5].put(OtherInformationDatabaseHelper.KEY_Value, characteristics[4] * 2 + characteristics[2] + characteristics[5] / 2);
-
-        for (ContentValues contentValue : contentValues)
-            infoDatabase.insert(OtherInformationDatabaseHelper.Table_Other_Info, null, contentValue);
-        Log.d("set values information database ended", "set values information database ended");
-    }
-
-    private int[] getSkillsValueArray(SQLiteDatabase skillsDatabase) {
-        Cursor skillsValueCursor = skillsDatabase.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-        skillsValueCursor.moveToFirst();
-        int skillValueColumnIndex = skillsValueCursor.getColumnIndex(SkillsDatabaseHelper.KEY_Value);
-        ArrayList<Integer> skillsList = new ArrayList<>();
-        do {
-            skillsList.add(skillsValueCursor.getInt(skillValueColumnIndex));
-        } while (skillsValueCursor.moveToNext());
-        skillsValueCursor.close();
-        int[] values = new int[skillsList.size()];
-        for (int i = 0; i < skillsList.size(); i++) values[i] = skillsList.get(i);
-        return values;
-    }
-
-    private boolean[] getIsMainValueArray(SQLiteDatabase skillsDatabase) {
-        Cursor isMainCursor = skillsDatabase.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-        isMainCursor.moveToFirst();
-        int isMainColumnIndex = isMainCursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
-        ArrayList<Boolean> isMainList = new ArrayList<>();
-        do {
-            isMainList.add(isMainCursor.getInt(isMainColumnIndex) == 1);
-        } while (isMainCursor.moveToNext());
-        boolean[] isMains = new boolean[isMainList.size()];
-        for (int i = 0; i < isMainList.size(); i++) isMains[i] = isMainList.get(i);
-        isMainCursor.close();
-        return isMains;
-    }
-
-    private int[] getCharacteristicsValueArray(SQLiteDatabase characteristicsDatabase) {
-        Cursor characteristicsValueCursor = characteristicsDatabase.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-        characteristicsValueCursor.moveToFirst();
-        int valueColumnIndex = characteristicsValueCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value);
-        ArrayList<Integer> characteristicsList = new ArrayList<>();
-        do {
-            characteristicsList.add(characteristicsValueCursor.getInt(valueColumnIndex));
-        } while (characteristicsValueCursor.moveToNext());
-        int[] characteristicsValue = new int[characteristicsList.size()];
-        for (int i = 0; i < characteristicsList.size(); i++)
-            characteristicsValue[i] = characteristicsList.get(i);
-        characteristicsValueCursor.close();
-        return characteristicsValue;
-    }
-
-    private void settingStartValuesInTalentsDatabase(SQLiteDatabase talentsDatabase) {
-        ContentValues[] contentValues = new ContentValues[7];
-        Log.d("set started", "set started");
-        for (int id = 1; id <= 7; id++) contentValues[id - 1].put(TalentsDatabaseHelper.KEY_ID, id);
-
-        contentValues[0].put(TalentsDatabaseHelper.KEY_Name, "singer");
-        contentValues[1].put(TalentsDatabaseHelper.KEY_Name, "bull");
-        contentValues[2].put(TalentsDatabaseHelper.KEY_Name, "strongKick");
-        contentValues[3].put(TalentsDatabaseHelper.KEY_Name, "experienced");
-        contentValues[4].put(TalentsDatabaseHelper.KEY_Name, "trained");
-        contentValues[5].put(TalentsDatabaseHelper.KEY_Name, "heavyweight");
-        contentValues[6].put(TalentsDatabaseHelper.KEY_Name, "kindOne");
-
-        for (int i = 0; i < 7; i++) contentValues[i].put(TalentsDatabaseHelper.KEY_Having, 0);
-
-        for (int i = 0; i < 7; i++)
-            talentsDatabase.insert(TalentsDatabaseHelper.Table_Talents, null, contentValues[i]);
-        Log.d("set values talents database ended", "set values talents database ended");
+    private void setChosen(int ID, SQLiteDatabase talentsDatabase) {
+        switch (ID) {
+            case 1:
+                startingTalentsBinding.singer.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 2:
+                startingTalentsBinding.bull.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 3:
+                startingTalentsBinding.strongKick.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 4:
+                startingTalentsBinding.experienced.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE :Color.parseColor("#474747"));
+                break;
+            case 5:
+                startingTalentsBinding.trained.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 6:
+                startingTalentsBinding.heavyweight.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 7:
+                startingTalentsBinding.kindOne.setTextColor(TalentsDatabase.isHaving(ID, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 0:
+                startingTalentsBinding.singer.setTextColor(TalentsDatabase.isHaving(1, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                startingTalentsBinding.bull.setTextColor(TalentsDatabase.isHaving(2, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                startingTalentsBinding.strongKick.setTextColor(TalentsDatabase.isHaving(3, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                startingTalentsBinding.experienced.setTextColor(TalentsDatabase.isHaving(4, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                startingTalentsBinding.trained.setTextColor(TalentsDatabase.isHaving(5, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                startingTalentsBinding.heavyweight.setTextColor(TalentsDatabase.isHaving(6, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                startingTalentsBinding.kindOne.setTextColor(TalentsDatabase.isHaving(7, talentsDatabase) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+        }
     }
 }

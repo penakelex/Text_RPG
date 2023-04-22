@@ -1,25 +1,31 @@
 package com.example.textrpg.StartingFragments;
 
+import static com.example.textrpg.Constants.First_Visit_Skills;
+import static com.example.textrpg.Constants.Main_Skills;
+
 import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.textrpg.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import com.example.textrpg.Databases.SkillsDatabase.SkillsDatabase;
 import com.example.textrpg.Databases.SkillsDatabase.SkillsDatabaseHelper;
+import com.example.textrpg.Databases.TalentsDatabase.TalentsDatabase;
+import com.example.textrpg.Databases.TalentsDatabase.TalentsDatabaseHelper;
 import com.example.textrpg.R;
 import com.example.textrpg.databinding.FragmentStartingSkillsBinding;
+
+import java.util.Arrays;
 
 
 public class StartingSkillsFragment extends Fragment {
@@ -27,7 +33,6 @@ public class StartingSkillsFragment extends Fragment {
     SkillsDatabaseHelper skillsDatabaseHelper;
     CharacteristicsDatabaseHelper databaseHelper;
     SQLiteDatabase skillDatabase, characteristicDatabase;
-    private final String Main_Skills = "Main Skills", First_Visit_Skills = "First Visit Skills";
 
 
     @Override
@@ -61,6 +66,7 @@ public class StartingSkillsFragment extends Fragment {
 
     private void settingCharacteristicsFragment() {
         if (getActivity().getPreferences(Context.MODE_PRIVATE).getInt(Main_Skills, 3) == 0) {
+            binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
         } else {
             binding.message.setText("Вы ещё не определили все основные навыки...");
@@ -69,6 +75,7 @@ public class StartingSkillsFragment extends Fragment {
 
     private void settingAbilitiesFragment() {
         if (getActivity().getPreferences(Context.MODE_PRIVATE).getInt(Main_Skills, 3) == 0) {
+            binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingTalentsFragment()).commit();
         } else {
             binding.message.setText("Вы ещё не определили все основные навыки...");
@@ -78,9 +85,90 @@ public class StartingSkillsFragment extends Fragment {
     @SuppressLint("DefaultLocale")
     private void choosingAsMainSkill(SQLiteDatabase database) {
         binding.message.setText("");
-        int id = 0, idColumnIndex, valueColumnIndex, value = 0, isMainColumnIndex;
-        boolean isMain = false, isChosen = true;
+        int id = getIdByText(), value = SkillsDatabase.getValueSkill(database, id);
+        boolean isMain = SkillsDatabase.getIsMainSkill(database, id);
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        if (id != 0) {
+            int mainSkills = sharedPreferences.getInt(Main_Skills, 3);
+            boolean isMainSkillChosen;
+            if (isMain) {
+                if (mainSkills + 1 <= 3) {
+                    SkillsDatabase.setSkillNotIsMain(database, id);
+                    SkillsDatabase.setSKillValueNotMain(database, id, value);
+                    sharedPreferences.edit().putInt(Main_Skills, sharedPreferences.getInt(Main_Skills, 3) + 1).apply();
+                    binding.mainSkillsPoints.setText(String.format("Осталось очков основных навыков: %d", sharedPreferences.getInt(Main_Skills, 3)));
+                    isMainSkillChosen = true;
+                } else {
+                    isMainSkillChosen = false;
+                    binding.message.setText("Вы ещё не выбрали ни один основной навык");
+                }
+            } else {
+                if (mainSkills - 1 >= 0) {
+                    SkillsDatabase.setSkillIsMain(database, id);
+                    SkillsDatabase.setSkillValueIsMain(database, id, value);
+                    sharedPreferences.edit().putInt(Main_Skills, mainSkills - 1).apply();
+                    binding.mainSkillsPoints.setText(String.format("Осталось очков основных навыков: %d", sharedPreferences.getInt(Main_Skills, 3)));
+                    isMainSkillChosen = true;
+                } else {
+                    isMainSkillChosen = false;
+                    binding.message.setText("Вы уже выбрали максимальное количество основных навыков");
+                }
+            }
+            if (isMainSkillChosen) {
+                setNewValue(id, SkillsDatabase.getValueSkill(database, id), database);
+                if (SkillsDatabase.getIsMainSkill(database, id)) {
+                    binding.chooseAsMainSkill.setText("Выбрать как неосновной навык");
+                } else {
+                    binding.chooseAsMainSkill.setText("Выбрать как основной навык");
+                }
+            }
+
+        }
+    }
+
+    private void setNewValue(int ID, int newValue, SQLiteDatabase skillDatabase) {
+        switch (ID) {
+            case 1:
+                binding.lightWeaponsValue.setText(String.valueOf(newValue));
+                binding.lightWeaponsValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 2:
+                binding.heavyWeaponsValue.setText(String.valueOf(newValue));
+                binding.heavyWeaponsValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 3:
+                binding.meleeWeaponsValue.setText(String.valueOf(newValue));
+                binding.meleeWeaponsValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 4:
+                binding.communicationValue.setText(String.valueOf(newValue));
+                binding.communicationValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 5:
+                binding.tradingValue.setText(String.valueOf(newValue));
+                binding.tradingValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 6:
+                binding.survivalValue.setText(String.valueOf(newValue));
+                binding.survivalValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 7:
+                binding.medicineValue.setText(String.valueOf(newValue));
+                binding.medicineValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 8:
+                binding.scinceValue.setText(String.valueOf(newValue));
+                binding.scinceValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+            case 9:
+                binding.repairValue.setText(String.valueOf(newValue));
+                binding.repairValue.setTextColor(SkillsDatabase.getIsMainSkill(skillDatabase, ID) ? Color.BLUE : Color.parseColor("#474747"));
+                break;
+        }
+    }
+
+    private int getIdByText() {
+        int id = 0;
         switch (binding.skillName.getText().toString()) {
             case "Лёгкое оружие":
                 id = 1;
@@ -110,462 +198,172 @@ public class StartingSkillsFragment extends Fragment {
                 id = 9;
                 break;
             default:
-                binding.message.setText("Вы не выбрали навык");
-                isChosen = false;
                 break;
         }
-        if (isChosen) {
-            Cursor cursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-            cursor.moveToFirst();
-            idColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_ID);
-            valueColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Value);
-            isMainColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
-            do {
-                if (cursor.getInt(idColumnIndex) == id) {
-                    value = cursor.getInt(valueColumnIndex);
-                    isMain = cursor.getInt(isMainColumnIndex) == 1;
-                    break;
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
-            Log.d("value && isMain", String.format("%d\n%s", value, String.valueOf(isMain)));
-            int mainSkills = sharedPreferences.getInt(Main_Skills, 3);
-            boolean isMainSkillChosen;
-            if (isMain) {
-                if (mainSkills + 1 <= 3) {
-                    database.execSQL(String.format("UPDATE %s SET %s=0 WHERE %s = %s",
-                            SkillsDatabaseHelper.Table_Skills,
-                            SkillsDatabaseHelper.KEY_Is_Main,
-                            SkillsDatabaseHelper.KEY_ID, id));
-                    database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                            SkillsDatabaseHelper.Table_Skills,
-                            SkillsDatabaseHelper.KEY_Value,
-                            value / 2,
-                            SkillsDatabaseHelper.KEY_ID,
-                            id));
-                    sharedPreferences.edit().putInt(Main_Skills, sharedPreferences.getInt(Main_Skills, 3) + 1).apply();
-                    binding.mainSkillsPoints.setText(String.format("Осталось очков основных навыков: %d", sharedPreferences.getInt(Main_Skills, 3)));
-                    isMainSkillChosen = true;
-                } else {
-                    isMainSkillChosen = false;
-                    binding.message.setText("Вы ещё не выбрали ни один основной навык");
-                }
-            } else {
-                if (mainSkills - 1 >= 0) {
-                    database.execSQL(String.format("UPDATE %s SET %s=1 WHERE %s = %s",
-                            SkillsDatabaseHelper.Table_Skills,
-                            SkillsDatabaseHelper.KEY_Is_Main,
-                            SkillsDatabaseHelper.KEY_ID, id));
-                    database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                            SkillsDatabaseHelper.Table_Skills,
-                            SkillsDatabaseHelper.KEY_Value,
-                            value * 2,
-                            SkillsDatabaseHelper.KEY_ID,
-                            id));
-                    sharedPreferences.edit().putInt(Main_Skills, mainSkills - 1).apply();
-                    binding.mainSkillsPoints.setText(String.format("Осталось очков основных навыков: %d", sharedPreferences.getInt(Main_Skills, 3)));
-                    isMainSkillChosen = true;
-                } else {
-                    isMainSkillChosen = false;
-                    binding.message.setText("Вы уже выбрали максимальное количество основных навыков");
-                }
-            }
-            if (isMainSkillChosen) {
-                int newValue, newIdColumnIndex, newIsMainColumnIndex, newValueColumnIndex, newId;
-                boolean newIsMain;
-                Cursor afterCursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-                afterCursor.moveToFirst();
-                newIdColumnIndex = afterCursor.getColumnIndex(SkillsDatabaseHelper.KEY_ID);
-                newIsMainColumnIndex = afterCursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
-                newValueColumnIndex = afterCursor.getColumnIndex(SkillsDatabaseHelper.KEY_Value);
-                do {
-                    newValue = afterCursor.getInt(newValueColumnIndex);
-                    newIsMain = afterCursor.getInt(newIsMainColumnIndex) == 1;
-                    newId = afterCursor.getInt(newIdColumnIndex);
-                    if (newId == id) {
-                        switch (newId) {
-                            case 1:
-                                binding.lightWeaponsValue.setText(String.valueOf(newValue));
-                                break;
-                            case 2:
-                                binding.heavyWeaponsValue.setText(String.valueOf(newValue));
-                                break;
-                            case 3:
-                                binding.meleeWeaponsValue.setText(String.valueOf(newValue));
-                                break;
-                            case 4:
-                                binding.communicationValue.setText(String.valueOf(newValue));
-                                break;
-                            case 5:
-                                binding.tradingValue.setText(String.valueOf(newValue));
-                                break;
-                            case 6:
-                                binding.survivalValue.setText(String.valueOf(newValue));
-                                break;
-                            case 7:
-                                binding.medicineValue.setText(String.valueOf(newValue));
-                                break;
-                            case 8:
-                                binding.scinceValue.setText(String.valueOf(newValue));
-                                break;
-                            case 9:
-                                binding.repairValue.setText(String.valueOf(newValue));
-                                break;
-                        }
-                        if (!newIsMain) {
-                            binding.chooseAsMainSkill.setText("Выбрать как основной навык");
-                        } else {
-                            binding.chooseAsMainSkill.setText("Выбрать как неосновной навык");
-                        }
-                        break;
-                    }
-                } while (afterCursor.moveToNext());
-                afterCursor.close();
-            }
-
-        }
+        return id;
     }
 
     @SuppressLint({"Range", "DefaultLocale"})
     private void settingSkillsInDatabase(SQLiteDatabase database, SQLiteDatabase characteristicDatabase) {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        Cursor characteristicsCursor = characteristicDatabase.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
-        int characteristicsIdColumnIndex = characteristicsCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID),
-                characteristicsValueColumnIndex = characteristicsCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value),
-                strength = 0, physique = 0, dexterity = 0, mentality = 0, luckiness = 0, watchfulness = 0,
-                attractiveness = 0;
-        characteristicsCursor.moveToFirst();
-        do {
-            switch (characteristicsCursor.getInt(characteristicsIdColumnIndex)) {
-                case 1:
-                    strength = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-                case 2:
-                    physique = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-                case 3:
-                    dexterity = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-                case 4:
-                    mentality = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-                case 5:
-                    luckiness = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-                case 6:
-                    watchfulness = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-                case 7:
-                    attractiveness = characteristicsCursor.getInt(characteristicsValueColumnIndex);
-                    break;
-            }
-        } while (characteristicsCursor.moveToNext());
-        characteristicsCursor.close();
         if (sharedPreferences.getBoolean(First_Visit_Skills, true)) {
-            database.delete(SkillsDatabaseHelper.Table_Skills, null, null);
             sharedPreferences.edit().putBoolean(First_Visit_Skills, false).putInt(Main_Skills, 3).apply();
-
-            ContentValues contentValues1 = new ContentValues(), contentValues2 = new ContentValues(),
-                    contentValues3 = new ContentValues(), contentValues4 = new ContentValues(),
-                    contentValues5 = new ContentValues(), contentValues6 = new ContentValues(),
-                    contentValues7 = new ContentValues(), contentValues8 = new ContentValues(),
-                    contentValues9 = new ContentValues();
-
-            contentValues1.put(SkillsDatabaseHelper.KEY_ID, 1);
-            contentValues1.put(SkillsDatabaseHelper.KEY_Name, "light weapons");
-            contentValues1.put(SkillsDatabaseHelper.KEY_Value, watchfulness * 2 + luckiness + physique + 5);
-            contentValues1.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues2.put(SkillsDatabaseHelper.KEY_ID, 2);
-            contentValues2.put(SkillsDatabaseHelper.KEY_Name, "heavy weapons");
-            contentValues2.put(SkillsDatabaseHelper.KEY_Value, strength * 2 + watchfulness + luckiness + 5);
-            contentValues2.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues3.put(SkillsDatabaseHelper.KEY_ID, 3);
-            contentValues3.put(SkillsDatabaseHelper.KEY_Name, "melee weapons");
-            contentValues3.put(SkillsDatabaseHelper.KEY_Value, watchfulness + luckiness + physique + strength * 2 + 5);
-            contentValues3.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues4.put(SkillsDatabaseHelper.KEY_ID, 4);
-            contentValues4.put(SkillsDatabaseHelper.KEY_Name, "communication");
-            contentValues4.put(SkillsDatabaseHelper.KEY_Value, attractiveness * 3 + luckiness + mentality + 5);
-            contentValues4.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues5.put(SkillsDatabaseHelper.KEY_ID, 5);
-            contentValues5.put(SkillsDatabaseHelper.KEY_Name, "trading");
-            contentValues5.put(SkillsDatabaseHelper.KEY_Value, attractiveness * 3 + watchfulness + 5);
-            contentValues5.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues6.put(SkillsDatabaseHelper.KEY_ID, 6);
-            contentValues6.put(SkillsDatabaseHelper.KEY_Name, "survival");
-            contentValues6.put(SkillsDatabaseHelper.KEY_Value, physique * 2 + dexterity + mentality + 5);
-            contentValues6.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues7.put(SkillsDatabaseHelper.KEY_ID, 7);
-            contentValues7.put(SkillsDatabaseHelper.KEY_Name, "medicine");
-            contentValues7.put(SkillsDatabaseHelper.KEY_Value, mentality * 2 + watchfulness + 5);
-            contentValues7.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues8.put(SkillsDatabaseHelper.KEY_ID, 8);
-            contentValues8.put(SkillsDatabaseHelper.KEY_Name, "science");
-            contentValues8.put(SkillsDatabaseHelper.KEY_Value, mentality * 2 + watchfulness + 5);
-            contentValues8.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            contentValues9.put(SkillsDatabaseHelper.KEY_ID, 9);
-            contentValues9.put(SkillsDatabaseHelper.KEY_Name, "repair");
-            contentValues9.put(SkillsDatabaseHelper.KEY_Value, mentality * 2 + watchfulness + dexterity + 5);
-            contentValues9.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
-
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues1);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues2);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues3);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues4);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues5);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues6);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues7);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues8);
-            database.insert(SkillsDatabaseHelper.Table_Skills, null, contentValues9);
+            SkillsDatabase.settingStartingSkillsInDatabase(database, characteristicDatabase);
         } else {
-            boolean[] isMains = new boolean[9];
-            Cursor booleanCursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-            int booleanIdColumnIndex = booleanCursor.getColumnIndex(SkillsDatabaseHelper.KEY_ID),
-                    booleanIsMainColumnIndex = booleanCursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
-            booleanCursor.moveToFirst();
-            do {
-                switch (booleanCursor.getInt(booleanIdColumnIndex)) {
-                    case 1:
-                        isMains[0] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 2:
-                        isMains[1] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 3:
-                        isMains[2] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 4:
-                        isMains[3] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 5:
-                        isMains[4] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 6:
-                        isMains[5] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 7:
-                        isMains[6] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 8:
-                        isMains[7] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                    case 9:
-                        isMains[8] = booleanCursor.getInt(booleanIsMainColumnIndex) == 1;
-                        break;
-                }
-            } while (booleanCursor.moveToNext());
-            booleanCursor.close();
-            int[] values = {isMains[0] ? 2 * (watchfulness * 2 + luckiness + physique + 5) : (watchfulness * 2 + luckiness + physique + 5),
-                    isMains[1] ? 2 * (strength * 2 + watchfulness + luckiness + 5) : (strength * 2 + watchfulness + luckiness + 5),
-                    isMains[2] ? 2 * (watchfulness + luckiness + physique + strength * 2 + 5) : (watchfulness + luckiness + physique + strength * 2 + 5),
-                    isMains[3] ? 2 * (attractiveness * 3 + luckiness + mentality + 5) : (attractiveness * 3 + luckiness + mentality + 5),
-                    isMains[4] ? 2 * (attractiveness * 3 + watchfulness + 5) : (attractiveness * 3 + watchfulness + 5),
-                    isMains[5] ? 2 * (physique * 2 + dexterity + mentality + 5) : (physique * 2 + dexterity + mentality + 5),
-                    isMains[6] ? 2 * (mentality * 2 + watchfulness + 5) : (mentality * 2 + watchfulness + 5),
-                    isMains[7] ? 2 * (mentality * 2 + watchfulness + 5) : (mentality * 2 + watchfulness + 5),
-                    isMains[8] ? 2 * (mentality * 2 + watchfulness + dexterity + 5) : (mentality * 2 + watchfulness + dexterity + 5)};
-
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[0],
-                    SkillsDatabaseHelper.KEY_ID,
-                    1));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[1],
-                    SkillsDatabaseHelper.KEY_ID,
-                    2));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[2],
-                    SkillsDatabaseHelper.KEY_ID,
-                    3));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[3],
-                    SkillsDatabaseHelper.KEY_ID,
-                    4));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[4],
-                    SkillsDatabaseHelper.KEY_ID,
-                    5));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[5],
-                    SkillsDatabaseHelper.KEY_ID,
-                    6));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[6],
-                    SkillsDatabaseHelper.KEY_ID,
-                    7));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[7],
-                    SkillsDatabaseHelper.KEY_ID,
-                    8));
-            database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
-                    SkillsDatabaseHelper.Table_Skills,
-                    SkillsDatabaseHelper.KEY_Value,
-                    values[8],
-                    SkillsDatabaseHelper.KEY_ID,
-                    9));
+            SkillsDatabase.settingNotStartingSkillsInDatabase(database, characteristicDatabase, new TalentsDatabaseHelper(getActivity()).getReadableDatabase());
         }
         binding.mainSkillsPoints.setText(String.format("Осталось очков основных навыков: %d",
                 sharedPreferences.getInt(Main_Skills, 3)));
-        int idColumnIndex, nameColumnIndex, valueColumnIndex, isMainColumnIndex,
-                id, value;
-        Cursor cursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-        idColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_ID);
-        nameColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Name);
-        valueColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Value);
-        isMainColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
-        cursor.moveToFirst();
-        do {
+        int[] values = SkillsDatabase.getSkillValues(database);
+        boolean[] isMains = SkillsDatabase.getIsMains(database);
+        Log.d("isMains", Arrays.toString(isMains));
+        binding.lightWeaponsValue.setText(String.valueOf(values[0]));
+        if (isMains[0]) binding.lightWeaponsValue.setTextColor(Color.BLUE);
 
-            id = cursor.getInt(idColumnIndex);
-            value = cursor.getInt(valueColumnIndex);
-            Log.d("Записанные начальные данные",
-                    String.format("%d - id\n%s - name\n%d - value\n%d - is main",
-                            id, cursor.getString(nameColumnIndex),
-                            value, cursor.getInt(isMainColumnIndex)));
-            switch (id) {
-                case 1:
-                    binding.lightWeaponsValue.setText(String.valueOf(value));
-                    break;
-                case 2:
-                    binding.heavyWeaponsValue.setText(String.valueOf(value));
-                    break;
-                case 3:
-                    binding.meleeWeaponsValue.setText(String.valueOf(value));
-                    break;
-                case 4:
-                    binding.communicationValue.setText(String.valueOf(value));
-                    break;
-                case 5:
-                    binding.tradingValue.setText(String.valueOf(value));
-                    break;
-                case 6:
-                    binding.survivalValue.setText(String.valueOf(value));
-                    break;
-                case 7:
-                    binding.medicineValue.setText(String.valueOf(value));
-                    break;
-                case 8:
-                    binding.scinceValue.setText(String.valueOf(value));
-                    break;
-                case 9:
-                    binding.repairValue.setText(String.valueOf(value));
-                    break;
-            }
-        } while (cursor.moveToNext());
-        cursor.close();
+        binding.heavyWeaponsValue.setText(String.valueOf(values[1]));
+        if (isMains[1]) binding.heavyWeaponsValue.setTextColor(Color.BLUE);
+
+        binding.meleeWeaponsValue.setText(String.valueOf(values[2]));
+        if (isMains[2]) binding.meleeWeaponsValue.setTextColor(Color.BLUE);
+
+        binding.communicationValue.setText(String.valueOf(values[3]));
+        if (isMains[3]) binding.communicationValue.setTextColor(Color.BLUE);
+
+        binding.tradingValue.setText(String.valueOf(values[4]));
+        if (isMains[4]) binding.tradingValue.setTextColor(Color.BLUE);
+
+        binding.survivalValue.setText(String.valueOf(values[5]));
+        if (isMains[5]) binding.survivalValue.setTextColor(Color.BLUE);
+
+        binding.medicineValue.setText(String.valueOf(values[6]));
+        if (isMains[6]) binding.medicineValue.setTextColor(Color.BLUE);
+
+        binding.scinceValue.setText(String.valueOf(values[7]));
+        if (isMains[7]) binding.scinceValue.setTextColor(Color.BLUE);
+
+        binding.repairValue.setText(String.valueOf(values[8]));
+        if (isMains[8]) binding.repairValue.setTextColor(Color.BLUE);
         settingLightWeaponsInformation(database);
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingRepairInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 9);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Ремонт");
-        binding.baseValue.setText("Базовое значение: Ум × 2 + Наблюдательность + Сноровка + 5.");
-        binding.descriptionSkills.setText("Часть науки не с теоретической части."); //
+        if (isNotAlreadyThatSkill(9)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 9) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Ремонт");
+            binding.baseValue.setText("Базовое значение: Ум × 2 + Наблюдательность + Сноровка + 10.");
+            binding.descriptionSkills.setText("Часть науки не с теоретической части.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingScienceInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 8);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Наука");
-        binding.baseValue.setText("Базовое значение: Ум × 2 + Наблюдательность + 5.");
-        binding.descriptionSkills.setText("Сочетание из многих наук: математики, физики, химии, биологии и многих других."); //
+        if (isNotAlreadyThatSkill(8)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 8) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Наука");
+            binding.baseValue.setText("Базовое значение: Ум × 2 + Наблюдательность + 10.");
+            binding.descriptionSkills.setText("Сочетание из многих наук: математики, физики, химии, биологии и многих других.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingMedicineInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 7);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Медицина");
-        binding.baseValue.setText("Базовое значение: Ум × 2 + Наблюдательность + 5.");
-        binding.descriptionSkills.setText("Общие и углублённые знания лечения."); //
+        if (isNotAlreadyThatSkill(7)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 7) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Медицина");
+            binding.baseValue.setText("Базовое значение: Ум × 2 + Наблюдательность + 10.");
+            binding.descriptionSkills.setText("Общие и углублённые знания лечения.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingSurvivalInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 6);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Выживание");
-        binding.baseValue.setText("Базовое значение: Телосложение × 2 + Сноровка + Ум + 5.");
-        binding.descriptionSkills.setText("Практические знания правил жизни в космосе и на других планетах, сложившиеся из теоретических."); //
+        if (isNotAlreadyThatSkill(6)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 6) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Выживание");
+            binding.baseValue.setText("Базовое значение: Телосложение × 2 + Сноровка + Ум + 10.");
+            binding.descriptionSkills.setText("Практические знания правил жизни в космосе и на других планетах, сложившиеся из теоретических.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingTradingInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 5);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Торговля");
-        binding.baseValue.setText("Базовое значение: Привлекательность × 3 + Наблюдательность + 5.");
-        binding.descriptionSkills.setText("Исскуство сделать для себя сделку, покупку, продажу, бартер выгоднее."); //
+        if (isNotAlreadyThatSkill(5)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 5) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Торговля");
+            binding.baseValue.setText("Базовое значение: Привлекательность × 3 + Наблюдательность + 10.");
+            binding.descriptionSkills.setText("Исскуство сделать для себя сделку, покупку, продажу, бартер выгоднее.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingCommunicationInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 4);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Общение");
-        binding.baseValue.setText("Базовое значение: Привлекательность × 3 + Удачливость + Ум + 5.");
-        binding.descriptionSkills.setText("Отображает Ваше мастерство в ораторском искусстве: убеждении других."); //
+        if (isNotAlreadyThatSkill(4)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 4) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Общение");
+            binding.baseValue.setText("Базовое значение: Привлекательность × 3 + Удачливость + Ум + 10.");
+            binding.descriptionSkills.setText("Отображает Ваше мастерство в ораторском искусстве: убеждении других.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingMeleeWeaponsInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 3);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Оружие ближнего боя");
-        binding.baseValue.setText("Базовое значение: Наблюдательность + Удачливость + Телосложение + Сила × 2 + 5.");
-        binding.descriptionSkills.setText("Ближний бой с оружием и без, что говорит о Вашем умении использовать Ваши руки и ноги не только в мирных целях.");
+        if (isNotAlreadyThatSkill(3)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 3) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Оружие ближнего боя");
+            binding.baseValue.setText("Базовое значение: Наблюдательность + Удачливость + Телосложение + Сила × 2 + 10.");
+            binding.descriptionSkills.setText("Ближний бой с оружием и без, что говорит о Вашем умении использовать Ваши руки и ноги не только в мирных целях.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingHeavyWeaponsInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 2);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Тяжёлое оружие");
-        binding.baseValue.setText("Базовое значение: Сила × 2 + Наблюдательность + Удачливость + 5.");
-        binding.descriptionSkills.setText("Ваше умение управления на самом деле нелёгких орудий."); //Что по оружию, я ещё не знаю
-
+        if (isNotAlreadyThatSkill(2)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 2) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Тяжёлое оружие");
+            binding.baseValue.setText("Базовое значение: Сила × 2 + Наблюдательность + Удачливость + 10.");
+            binding.descriptionSkills.setText("Ваше умение управления на самом деле нелёгких орудий.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void settingLightWeaponsInformation(SQLiteDatabase database) {
-        boolean isMain = getIsMainSkill(database, 1);
-        binding.chooseAsMainSkill.setText(isMain ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
-        binding.skillName.setText("Лёгкое оружие");
-        binding.baseValue.setText("Базовое значение: Наблюдательность × 2 + Удачливость + Телосложение + 5.");
-        binding.descriptionSkills.setText("Отображает Ваше умение пользоваться лёгким оружием.");
+        if (isNotAlreadyThatSkill(1)) {
+            binding.message.setText("");
+            binding.chooseAsMainSkill.setText(SkillsDatabase.getIsMainSkill(database, 1) ? "Выбрать как неосновной навык" : "Выбрать как основной навык");
+            binding.skillName.setText("Лёгкое оружие");
+            binding.baseValue.setText("Базовое значение: Наблюдательность × 2 + Удачливость + Телосложение + 10.");
+            binding.descriptionSkills.setText("Отображает Ваше умение пользоваться лёгким оружием.");
+        } else {
+            binding.message.setText("Вы уже выбрали этот навык...");
+        }
     }
-    private boolean getIsMainSkill(SQLiteDatabase database, int ID) {
-        int idColumnIndex, isMainColumnIndex;
-        boolean isMain = false;
-        Cursor cursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
-        cursor.moveToFirst();
-        idColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_ID);
-        isMainColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
-        do {
-            if (cursor.getInt(idColumnIndex) == ID) {
-                isMain = cursor.getInt(isMainColumnIndex) == 1;
-                break;
-            }
-        } while (cursor.moveToNext());
-        cursor.close();
-        return isMain;
+
+    private boolean isNotAlreadyThatSkill(int ID) {
+        return ID != getIdByText();
     }
 }
