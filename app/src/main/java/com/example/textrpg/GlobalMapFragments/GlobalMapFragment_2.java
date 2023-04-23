@@ -1,175 +1,208 @@
 package com.example.textrpg.GlobalMapFragments;
 
-import static java.util.Arrays.asList;
+import static com.example.textrpg.Constants.Global_Map_2;
+import static com.example.textrpg.Constants.Local_Map_Location;
+import static com.example.textrpg.Constants.Local_Map_Location_Def_Value;
+import static com.example.textrpg.Constants.Starting;
+import static com.example.textrpg.Constants.U_Here;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.textrpg.databinding.FragmentGlobalMap1Binding;
 import com.example.textrpg.databinding.FragmentGlobalMap2Binding;
 
 
 public class GlobalMapFragment_2 extends Fragment {
-    private FragmentGlobalMap2Binding fragmentGlobalMap2Binding;
+    private FragmentGlobalMap2Binding binding;
     private SharedPreferences sharedPreferences;
-    private final int[] numbers = {4, 5, 6, 13, 14, 15, 22, 23, 24};
-    private final String Local_Map_Location = "Local Map Location",
-            Dot = ".", U_Here = "∇";
-    private final int Local_Map_Location_Def_Value = 11;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentGlobalMap2Binding.second1.setOnClickListener(listener -> firstButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second2.setOnClickListener(listener -> secondButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second3.setOnClickListener(listener -> thirdButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second4.setOnClickListener(listener -> fourthButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second5.setOnClickListener(listener -> fifthButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second6.setOnClickListener(listener -> sixthButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second7.setOnClickListener(listener -> seventhButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second8.setOnClickListener(listener -> eighthButton(fragmentGlobalMap2Binding));
-        fragmentGlobalMap2Binding.second9.setOnClickListener(listener -> ninthButton(fragmentGlobalMap2Binding));
-
+        binding.button1.setOnClickListener(listener -> firstButton());
+        binding.button2.setOnClickListener(listener -> secondButton());
+        binding.button3.setOnClickListener(listener -> thirdButton());
+        binding.button4.setOnClickListener(listener -> fourthButton());
+        binding.button5.setOnClickListener(listener -> fifthButton());
+        binding.button6.setOnClickListener(listener -> sixthButton());
+        binding.button7.setOnClickListener(listener -> seventhButton());
+        binding.button8.setOnClickListener(listener -> eighthButton());
+        binding.button9.setOnClickListener(listener -> ninthButton());
     }
 
-    private void ninthButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void startLocation() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[8]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[8]).apply();
-            fragmentGlobalMap2Binding.second9.setText(U_Here);
-            fragmentGlobalMap2Binding.second9.setTextSize(42);
+        switch (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value)) {
+            case 4:
+                binding.button1.setText(U_Here);
+                break;
+            case 5:
+                binding.button2.setText(U_Here);
+                break;
+            case 6:
+                binding.button3.setText(U_Here);
+                break;
+            case 13:
+                binding.button4.setText(U_Here);
+                break;
+            case 14:
+                binding.button5.setText(U_Here);
+                break;
+            case 15:
+                binding.button6.setText(U_Here);
+                break;
+            case 22:
+                binding.button7.setText(U_Here);
+                break;
+            case 23:
+                binding.button8.setText(U_Here);
+                break;
+            case 24:
+                binding.button9.setText(U_Here);
+                break;
         }
     }
 
-    private void eighthButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+
+    private void ninthButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[7]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[7]).apply();
-            fragmentGlobalMap2Binding.second8.setText(U_Here);
-            fragmentGlobalMap2Binding.second8.setTextSize(42);
+        settingNothing(Global_Map_2[8]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[8]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[8]).apply();
+            binding.button9.setText(U_Here);
         }
     }
 
-    private void seventhButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void eighthButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[6]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[6]).apply();
-            fragmentGlobalMap2Binding.second7.setText(U_Here);
-            fragmentGlobalMap2Binding.second7.setTextSize(42);
+        settingNothing(Global_Map_2[7]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[7]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[7]).apply();
+            binding.button8.setText(U_Here);
         }
     }
 
-    private void sixthButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void seventhButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[5]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[5]).apply();
-            fragmentGlobalMap2Binding.second6.setText(U_Here);
-            fragmentGlobalMap2Binding.second6.setTextSize(42);
+        settingNothing(Global_Map_2[6]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[6]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[6]).apply();
+            binding.button7.setText(U_Here);
         }
     }
 
-    private void fifthButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void sixthButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[4]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[4]).apply();
-            fragmentGlobalMap2Binding.second5.setText(U_Here);
-            fragmentGlobalMap2Binding.second5.setTextSize(42);
+        settingNothing(Global_Map_2[5]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[5]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[5]).apply();
+            binding.button6.setText(U_Here);
         }
     }
 
-    private void fourthButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void fifthButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[3]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[3]).apply();
-            fragmentGlobalMap2Binding.second4.setText(U_Here);
-            fragmentGlobalMap2Binding.second4.setTextSize(42);
+        settingNothing(Global_Map_2[4]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[4]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[4]).apply();
+            binding.button5.setText(U_Here);
         }
     }
 
-    private void thirdButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void fourthButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[2]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[2]).apply();
-            fragmentGlobalMap2Binding.second3.setText(U_Here);
-            fragmentGlobalMap2Binding.second3.setTextSize(42);
+        settingNothing(Global_Map_2[3]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[3]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[3]).apply();
+            binding.button4.setText(U_Here);
         }
     }
 
-    private void secondButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void thirdButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[1]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[1]).apply();
-            fragmentGlobalMap2Binding.second2.setText(U_Here);
-            fragmentGlobalMap2Binding.second2.setTextSize(42);
+        settingNothing(Global_Map_2[2]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[2]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[2]).apply();
+            binding.button3.setText(U_Here);
         }
     }
 
-    private void firstButton(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
+    private void secondButton() {
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingNothing(fragmentGlobalMap2Binding);
-        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != numbers[0]) {
-            sharedPreferences.edit().putInt(Local_Map_Location, numbers[0]).apply();
-            fragmentGlobalMap2Binding.second1.setText(U_Here);
-            fragmentGlobalMap2Binding.second1.setTextSize(42);
+        settingNothing(Global_Map_2[1]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[1]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[1]).apply();
+            binding.button2.setText(U_Here);
+        }
+    }
+
+    private void firstButton() {
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        settingNothing(Global_Map_2[0]);
+        if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_2[0]) {
+            sharedPreferences.edit().putInt(Local_Map_Location, Global_Map_2[0]).apply();
+            binding.button1.setText(U_Here);
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentGlobalMap2Binding = FragmentGlobalMap2Binding.inflate(inflater, container, false);
-        return fragmentGlobalMap2Binding.getRoot();
+        binding = FragmentGlobalMap2Binding.inflate(inflater, container, false);
+        startLocation();
+        return binding.getRoot();
     }
 
-    private void settingNothing(FragmentGlobalMap2Binding fragmentGlobalMap2Binding) {
-        int location = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(Local_Map_Location, Local_Map_Location_Def_Value);
-        if (asList(numbers).contains(location)) {
-            switch (location) {
-                case 1:
-                    fragmentGlobalMap2Binding.second1.setText(".");
-                    break;
-                case 2:
-                    fragmentGlobalMap2Binding.second2.setText(".");
-                    break;
-                case 3:
-                    fragmentGlobalMap2Binding.second3.setText(".");
-                    break;
-                case 4:
-                    fragmentGlobalMap2Binding.second4.setText(".");
-                    break;
-                case 5:
-                    fragmentGlobalMap2Binding.second5.setText(".");
-                    break;
-                case 6:
-                    fragmentGlobalMap2Binding.second6.setText(".");
-                    break;
-                case 7:
-                    fragmentGlobalMap2Binding.second7.setText(".");
-                    break;
-                case 8:
-                    fragmentGlobalMap2Binding.second8.setText(".");
-                    break;
-                case 9:
-                    fragmentGlobalMap2Binding.second9.setText(".");
-                    break;
-            }
+    private void settingNothing(int destination) {
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        int location = sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value);
+        if ((location == Global_Map_2[0] || location == Global_Map_2[1] || location == Global_Map_2[2] ||
+                location == Global_Map_2[3] || location == Global_Map_2[4] || location == Global_Map_2[5] ||
+                location == Global_Map_2[6] || location == Global_Map_2[7] || location == Global_Map_2[8]) && destination != location && !sharedPreferences.getBoolean(Starting, true)) {
+            settingNothingToLocation(location);
+        } else if (sharedPreferences.getBoolean(Starting, true)) {
+            settingNothingToLocation(location);
+            sharedPreferences.edit().putBoolean(Starting, false).apply();
+        }
+    }
+
+    private void settingNothingToLocation(int location) {
+        switch (location) {
+            case 4:
+                binding.button1.setText("");
+                break;
+            case 5:
+                binding.button2.setText("");
+                break;
+            case 6:
+                binding.button3.setText("");
+                break;
+            case 13:
+                binding.button4.setText("");
+                break;
+            case 14:
+                binding.button5.setText("");
+                break;
+            case 15:
+                binding.button6.setText("");
+                break;
+            case 22:
+                binding.button7.setText("");
+                break;
+            case 23:
+                binding.button8.setText("");
+                break;
+            case 24:
+                binding.button9.setText("");
+                break;
         }
     }
 }

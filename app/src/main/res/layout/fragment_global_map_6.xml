@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/map_part_6"
     android:orientation="vertical"
-    android:padding="4dp"
+    android:padding="2dp"
     tools:context=".GlobalMapFragments.GlobalMapFragment_6">
 
     <LinearLayout
@@ -15,34 +15,34 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_7"
+            android:id="@+id/button_7"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_8"
+            android:id="@+id/button_8"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_9"
+            android:id="@+id/button_9"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,34 +52,34 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_4"
+            android:id="@+id/button_4"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_5"
+            android:id="@+id/button_5"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_6"
+            android:id="@+id/button_6"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,34 +89,34 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_1"
+            android:id="@+id/button_1"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_2"
+            android:id="@+id/button_2"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sixth_3"
+            android:id="@+id/button_3"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dot"
-            android:textSize="24sp"
-            tools:ignore="SmallSp" />
+            android:background="@drawable/black_circle"
+            android:textColor="@color/blue"
+            android:textSize="42sp" />
 
 
     </LinearLayout>

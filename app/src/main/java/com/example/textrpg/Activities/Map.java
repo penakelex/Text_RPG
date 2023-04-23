@@ -1,5 +1,32 @@
 package com.example.textrpg.Activities;
 
+import static com.example.textrpg.Constants.Can_Not_Do_That_1;
+import static com.example.textrpg.Constants.Can_Not_Do_That_2;
+import static com.example.textrpg.Constants.Current_Locaton_Center;
+import static com.example.textrpg.Constants.Current_Locaton_East;
+import static com.example.textrpg.Constants.Current_Locaton_North;
+import static com.example.textrpg.Constants.Current_Locaton_Northeast;
+import static com.example.textrpg.Constants.Current_Locaton_Northwest;
+import static com.example.textrpg.Constants.Current_Locaton_South;
+import static com.example.textrpg.Constants.Current_Locaton_Southeast;
+import static com.example.textrpg.Constants.Current_Locaton_Southwest;
+import static com.example.textrpg.Constants.Current_Locaton_West;
+import static com.example.textrpg.Constants.Global_Map_Location;
+import static com.example.textrpg.Constants.Going_To_Center;
+import static com.example.textrpg.Constants.Going_To_East;
+import static com.example.textrpg.Constants.Going_To_North;
+import static com.example.textrpg.Constants.Going_To_Northeast;
+import static com.example.textrpg.Constants.Going_To_Northwest;
+import static com.example.textrpg.Constants.Going_To_South;
+import static com.example.textrpg.Constants.Going_To_Southeast;
+import static com.example.textrpg.Constants.Going_To_Southwest;
+import static com.example.textrpg.Constants.Going_To_West;
+import static com.example.textrpg.Constants.Local_Map_Location;
+import static com.example.textrpg.Constants.Local_Map_Location_Def_Value;
+import static com.example.textrpg.Constants.Not_Going_Yet;
+import static com.example.textrpg.Constants.Settlement;
+import static com.example.textrpg.Constants.Starting;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -24,8 +51,8 @@ import com.example.textrpg.databinding.ActivityMapBinding;
 public class Map extends AppCompatActivity {
     ActivityMapBinding activityMapBinding;
     SharedPreferences sharedPreferences;
-    private final String Global_Map_Location = "Global Map Location", Starting = "Starting", Going_To_North = "Пришли на север карты.", Going_To_South = "Пришли на юг карты.", Going_To_West = "Пришли на запад карты.", Going_To_East = "Пришли на восток карты.", Can_Not_Do_That_1 = "Не получится...", Can_Not_Do_That_2 = "Слишком далеко...", Going_To_Northeast = "Пришли на северо-восток карты.", Going_To_Northwest = "Пришли на северо-запад карты.", Going_To_Southwest = "Пришли на юго-запад карты.", Going_To_Southeast = "Пришли на юго-восток карты.", Going_To_Center = "Пришли в центр карты.", Not_Going_Yet = "Пока ещё никуда не идём...", Current_Locaton_Southwest = "Текущее местоположение - юго-запад карты.", Current_Locaton_Southeast = "Текущее местоположение - юго-восток карты.", Current_Locaton_South = "Текущее местоположение - юг карты.", Current_Locaton_West = "Текущее местоположение - запад карты.", Current_Locaton_Center = "Текущее местоположение - центр карты.", Current_Locaton_East = "Текущее местоположение - восток карты.", Current_Locaton_Northwest = "Текущее местоположение - северо-запад карты.", Current_Locaton_North = "Текущее местоположение - север карты.", Current_Locaton_Northeast = "Текущее местоположение - северо-восток карты.";
     private final int Global_Map_Location_Def_Value = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +60,80 @@ public class Map extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(activityMapBinding.getRoot());
         creatingField();
-        startLocation(activityMapBinding);
-        activityMapBinding.north.setOnClickListener(listener -> changingFieldNorth(activityMapBinding));
-        activityMapBinding.east.setOnClickListener(listener -> changingFieldEast(activityMapBinding));
-        activityMapBinding.south.setOnClickListener(listener -> changingFieldSouth(activityMapBinding));
-        activityMapBinding.west.setOnClickListener(listener -> changingFieldWest(activityMapBinding));
+        startLocation();
+        activityMapBinding.north.setOnClickListener(listener -> changingFieldNorth());
+        activityMapBinding.east.setOnClickListener(listener -> changingFieldEast());
+        activityMapBinding.south.setOnClickListener(listener -> changingFieldSouth());
+        activityMapBinding.west.setOnClickListener(listener -> changingFieldWest());
+        activityMapBinding.button.setOnClickListener(listener -> goingOnLocalMap());
     }
 
-    private void changingFieldNorth(ActivityMapBinding activityMapBinding) {
+    private void goingOnLocalMap() {
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        switch (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value)) {
+            case 2:
+            case 11:
+                sharedPreferences.edit().putInt(Settlement, 1).apply();
+                break;
+            case 4:
+            case 5:
+                sharedPreferences.edit().putInt(Settlement, 2).apply();
+                break;
+            case 15:
+            case 24:
+            case 16:
+            case 25:
+                sharedPreferences.edit().putInt(Settlement, 3).apply();
+                break;
+            case 27:
+                sharedPreferences.edit().putInt(Settlement, 4).apply();
+                break;
+            case 28:
+            case 29:
+            case 37:
+            case 38:
+                sharedPreferences.edit().putInt(Settlement, 5).apply();
+                break;
+            case 39:
+            case 40:
+            case 49:
+                sharedPreferences.edit().putInt(Settlement, 6).apply();
+                break;
+            case 51:
+                sharedPreferences.edit().putInt(Settlement, 7).apply();
+                break;
+            case 60:
+                sharedPreferences.edit().putInt(Settlement, 8).apply();
+                break;
+            case 44:
+                sharedPreferences.edit().putInt(Settlement, 9).apply();
+                break;
+            case 54:
+                sharedPreferences.edit().putInt(Settlement, 10).apply();
+                break;
+            case 62:
+                sharedPreferences.edit().putInt(Settlement, 11).apply();
+                break;
+            case 70:
+            case 69:
+                sharedPreferences.edit().putInt(Settlement, 12).apply();
+                break;
+            case 73:
+            case 74:
+                sharedPreferences.edit().putInt(Settlement, 13).apply();
+                break;
+            case 56:
+                sharedPreferences.edit().putInt(Settlement, 14).apply();
+                break;
+            case 57:
+                sharedPreferences.edit().putInt(Settlement, 15).apply();
+                break;
+            default:
+                sharedPreferences.edit().putInt(Settlement, 0).apply();
+        }
+    }
+
+    private void changingFieldNorth() {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         switch (sharedPreferences.getInt(Global_Map_Location, Global_Map_Location_Def_Value)) {
             case 1: {
@@ -92,7 +185,7 @@ public class Map extends AppCompatActivity {
         }
     }
 
-    private void changingFieldSouth(ActivityMapBinding activityMapBinding) {
+    private void changingFieldSouth() {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         switch (sharedPreferences.getInt(Global_Map_Location, Global_Map_Location_Def_Value)) {
             case 1:
@@ -145,7 +238,7 @@ public class Map extends AppCompatActivity {
         }
     }
 
-    private void changingFieldEast(ActivityMapBinding activityMapBinding) {
+    private void changingFieldEast() {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         int container = R.id.linearLayout;
         switch (sharedPreferences.getInt(Global_Map_Location, 1)) {
@@ -199,7 +292,7 @@ public class Map extends AppCompatActivity {
         }
     }
 
-    private void changingFieldWest(ActivityMapBinding activityMapBinding) {
+    private void changingFieldWest() {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         int container = R.id.linearLayout;
         switch (sharedPreferences.getInt(Global_Map_Location, Global_Map_Location_Def_Value)) {
@@ -259,11 +352,12 @@ public class Map extends AppCompatActivity {
         }
     }
 
-    private void startLocation(ActivityMapBinding activityMapBinding) {
+    private void startLocation() {
         int container = R.id.linearLayout;
         sharedPreferences = getPreferences(MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(Starting, true).apply();
-        if (activityMapBinding.information.getText().equals("") || activityMapBinding.information.getText() == null) activityMapBinding.information.setText(Not_Going_Yet);
+        if (activityMapBinding.information.getText().equals("") || activityMapBinding.information.getText() == null)
+            activityMapBinding.information.setText(Not_Going_Yet);
         switch (sharedPreferences.getInt(Global_Map_Location, 1)) {
             case 1: {
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_1()).addToBackStack(null).commit();
