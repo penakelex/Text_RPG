@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    namespace 'com.example.textrpg'
+    namespace 'penakelex.textRPG.homeland'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.textrpg"
-        minSdk 24
+        applicationId "penakelex.textRPG.homeland"
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"

@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.StartGameWithProgress">
+    tools:context="penakelex.textRPG.homeland.AllStarting.StartGameWithProgress">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

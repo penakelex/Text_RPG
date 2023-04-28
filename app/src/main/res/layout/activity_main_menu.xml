@@ -6,7 +6,7 @@
     android:background="@drawable/cosmos"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Activities.MainMenu">
+    tools:context="penakelex.textRPG.homeland.AllStarting.MainMenu">
 
     <TextView
         android:layout_width="wrap_content"

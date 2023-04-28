@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.ActivityLocalMap"
+            android:name="penakelex.textRPG.homeland.Activities.ActivityLocalMap"
             android:exported="false" />
         <activity
-            android:name=".Activities.GameStartingActivity"
+            android:name="penakelex.textRPG.homeland.AllStarting.GameStartingActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -26,25 +26,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.CreatingCharacter"
+            android:name="penakelex.textRPG.homeland.Activities.CreatingCharacter"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name=".Activities.DialogActivity"
+            android:name="penakelex.textRPG.homeland.Dialogs.DialogActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name=".Activities.StartGameWithProgress"
+            android:name="penakelex.textRPG.homeland.AllStarting.StartGameWithProgress"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name=".Activities.Map"
+            android:name="penakelex.textRPG.homeland.Activities.Map"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -54,7 +54,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activities.Credits"
+            android:name="penakelex.textRPG.homeland.Activities.Credits"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -64,7 +64,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activities.GameLoad"
+            android:name="penakelex.textRPG.homeland.AllStarting.GameLoad"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/title_activity_game_load"
@@ -75,13 +75,13 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activities.MainMenu"
+            android:name="penakelex.textRPG.homeland.AllStarting.MainMenu"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TextRPG"></activity>
         <activity
-            android:name=".Activities.MainAction"
+            android:name="penakelex.textRPG.homeland.Activities.MainAction"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/title_activity_main_action"

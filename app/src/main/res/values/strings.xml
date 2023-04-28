@@ -78,4 +78,11 @@
     <string name="heavyweight">Тяжеловес</string>
     <string name="kind_one">Добрый малый</string>
     <string name="choose_talent">Выбрать талант</string>
+    <string name="signature">Подпись:</string>
+    <string name="health_points">Очки здоровья:</string>
+    <string name="critical_damage">Критический урон:</string>
+    <string name="melee_damage">Урон оружия ближнего боя:</string>
+    <string name="max_carry_volume">Максимальный переносимый объём:</string>
+    <string name="max_carry_weight">Максимальный переносимый вес:</string>
+    <string name="ap">Очки действия:</string>
 </resources>

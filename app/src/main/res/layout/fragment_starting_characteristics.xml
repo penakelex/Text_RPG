@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="4dp"
-    tools:context=".StartingFragments.StartingCharacteristicsFragment">
+    tools:context="penakelex.textRPG.homeland.StartingFragments.StartingCharacteristicsFragment">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"

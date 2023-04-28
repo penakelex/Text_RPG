@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="1dp"
-    tools:context=".Activities.DialogActivity">
+    tools:context="penakelex.textRPG.homeland.Dialogs.DialogActivity">
 
     <TextView
         android:id="@+id/name"

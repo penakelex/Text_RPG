@@ -12,4 +12,6 @@
     <string name="go_to_north_MAP">Пойти на\nсевер</string>
     <string name="go_to_south_MAP">Пойти на\nюг</string>
     <string name="dot">.</string>
+    <string name="signature">Подпись:</string>
+    <string name="ap">Очки действия:</string>
 </resources>

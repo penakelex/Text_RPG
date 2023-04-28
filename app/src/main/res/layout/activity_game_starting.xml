@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/starting_background_image"
-    tools:context=".Activities.GameStartingActivity">
+    tools:context="penakelex.textRPG.homeland.AllStarting.GameStartingActivity">
 
     <LinearLayout
         android:layout_width="414dp"

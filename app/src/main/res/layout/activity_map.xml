@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="4dp"
-    tools:context=".Activities.Map">
+    tools:context="penakelex.textRPG.homeland.Activities.Map">
 
     <TextView
         android:layout_width="match_parent"
