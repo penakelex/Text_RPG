@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
@@ -12,6 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SkillsDatabase {
+    @SuppressLint("DefaultLocale")
+    public static void updateSkillsValues(SQLiteDatabase skillsDatabase, int[] skillsValues) {
+        for (int i = 0; i < skillsValues.length; i++) {
+            skillsDatabase.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
+                    SkillsDatabaseHelper.Table_Skills,
+                    SkillsDatabaseHelper.KEY_Value,
+                    skillsValues[i],
+                    SkillsDatabaseHelper.KEY_ID,
+                    i + 1));
+        }
+        Log.d("new skills` values", Arrays.toString(getSkillValues(skillsDatabase)));
+    }
+
     @SuppressLint("DefaultLocale")
     public static void setSkillValueIsMain(SQLiteDatabase database, int ID, int value) {
         database.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
@@ -97,7 +111,7 @@ public class SkillsDatabase {
     @SuppressLint("DefaultLocale")
     public static void settingNotStartingSkillsInDatabase(SQLiteDatabase skillsDatabase, SQLiteDatabase characteristicsDatabase, SQLiteDatabase talentsDatabase) {
         int[] values = CharacteristicsDatabase.getCharacteristicsValues(characteristicsDatabase),
-        intSkills = {4, 5, 7, 8, 9}, fightSkills = {1, 2, 3};
+                intSkills = {4, 5, 7, 8, 9}, fightSkills = {1, 2, 3};
         int strength = values[0], physique = values[1], dexterity = values[2], mentality = values[3],
                 luckiness = values[4], watchfulness = values[5], attractiveness = values[6], number;
         boolean[] isMains = SkillsDatabase.getIsMains(skillsDatabase);

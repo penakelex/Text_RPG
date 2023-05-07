@@ -22,6 +22,8 @@ public class Credits extends AppCompatActivity {
         activityCreditsBinding.exitButton.setOnClickListener(l -> {
             Intent intent = new Intent(Credits.this, MainMenu.class);
             startActivity(intent);
+            activityCreditsBinding = null;
+            finish();
         });
     }
 }

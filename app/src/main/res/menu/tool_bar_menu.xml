@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/personToolBar"
+        android:icon="@drawable/person"
+        android:title="@string/person"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/questsToolBar"
+        android:icon="@drawable/menu_book"
+        android:title="@string/quests"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuToolBar"
+        android:icon="@drawable/menu"
+        android:title="@string/menu"
+        app:showAsAction="always" />
+
+</menu>

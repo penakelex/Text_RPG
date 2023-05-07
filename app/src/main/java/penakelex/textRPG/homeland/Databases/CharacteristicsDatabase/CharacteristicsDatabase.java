@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import penakelex.textRPG.homeland.Constants;
+import penakelex.textRPG.homeland.Main.Constants;
 
 public class CharacteristicsDatabase {
     public static int[] getCharacteristicsValues(SQLiteDatabase database) {
@@ -64,7 +64,6 @@ public class CharacteristicsDatabase {
                         value + 1,
                         CharacteristicsDatabaseHelper.KEY_ID,
                         ID));
-                sharedPreferences.edit().putInt(Constants.Characteristics_Points, sharedPreferences.getInt(Constants.Characteristics_Points, 2) - 1).apply();
                 return 1;
             } else {
                 if (value + 1 > 5) {
@@ -77,7 +76,7 @@ public class CharacteristicsDatabase {
     }
 
     @SuppressLint("DefaultLocale")
-    public static int downgradeCharacteristic(SQLiteDatabase database, SharedPreferences sharedPreferences, int ID) {
+    public static int downgradeCharacteristic(SQLiteDatabase database, int ID) {
         if (ID != 0) {
             Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
             cursor.moveToFirst();
@@ -98,7 +97,6 @@ public class CharacteristicsDatabase {
                         value - 1,
                         CharacteristicsDatabaseHelper.KEY_ID,
                         ID));
-                sharedPreferences.edit().putInt(Constants.Characteristics_Points, sharedPreferences.getInt(Constants.Characteristics_Points, 2) + 1).apply();
                 return 1;
             } else return 2;
         } else  return 3;

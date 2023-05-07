@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:backgroundTint="#18A85D"
+    android:justificationMode="inter_word"
     android:textAllCaps="false"
-    android:textColor="#F1E792"
+    android:textColor="@color/white_yellow"
     android:textSize="24sp">
 
 </com.google.android.material.button.MaterialButton>

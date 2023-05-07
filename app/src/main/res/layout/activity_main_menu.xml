@@ -8,14 +8,15 @@
     android:orientation="vertical"
     tools:context="penakelex.textRPG.homeland.AllStarting.MainMenu">
 
+
     <TextView
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="12dp"
         android:gravity="center"
         android:text="@string/homeland"
-        android:textColor="#EFDB3D"
-        android:layout_margin="12dp"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:textColor="@color/golden_yellow"
         android:textSize="48sp" />
 
     <Button
@@ -37,7 +38,7 @@
         android:layout_gravity="center"
         android:layout_margin="2dp"
         android:backgroundTint="#3A04B5"
-        android:text="@string/load"
+        android:text="@string/continue_game"
         android:textAllCaps="false"
         android:textColor="#EFDB3D"
         android:textSize="26sp" />

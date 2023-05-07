@@ -1,44 +1,65 @@
 package penakelex.textRPG.homeland.Dialogs;
 
-import static penakelex.textRPG.homeland.Constants.Current_Activity;
-import static penakelex.textRPG.homeland.Constants.Going_To_Starting_Information;
-import static penakelex.textRPG.homeland.Constants.Homeland_Tag;
-import static penakelex.textRPG.homeland.Constants.ID_Dialog;
-import static penakelex.textRPG.homeland.Constants.Is_Going_To_Starting_Information_First_Time;
-import static penakelex.textRPG.homeland.Constants.Main_Character_Name;
-import static penakelex.textRPG.homeland.Constants.Money;
-import static penakelex.textRPG.homeland.Constants.Reputation;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
+import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
+import static penakelex.textRPG.homeland.Main.Constants.Going_To_Starting_Information;
+import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
+import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
+import static penakelex.textRPG.homeland.Main.Constants.Is_Going_To_Starting_Information_First_Time;
+import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
+import static penakelex.textRPG.homeland.Main.Constants.Money;
+import static penakelex.textRPG.homeland.Main.Constants.Reputation;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
-import penakelex.textRPG.homeland.Activities.CreatingCharacter;
-import penakelex.textRPG.homeland.Activities.Map;
+import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
+import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
+import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
+import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
+import penakelex.textRPG.homeland.Main.MainActionParentActivity;
+import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
-import penakelex.textRPG.homeland.databinding.ActivityDialogActvivityBinding;
+import penakelex.textRPG.homeland.databinding.ActivityDialogBinding;
 import penakelex.textRPG.homeland.databinding.ReplicaButtonBinding;
 
-public class DialogActivity extends AppCompatActivity {
-    Dialogs dialogs = new Dialogs();
-    SharedPreferences sharedPreferences;
-    private ActivityDialogActvivityBinding binding;
+public class DialogActivity extends MainActionParentActivity {
+    private final Dialogs dialogs = new Dialogs();
+    private SharedPreferences sharedPreferences;
+    private ActivityDialogBinding binding;
     private Dialogs.Quote[] quotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDialogActvivityBinding.inflate(getLayoutInflater());
+        binding = ActivityDialogBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(binding.getRoot());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+        handlingToolBar(toolbar);
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         sharedPreferences.edit().putInt(Current_Activity, 3).apply();
         initiateDialog(sharedPreferences.getInt(ID_Dialog, 0));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void initiateDialog(int ID) {
@@ -52,10 +73,12 @@ public class DialogActivity extends AppCompatActivity {
             case -1:
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, false).
                         putInt(ID_Dialog, 1).apply();
+                binding = null;
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 finish();
                 break;
             case -2:
+                binding = null;
                 startActivity(new Intent(DialogActivity.this, Map.class));
                 finish();
                 break;
@@ -63,6 +86,7 @@ public class DialogActivity extends AppCompatActivity {
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
                         putBoolean(Is_Going_To_Starting_Information_First_Time, true).
                         putInt(ID_Dialog, 2).apply();
+                binding = null;
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 finish();
                 break;
@@ -70,6 +94,7 @@ public class DialogActivity extends AppCompatActivity {
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
                         putBoolean(Is_Going_To_Starting_Information_First_Time, false).
                         putInt(ID_Dialog, 3).apply();
+                binding = null;
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 finish();
                 break;
@@ -78,34 +103,33 @@ public class DialogActivity extends AppCompatActivity {
         }
     }
 
+
     private void fillReplicas(Dialogs.Quote quote) {
         binding.containerForReplicasVariants.removeAllViews();
-        settingTalkingCharacter(quote.getImage());
-        binding.name.setText(quote.getName());
-        settingQuoteText(quote.getQuote());
+        settingTalkingCharacterImage(quote.getImage());
+        settingTalkingCharacterName(quote.getName());
+        settingTalkingCharacterQuote(quote.getQuote());
         for (Dialogs.Quote.CharacterQuote characterQuote : quote.getCharacterQuotes()) {
             ReplicaButtonBinding buttonBinding = ReplicaButtonBinding.inflate(getLayoutInflater(), binding.containerForReplicasVariants, false);
-            buttonBinding.getRoot().setText(characterQuote.getQuote());
+            buttonBinding.getRoot().setText(getResources().getString(characterQuote.getQuote()));
             buttonBinding.getRoot().setOnClickListener(listener -> replicaListener(characterQuote));
             binding.containerForReplicasVariants.addView(buttonBinding.getRoot());
         }
     }
 
-    private void settingQuoteText(String quote) {
-        String[] quoteSymbols = quote.toString().split("");
+    private void settingTalkingCharacterName(int name) {
+        binding.name.setText(name);
+    }
+
+    private void settingTalkingCharacterQuote(int quote) {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
-        switch (quoteSymbols[quoteSymbols.length - 1]) {
-            case "1": {
-                StringBuilder newQuote = new StringBuilder();
-                for (String symbol : quoteSymbols) {
-                    if (!symbol.equals("1")) newQuote.append(symbol);
-                }
-                newQuote.append(sharedPreferences.getString(Main_Character_Name, "") + ".");
-                binding.text.setText(newQuote.toString());
+        switch (quote) {
+            case 1: {
+                binding.text.setText(String.format("Ваше имя - %s.", sharedPreferences.getString(Main_Character_Name, "")));
             }
             break;
             default:
-                binding.text.setText(quote);
+                binding.text.setText(String.valueOf(getResources().getString(quote)));
         }
     }
 
@@ -113,27 +137,32 @@ public class DialogActivity extends AppCompatActivity {
     private void replicaListener(Dialogs.Quote.CharacterQuote characterQuote) {
         sharedPreferences = getPreferences(MODE_PRIVATE);
         if (characterQuote.getMoney() != 0 || characterQuote.getReputation() != 0) {
-            String checkingParameter = characterQuote.getChecking();
-            if (!checkingParameter.equals("")) {
-                if (sharedPreferences.getInt(checkingParameter, 0) >= characterQuote.getCheckingValue()) {
+            int checkingParameter = characterQuote.getChecking();
+            if (checkingParameter != -1) {
+                int checkingValue;
+                if (checkingParameter >= 1 && checkingParameter <= 7) {
+                    checkingValue = CharacteristicsDatabase.getNewValue(new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), checkingParameter);
+
+                } else if (checkingParameter >= 8 && checkingParameter <= 16) {
+                    checkingParameter -= 7;
+                    checkingValue = SkillsDatabase.getValueSkill(new SkillsDatabaseHelper(getApplicationContext()).getReadableDatabase(), checkingParameter);
+                } else {
+                    checkingParameter -= 16;
+                    checkingValue = TalentsDatabase.isHaving(checkingParameter, new SkillsDatabaseHelper(getApplicationContext()).getReadableDatabase()) ? 1 : 0;
+                }
+                if (checkingValue >= characterQuote.getCheckingValue()) {
                     sharedPreferences.edit().
                             putInt(Reputation, sharedPreferences.getInt(Reputation, 0)
                                     + characterQuote.getReputation()).
                             putInt(Money, sharedPreferences.getInt(Money, 0)
                                     + characterQuote.getMoney()).apply();
                 }
-            } else {
-                sharedPreferences.edit().
-                        putInt(Reputation, sharedPreferences.getInt(Reputation, 0)
-                                + characterQuote.getReputation()).
-                        putInt(Money, sharedPreferences.getInt(Money, 0)
-                                + characterQuote.getMoney()).apply();
             }
         }
         startQuote(characterQuote.getNextStep());
     }
 
-    private void settingTalkingCharacter(int image) {
+    private void settingTalkingCharacterImage(int image) {
         switch (image) {
             case 1:
                 binding.imageOfCharacter.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.registrator));

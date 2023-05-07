@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name">Homeland</string>
     <string name="title_activity_main_action">Main_action</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="credits">Титры</string>
     <string name="exit">Выход</string>
     <string name="settings">Настройки</string>
@@ -22,17 +18,16 @@
     <string name="go_to_east_MAP">Пойти на\nвосток</string>
     <string name="go_to_north_MAP">Пойти на\nсевер</string>
     <string name="go_to_south_MAP">Пойти на\nюг</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dot">.</string>
     <string name="characteristics">Характеристики</string>
-    <string name="Strength">Сила</string>
+    <string name="strength">Сила</string>
     <string name="physique">Телосложение</string>
     <string name="mentality">Ум</string>
     <string name="luckiness">Удачливость</string>
     <string name="watchfulness">Наблюдательность</string>
     <string name="attractiveness">Привлекательность</string>
-    <string name="Skills">Навыки</string>
+    <string name="skills">Навыки</string>
     <string name="lightWeapons">Лёгкое оружие</string>
     <string name="heavyWeapons">Тяжёлое оружие</string>
     <string name="meleeWeapons">Оружие ближнего боя</string>
@@ -46,7 +41,7 @@
     <string name="social">Социальные:</string>
     <string name="survivaling">Выживания:</string>
     <string name="intellectual">Интеллектуальные:</string>
-    <string name="abilities">Способности:</string>
+    <string name="abilities">Способности</string>
     <string name="talents">Таланты</string>
     <string name="ending_form">Завершить\nанкету</string>
     <string name="back_to_skills">Назад к\nнавыкам</string>
@@ -85,4 +80,118 @@
     <string name="max_carry_volume">Максимальный переносимый объём:</string>
     <string name="max_carry_weight">Максимальный переносимый вес:</string>
     <string name="ap">Очки действия:</string>
+    <string name="continue_game">Продолжить</string>
+    <string name="person">Person</string>
+    <string name="quests">Задания</string>
+    <string name="inventory">Инвентарь</string>
+    <string name="health_status_and_other_information">Состояние здоровья и прочая информация</string>
+    <string name="minusbutton">minusButton</string>
+    <string name="plusbutton">plusButton</string>
+    <string name="ready">Готово</string>
+    <string name="melee_weapon_with_n">Оружие\nближнего боя</string>
+    <string name="heavy_weapon_withn">Тяжёлое\nоружие</string>
+    <string name="light_weapon_withn">Лёгкое\nоружие</string>
+    <string name="pockets">Карманы</string>
+    <string name="backpack">Рюкзак</string>
+    <string name="back_to_game">Вернуться в игру</string>
+    <string name="back_to_main_menu">Вернуться в главное меню</string>
+    <string name="exit_game">Выйти из игры</string>
+    <string name="you8">*Вы*</string>
+    <string name="notes8">*Заметки*</string>
+    <string name="you_already_here">Вы уже здесь...</string>
+    <string name="you">Вы</string>
+    <string name="notes">Заметки</string>
+    <string name="menu">Меню</string>
+    <string name="name_registrator">Регистратор</string>
+    <string name="names_MT"> </string>
+    <string name="instructor_serdcev">Инструктор Сердцев</string>
+
+    <string name="quotes0_quote0">*Вы, наконец, получили возможность стать космонавтом.\nВы заходите в кабинет для регистрации Ваших данных для участия в конкурсе.*</string>
+    <string name="quotes0_quote1">Здравствуйте, присаживайтесь.</string>
+    <string name="quotes0_quote2">Дайте мне свои документы, которые были указаны для регистрации.</string>
+    <string name="quotes0_quote3">Заполните анкету о себе, пока я сканирую Ваши документы.</string>
+    <string name="quotes0_quote4">Постойте! Куда Вы пошли?</string>
+    <string name="quotes0_quote5">Если Вы хотите участвовать в конкурсе, то мы должны заполнить Ваши данные.</string>
+    <string name="quotes0_quote6">Если Вы хотите участвовать в конкурсе, то мы должны заполнить Ваши данные.</string>
+    <string name="quotes0_quote7">Согласитесь, если я буду их заполнять, то не смогу написать правильно. Поэтому заполните их, пожалуйста, сами.</string>
+
+    <string name="quotes0_character_quote0_0">*Пройти к столу регистрации*</string>
+    <string name="quotes0_character_quote0_1">*Уйти*</string>
+    <string name="quotes0_character_quote1_0">Здравствуйте. *Присесть*</string>
+    <string name="quotes0_character_quote1_1">*Уйти*</string>
+    <string name="quotes0_character_quote2_0">*Дать нужные документы*</string>
+    <string name="quotes0_character_quote2_1">С чего бы мне Вам давать свои документы?</string>
+    <string name="quotes0_character_quote3_0">Хорошо. Давайте.</string>
+    <string name="quotes0_character_quote3_1">Ну уж нет. Вам самим трудно что ли?</string>
+    <string name="quotes0_character_quote3_2">По-моему Вы берёте с меня слишком много информации. Вам мало того, что я уже дал.</string>
+    <string name="quotes0_character_quote4_0">*Подойти к столу регистрации*</string>
+    <string name="quotes0_character_quote5_0">Ладно, давайте...</string>
+    <string name="quotes0_character_quote6_0">Ладно, держите...</string>
+    <string name="quotes0_character_quote7_0">Ладно, давайте...</string>
+
+    <string name="quotes1_quote0"> </string>
+    <string name="quotes1_quote1">Отлично! Дайте взглянуть.</string>
+    <string name="quotes1_quote2">*2 минуты спустя*</string>
+    <string name="quotes1_quote3">На основе заполненной Вами анкеты, нам нужно прикрепить и прочие сведения о Вас. Вам нужно расписаться в этой форме.</string>
+    <string name="quotes1_quote4">Эти *данные* нужно будет также прикрепить к остальным, мне необходимо их заполнить, чтобы Вы потом проверили их.</string>
+
+    <string name="quotes1_quote0_0">Анкета завершена!</string>
+    <string name="quotes1_quote1_0">Держите.</string>
+    <string name="quotes1_quote1_1">Это мои личные данные, я не хочу, чтобы Вы их смотрели!</string>
+    <string name="quotes1_quote2_0">*Продолжить*</string>
+    <string name="quotes1_quote3_0">Давайте посмотрим.</string>
+    <string name="quotes1_quote4_0">В таком случае держите...</string>
+
+    <string name="quotes2_quote0">Что-то непонятно?</string>
+    <string name="quotes2_quote1">Обычно там ставят подпись, но можете просто написать своё имя.</string>
+    <string name="quotes2_quote2">Я... честно сказать не знаю, но раз так нужно, то нужно заполнить, извините за тавтологию.</string>
+    <string name="quotes2_quote3">У нас для этого есть анализатор, который имеет огромную базу данных.</string>
+    <string name="quotes2_quote4">Да, конечно, что Вы хотели бы ещё узнать?</string>
+    <string name="quotes2_quote5">В чём дело?</string>
+    <string name="quotes2_quote6">Что-нибудь ещё?</string>
+    <string name="quotes2_quote7">...\nВы забыли как Вас зовут?</string>
+
+    <string name="quotes2_character_quote0_0">Что мне нужно вписать в подпись?</string>
+    <string name="quotes2_character_quote0_1">Зачем нужны урон оружием ближнего боя, критический урон?</string>
+    <string name="quotes2_character_quote0_2">Как Вы определили то, что написано в этой *форме*?</string>
+    <string name="quotes2_character_quote1_0">Ладно, тогда напишу имя...</string>
+    <string name="quotes2_character_quote1_1">Не напомните мне моё имя?</string>
+    <string name="quotes2_character_quote1_2">У меня ещё есть несколько вопросов...</string>
+    <string name="quotes2_character_quote2_0">Ладно...</string>
+    <string name="quotes2_character_quote3_0">Что-то на заумном, но да ладно.</string>
+    <string name="quotes2_character_quote4_0">Зачем нужны урон оружием ближнего боя, критический урон?</string>
+    <string name="quotes2_character_quote4_1">Как Вы определили то, что написано в этой *форме*?</string>
+    <string name="quotes2_character_quote5_0">Что мне нужно вписать в подпись?</string>
+    <string name="quotes2_character_quote5_1">Как Вы определили то, что написано в этой *форме*?</string>
+    <string name="quotes2_character_quote6_0">Что мне нужно вписать в подпись?</string>
+    <string name="quotes2_character_quote6_1">Зачем нужны урон оружием ближнего боя, критический урон?</string>
+    <string name="quotes2_character_quote7_0">Нет, что Вы я проверяю Вас...</string>
+    <string name="quotes2_character_quote8_0">Хорошо...</string>
+
+    <string name="quotes3_quote0">Вот всё и заполненно, можете забирать свои документы.</string>
+    <string name="quotes3_quote1">Всего хорошего!</string>
+    <string name="quotes3_quote2">*Выходя, Вы видите большую очередь, которая идёт за Вами*</string>
+    <string name="quotes3_quote3">Что такое? Вы что-то хотите ещё спросить или что?</string>
+    <string name="quotes3_quote4">*Спустя неделю*</string>
+    <string name="quotes3_quote5">*Вы смотрите результаты конкурса и понимаете, что Вас приняли в космонавтику*</string>
+    <string name="quotes3_quote6">*Спустя пару дней*</string>
+    <string name="quotes3_quote7">Приветствую всех теперь вы приблизились к звёздам, но несмотря на это вам предстоит ещё много подготовки.</string>
+    <string name="quotes3_quote8">С сегодняшнего дня мы начинаем тренировки, от ваших результатов здесь будут зависеть исход ваших экспедиций в космос.</string>
+
+    <string name="quotes3_character_quote0_0">Ура! Спасибо! Всего хорошего!</string>
+    <string name="quotes3_character_quote0_1">Наконец это закончилось. Благодарен за помощь. До свидания.</string>
+    <string name="quotes3_character_quote1_0">*Уйти*</string>
+    <string name="quotes3_character_quote1_1">*Посидеть ещё*</string>
+    <string name="quotes3_character_quote2_0">*Продолжить*</string>
+    <string name="quotes3_character_quote3_0">Да нет, просто стул удобный... *Уйти*</string>
+    <string name="quotes3_character_quote3_1">Да нет, сейчас уже пойду... *Уйти*</string>
+    <string name="quotes3_character_quote4_0">*Продолжить*</string>
+    <string name="quotes3_character_quote5_0">*Как классно!*</string>
+    <string name="quotes3_character_quote5_1">Неплохо...*</string>
+    <string name="quotes3_character_quote6_0">*Продолжить*</string>
+    <string name="quotes3_character_quote7_0">*Продолжить*</string>
+    <string name="new_game_creating">Создание новой игры</string>
+    <string name="message_starting_game_with_progress">Если Вы начнёте новую игру, Ваш текущий прогресс сбросится</string>
+    <string name="yeah_i_understand">Да, я понимаю</string>
+    <string name="nah_i_changed_my_mind">Нет, я передумал</string>
 </resources>

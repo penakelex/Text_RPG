@@ -2,17 +2,61 @@ package penakelex.textRPG.homeland.Databases.TalentsDatabase;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
+import penakelex.textRPG.homeland.Adapters.Talents.TalentInformation;
 
 public class TalentsDatabase {
+
+    public static ArrayList<TalentInformation> getHavingTalents(Context context) {
+        Cursor cursor = new TalentsDatabaseHelper(context).getReadableDatabase().query(TalentsDatabaseHelper.Table_Talents, null, null, null, null, null, null);
+        int isHavingColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_Having),
+                idColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_ID), ID, count = 0;
+        ArrayList<TalentInformation> information = new ArrayList<>();
+        cursor.moveToFirst();
+        do {
+            if (cursor.getInt(isHavingColumnIndex) == 1) {
+                ID = cursor.getInt(idColumnIndex);
+                switch (ID) {
+                    case 1:
+                        information.add(new TalentInformation("Певец", ID));
+                        break;
+                    case 2:
+                        information.add(new TalentInformation("Бугай", ID));
+                        break;
+                    case 3:
+                        information.add(new TalentInformation("Сильный удар", ID));
+                        break;
+                    case 4:
+                        information.add(new TalentInformation("Опытный", ID));
+                        break;
+                    case 5:
+                        information.add(new TalentInformation("Натренированный", ID));
+                        break;
+                    case 6:
+                        information.add(new TalentInformation("Тяжеловес", ID));
+                        break;
+                    case 7:
+                        information.add(new TalentInformation("Добрый малый", ID));
+                        break;
+                }
+                count++;
+            }
+        } while (cursor.moveToNext() && count < 2);
+        cursor.close();
+        return information;
+    }
+
     @SuppressLint("DefaultLocale")
     public static boolean choosingKindOne(SQLiteDatabase talentsDatabase, SQLiteDatabase skillsDatabase, SQLiteDatabase characteristicsDatabase) {
         if (isHaving(7, talentsDatabase)) {

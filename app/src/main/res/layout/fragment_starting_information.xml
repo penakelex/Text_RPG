@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="4dp"
-    tools:context="penakelex.textRPG.homeland.StartingFragments.StartingInformationFragment">
+    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInformationFragment">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -153,6 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
+            app:rippleColor="@color/white"
             android:text="@string/next_to_characteristics"
             android:textAllCaps="false"
             android:layout_gravity="bottom"

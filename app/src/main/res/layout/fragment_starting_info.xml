@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="4dp"
-    tools:context="penakelex.textRPG.homeland.StartingFragments.StartingInfoFragment">
+    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInfoFragment">
 
     <ScrollView
         android:layout_width="match_parent"

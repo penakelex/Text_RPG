@@ -1,19 +1,18 @@
 package penakelex.textRPG.homeland.AllStarting;
 
-import static penakelex.textRPG.homeland.Constants.Current_Activity;
-import static penakelex.textRPG.homeland.Constants.Homeland_Tag;
+import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
+import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Shader;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import penakelex.textRPG.homeland.Activities.ActivityLocalMap;
-import penakelex.textRPG.homeland.Activities.CreatingCharacter;
-import penakelex.textRPG.homeland.Activities.Map;
+import penakelex.textRPG.homeland.Map.ActivityLocalMap;
+import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
+import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
 import penakelex.textRPG.homeland.databinding.ActivityGameLoadBinding;
 

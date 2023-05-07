@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="4dp"
-    tools:context="penakelex.textRPG.homeland.StartingFragments.StartingTalentsFragment">
+    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingTalentsFragment">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -78,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/singer"
+                app:rippleColor="@color/white"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -88,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/bull"
+                app:rippleColor="@color/white"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -100,6 +103,7 @@
                 android:text="@string/strong_kikc"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
+                app:rippleColor="@color/white"
                 android:textSize="20sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -109,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/experienced"
                 android:textAllCaps="false"
+                app:rippleColor="@color/white"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -118,6 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/trained"
+                app:rippleColor="@color/white"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -129,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/heavyweight"
                 android:textAllCaps="false"
+                app:rippleColor="@color/white"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -139,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/kind_one"
                 android:textAllCaps="false"
+                app:rippleColor="@color/white"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -187,9 +195,9 @@
         android:id="@+id/chooseTalent"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.378"
+        android:layout_height="wrap_content"
         android:text="@string/choose_talent"
+        app:rippleColor="@color/white"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -207,6 +215,7 @@
             android:layout_gravity="center"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            app:rippleColor="@color/white"
             android:text="@string/back_to_skills"
             android:textAllCaps="false"
             android:textColor="@color/black"
@@ -221,6 +230,7 @@
             android:layout_gravity="center"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            app:rippleColor="@color/white"
             android:text="@string/ending_form"
             android:textAllCaps="false"
             android:textColor="@color/black"
