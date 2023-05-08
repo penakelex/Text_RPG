@@ -44,19 +44,19 @@ public class StartingInformationFragment extends Fragment {
             binding.characterName.setText(sharedPreferences.getString(Main_Character_Name, ""));
         } else {
             binding.characterName.setText("");
-            binding.characterName.setHint("Введите Ваше имя");
+            binding.characterName.setHint(getResources().getString(R.string.input_name));
         }
         if (sharedPreferences.getInt(Main_Character_Height, 0) != 0) {
             binding.characterHeight.setText(String.valueOf(sharedPreferences.getInt(Main_Character_Height, 0)));
         } else {
             binding.characterHeight.setText("");
-            binding.characterHeight.setHint("Введите Ваш рост");
+            binding.characterHeight.setHint(getResources().getString(R.string.input_height));
         }
         if (sharedPreferences.getInt(Main_Character_Age, 0) != 0) {
             binding.characterAge.setText(String.valueOf(sharedPreferences.getInt(Main_Character_Age, 0)));
         } else {
             binding.characterAge.setText("");
-            binding.characterAge.setHint("Введите Ваш возраст");
+            binding.characterAge.setHint(R.string.input_age);
         }
         if (sharedPreferences.getInt(Gender, 0) != 0) {
             switch (sharedPreferences.getInt(Gender, 0)) {
@@ -71,56 +71,72 @@ public class StartingInformationFragment extends Fragment {
     }
 
     private void savingData() {
-        binding.message.setText("");
-        boolean bool = true;
+        boolean isAllGood = true;
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         if (binding.characterName.getText().toString().equals("")) {
-            binding.message.setText("Вы не заполнили Ваше имя...\n");
-            bool = false;
+            binding.characterName.setHint(getResources().getString(R.string.did_not_input_ur_name));
+            binding.characterName.setHintTextColor(getResources().getColor(R.color.red));
+            isAllGood = false;
+            binding.characterAge.setText("");
         } else {
             sharedPreferences.edit().putString(Main_Character_Name, binding.characterName.getText().toString()).apply();
         }
         if (binding.characterAge.getText().toString().equals("")) {
-            binding.message.setText(String.format("%sВы не заполнили свой возраст...\n", binding.message.getText().toString()));
-            bool = false;
+            binding.characterAge.setHint(getResources().getString(R.string.did_not_input_ur_age));
+            binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
+            isAllGood = false;
+            binding.characterAge.setText("");
         } else {
-            if (binding.characterAge.getText().toString().split("").length <= 4){
+            if (binding.characterAge.getText().toString().split("").length <= 4) {
                 if (Integer.parseInt(binding.characterAge.getText().toString()) > 35) {
-                    binding.message.setText(String.format("%sВы слишком *взрослый(-ая)* для космоса...\n", binding.message.getText().toString()));
-                    bool = false;
+                    binding.characterAge.setHint(getResources().getString(R.string.ur_too_old));
+                    binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
+                    isAllGood = false;
+                    binding.characterAge.setText("");
                 } else if (Integer.parseInt(binding.characterAge.getText().toString()) < 16) {
-                    binding.message.setText(String.format("%sВы слишком *молодой(-ая)* для космоса...\n", binding.message.getText().toString()));
-                    bool = false;
+                    binding.characterAge.setHint(getResources().getString(R.string.ur_not_enough_old));
+                    binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
+                    isAllGood = false;
+                    binding.characterAge.setText("");
                 } else {
                     sharedPreferences.edit().putInt(Main_Character_Age, Integer.parseInt(binding.characterAge.getText().toString())).apply();
                 }
             } else {
-                binding.message.setText(String.format("%sВы чрезмерно *взрослый(-ая)* для космоса...\n", binding.message.getText().toString()));
-                bool = false;
+                binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
+                binding.characterAge.setHint(getResources().getString(R.string.ur_sooo_old));
+                isAllGood = false;
+                binding.characterAge.setText("");
             }
         }
         if (binding.characterHeight.getText().toString().equals("")) {
-            binding.message.setText(String.format("%sВы не указали свой рост...\n", binding.message.getText().toString()));
-            bool = false;
+            binding.characterHeight.setHint(getResources().getString(R.string.did_not_input_ur_height));
+            binding.characterHeight.setHintTextColor(getResources().getColor(R.color.red));
+            isAllGood = false;
         } else {
             if (binding.characterHeight.getText().toString().split("").length <= 4) {
                 if (Integer.parseInt(binding.characterHeight.getText().toString()) > 190) {
-                    binding.message.setText(String.format("%sВаш рост слишком большой...\n", binding.message.getText().toString()));
-                    bool = false;
+                    binding.characterHeight.setHint(R.string.ur_too_tall);
+                    binding.characterHeight.setHintTextColor(getResources().getColor(R.color.red));
+                    isAllGood = false;
+                    binding.characterHeight.setText("");
                 } else if (Integer.parseInt(binding.characterHeight.getText().toString()) < 150) {
-                    binding.message.setText(String.format("%sВаш рост слишком маленький...\n", binding.message.getText().toString()));
-                    bool = false;
+                    binding.characterHeight.setHint(R.string.ur_too_short);
+                    binding.characterHeight.setHintTextColor(getResources().getColor(R.color.red));
+                    isAllGood = false;
+                    binding.characterHeight.setText("");
                 } else {
                     sharedPreferences.edit().putInt(Main_Character_Height, Integer.parseInt(binding.characterHeight.getText().toString())).apply();
                 }
             } else {
-                binding.message.setText(String.format("%sВаш рост чрезмерно большой...\n", binding.message.getText().toString()));
-                bool = false;
+                binding.characterHeight.setHint(R.string.ur_sooo_tall);
+                binding.characterHeight.setHintTextColor(getResources().getColor(R.color.red));
+                isAllGood = false;
+                binding.characterHeight.setText("");
             }
         }
-        if (binding.selectingSex.getCheckedRadioButtonId() == -1) {
-            binding.message.setText(String.format("%sВы не выбрали Ваш пол...\n", binding.message.getText().toString()));
-            bool = false;
+        if (binding.selectingGender.getCheckedRadioButtonId() == -1) {
+            binding.gender.setTextColor(getResources().getColor(R.color.red));
+            isAllGood = false;
         } else {
             if (binding.male.isChecked()) {
                 sharedPreferences.edit().putInt(Gender, 1).apply();
@@ -128,7 +144,7 @@ public class StartingInformationFragment extends Fragment {
                 sharedPreferences.edit().putInt(Gender, 2).apply();
             }
         }
-        if (bool) {
+        if (isAllGood) {
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
         }
     }

@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:padding="8dp"
         android:orientation="vertical">
 
         <TextView
@@ -20,24 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:fontFamily="@font/game_font1"
             android:textSize="32sp"
-            android:gravity="center"
-            android:text="Имя"/>
+            android:gravity="start"
+            android:text="Название"/>
 
-        <TextView
-            android:id="@+id/capabilityMeaning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:text="Значение"/>
-
-        <TextView
-            android:id="@+id/capabilityDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:text="Описание"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

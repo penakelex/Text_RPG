@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TopPanel.Person.Fragments.InventoryFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/game_font1"
+                android:gravity="center"
+                android:text="@string/inventory"
+                android:textColor="@color/black"
+                android:textSize="36sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/containerForItems"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/black_small_rectangle"
+                android:padding="2dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/inventory_item" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/black_small_rectangle"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemName"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/game_font1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="32sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/game_font1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/game_font1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/throwAway"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/buttons_background"
+                android:gravity="center"
+                android:text="@string/throw_away"
+                android:textColor="@color/golden_yellow"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

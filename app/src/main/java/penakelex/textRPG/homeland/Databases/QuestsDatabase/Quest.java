@@ -14,11 +14,11 @@ public class Quest {
     @PrimaryKey(autoGenerate = true)
     private int ID;
     @ColumnInfo(name = "stage")
-    private short stage;
+    private short stages;
 
-    public Quest(String name, short stage) {
+    public Quest(String name, short stages) {
         this.name = name;
-        this.stage = stage;
+        this.stages = stages;
 
     }
 
@@ -38,11 +38,11 @@ public class Quest {
         this.ID = ID;
     }
 
-    public short getStage() {
-        return stage;
+    public short getStages() {
+        return stages;
     }
 
-    public void setStage(short stage) {
-        this.stage = stage;
+    public void setStages(short stages) {
+        this.stages = stages;
     }
 }

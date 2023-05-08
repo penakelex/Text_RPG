@@ -1,6 +1,7 @@
 package penakelex.textRPG.homeland.Adapters.Inventory;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,24 @@ import penakelex.textRPG.homeland.databinding.InventoryItemBinding;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder> {
     private ArrayList<InventoryItemInformation> information = new ArrayList<>();
+    private OnInventoryItemClickListener clickListener;
+
+    public interface OnInventoryItemClickListener {
+        void onClickListener(String name, long ID, int position);
+    }
+
+    public InventoryAdapter(OnInventoryItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setInformation(InventoryDatabase inventoryDatabase) {
         List<InventoryItem> inventoryItems = inventoryDatabase.inventoryDao().getInventory(1);
         ArrayList<InventoryItemInformation> inventoryItemsInformation = new ArrayList<>();
-        for (int i = 0; i < inventoryItems.size(); i++)
+        for (int i = 0; i < inventoryItems.size(); i++) {
             inventoryItemsInformation.add(new InventoryItemInformation(inventoryItems.get(i).getName(), inventoryItems.get(i).getType(), inventoryItems.get(i).getPrimaryID()));
+            Log.d("primary ID", String.valueOf(inventoryItems.get(i).getPrimaryID()));
+        }
         this.information = (ArrayList<InventoryItemInformation>) inventoryItemsInformation.clone();
         notifyDataSetChanged();
     }
@@ -38,6 +50,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(information.get(position));
+        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getItemName(), information.get(position).getID(), position));
     }
 
     @Override

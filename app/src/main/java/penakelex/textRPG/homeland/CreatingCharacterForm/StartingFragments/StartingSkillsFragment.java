@@ -1,28 +1,26 @@
 package penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments;
 
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
+import static penakelex.textRPG.homeland.Main.Constants.Main_Skills;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import com.google.android.material.snackbar.Snackbar;
+
+import penakelex.textRPG.homeland.Adapters.StartingSkills.StartingSkillsAdapter;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
-import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelper;
 
-
-import java.util.Arrays;
 
 import penakelex.textRPG.homeland.Main.Constants;
 import penakelex.textRPG.homeland.R;
@@ -31,9 +29,70 @@ import penakelex.textRPG.homeland.databinding.FragmentStartingSkillsBinding;
 
 public class StartingSkillsFragment extends Fragment {
     private FragmentStartingSkillsBinding binding;
-    SkillsDatabaseHelper skillsDatabaseHelper;
-    CharacteristicsDatabaseHelper databaseHelper;
-    SQLiteDatabase skillDatabase, characteristicDatabase;
+    private StartingSkillsAdapter startingSkillsAdapter;
+    private boolean[] isMains;
+    private int currentPosition = -1;
+    private SharedPreferences sharedPreferences;
+    private StartingSkillsAdapter.OnSkillItemClickListener clickListener = new StartingSkillsAdapter.OnSkillItemClickListener() {
+        @Override
+        public void onClickListener(String name, int position) {
+            binding.skillName.setText(name);
+            switch (position) {
+                case 0:
+                    binding.skillDescription.setText(getResources().getString(R.string.light_weapons_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.light_weapons_base_value));
+                    break;
+                case 1:
+                    binding.skillDescription.setText(getResources().getString(R.string.heavy_weapons_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.heavy_weapons_base_value));
+                    break;
+
+                case 2:
+                    binding.skillDescription.setText(getResources().getString(R.string.melee_weapons_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.melee_weapons_base_value));
+                    break;
+
+                case 3:
+                    binding.skillDescription.setText(getResources().getString(R.string.communication_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.communication_base_value));
+                    break;
+
+                case 4:
+                    binding.skillDescription.setText(getResources().getString(R.string.trading_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.trading_base_value));
+                    break;
+
+                case 5:
+                    binding.skillDescription.setText(getResources().getString(R.string.survival_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.survival_base_value));
+                    break;
+
+                case 6:
+                    binding.skillDescription.setText(getResources().getString(R.string.medicine_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.medicine_base_value));
+                    break;
+
+                case 7:
+                    binding.skillDescription.setText(getResources().getString(R.string.science_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.science_base_value));
+                    break;
+
+                case 8:
+                    binding.skillDescription.setText(getResources().getString(R.string.repair_description));
+                    binding.skillBaseValue.setText(getResources().getString(R.string.repair_base_value));
+                    break;
+            }
+            currentPosition = position;
+            if (isMains == null) {
+                isMains = SkillsDatabase.getIsMains(new SkillsDatabaseHelper(getActivity()).getReadableDatabase());
+            }
+            if (isMains[position]) {
+                binding.chooseAsMainSkill.setText(getResources().getString(R.string.choose_as_not_main_skill));
+            } else {
+                binding.chooseAsMainSkill.setText(getResources().getString(R.string.choose_as_main_skill));
+            }
+        }
+    };
 
 
     @Override
@@ -46,26 +105,68 @@ public class StartingSkillsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        skillsDatabaseHelper = new SkillsDatabaseHelper(getActivity());
-        skillDatabase = skillsDatabaseHelper.getWritableDatabase();
-        databaseHelper = new CharacteristicsDatabaseHelper(getActivity());
-        characteristicDatabase = databaseHelper.getReadableDatabase();
-        settingSkillsInDatabase(skillDatabase, characteristicDatabase);
-        binding.lightWeapons.setOnClickListener(listener -> settingLightWeaponsInformation(skillDatabase));
-        binding.heavyWeapons.setOnClickListener(listener -> settingHeavyWeaponsInformation(skillDatabase));
-        binding.meleeWeapons.setOnClickListener(listener -> settingMeleeWeaponsInformation(skillDatabase));
-        binding.communication.setOnClickListener(listener -> settingCommunicationInformation(skillDatabase));
-        binding.trading.setOnClickListener(listener -> settingTradingInformation(skillDatabase));
-        binding.survival.setOnClickListener(listener -> settingSurvivalInformation(skillDatabase));
-        binding.medicine.setOnClickListener(listener -> settingMedicineInformation(skillDatabase));
-        binding.scince.setOnClickListener(listener -> settingScienceInformation(skillDatabase));
-        binding.repair.setOnClickListener(listener -> settingRepairInformation(skillDatabase));
-        binding.chooseAsMainSkill.setOnClickListener(listener -> choosingAsMainSkill(skillDatabase));
-        binding.buttonToAbilities.setOnClickListener(listener -> settingAbilitiesFragment());
-        binding.buttonToCharateristics.setOnClickListener(listener -> settingCharacteristicsFragment());
+        startingSkillsAdapter = new StartingSkillsAdapter(clickListener);
+        startingSkillsAdapter.setInformation(getActivity());
+        binding.containerForSSkills.setAdapter(startingSkillsAdapter);
+        setPointsInformation();
+        binding.chooseAsMainSkill.setOnClickListener(l -> choosingAsMainSkill());
+        binding.buttonToCharacteristics.setOnClickListener(l -> settingCharacteristicsFragment());
+        binding.buttonToTalents.setOnClickListener(l -> settingAbilitiesFragment());
+    }
+
+    private void choosingAsMainSkill() {
+        SQLiteDatabase skillsDatabase = new SkillsDatabaseHelper(getActivity()).getWritableDatabase();
+        sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        if (currentPosition != -1) {
+            if (isMains[currentPosition]) {
+                SkillsDatabase.setSkillNotIsMain(skillsDatabase, currentPosition + 1);
+                sharedPreferences.edit().putInt(Main_Skills, sharedPreferences.getInt(Main_Skills, 3) + 1).apply();
+                binding.chooseAsMainSkill.setText(getResources().getString(R.string.choose_as_main_skill));
+                isMains[currentPosition] = false;
+                setNewInformation();
+            } else if (sharedPreferences.getInt(Main_Skills, 3) >= 1) {
+                SkillsDatabase.setSkillIsMain(skillsDatabase, currentPosition + 1);
+                sharedPreferences.edit().putInt(Main_Skills, sharedPreferences.getInt(Main_Skills, 3) - 1).apply();
+                binding.chooseAsMainSkill.setText(getResources().getString(R.string.choose_as_not_main_skill));
+                isMains[currentPosition] = true;
+                setNewInformation();
+            } else {
+                Snackbar.make(binding.getRoot(), getResources().getString(R.string.not_enough_main_skills_points), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+            }
+        } else {
+            Snackbar.make(binding.getRoot(), getResources().getString(R.string.did_not_choosen_starting_skill), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+        }
+    }
+
+    private void setNewInformation() {
+        startingSkillsAdapter.setInformation(getActivity());
+        setPointsInformation();
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void setPointsInformation() {
+        sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        binding.skillsPoints.setText(String.format("%s %d", getResources().getString(R.string.rest_of_main_skills_points), sharedPreferences.getInt(Main_Skills, 3)));
     }
 
     private void settingCharacteristicsFragment() {
+        if (getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE).getInt(Constants.Main_Skills, 3) == 0) {
+            binding = null;
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
+        } else {
+            Snackbar.make(binding.getRoot(), getResources().getString(R.string.have_not_used_all_main_skills_points_yet), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+        }
+    }
+
+    private void settingAbilitiesFragment() {
+        if (getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE).getInt(Constants.Main_Skills, 3) == 0) {
+            binding = null;
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingTalentsFragment()).commit();
+        } else {
+            Snackbar.make(binding.getRoot(), getResources().getString(R.string.have_not_used_all_main_skills_points_yet), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+        }
+    }
+    /*private void settingCharacteristicsFragment() {
         if (getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE).getInt(Constants.Main_Skills, 3) == 0) {
             binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
@@ -359,5 +460,5 @@ public class StartingSkillsFragment extends Fragment {
 
     private boolean isNotAlreadyThatSkill(int ID) {
         return ID != getIdByText();
-    }
+    }*/
 }

@@ -19,16 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Имя"
-            android:gravity="center"
+            android:fontFamily="@font/game_font1"
+            android:gravity="start"
             android:textColor="@color/white"
-            android:textSize="32sp" />
-
-        <TextView
-            android:id="@+id/questStage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Прогресс"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="28sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

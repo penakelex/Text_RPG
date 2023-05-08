@@ -6,6 +6,7 @@
     android:backgroundTint="#18A85D"
     android:justificationMode="inter_word"
     android:textAllCaps="false"
+    android:fontFamily="@font/game_font1"
     android:textColor="@color/white_yellow"
     android:textSize="24sp">
 

@@ -9,45 +9,73 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import penakelex.textRPG.homeland.Adapters.StartingTalents.StartingTalentsInformation;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
-import penakelex.textRPG.homeland.Adapters.Talents.TalentInformation;
+import penakelex.textRPG.homeland.Adapters.Capabilities.CapabilitiesInformation;
 
 public class TalentsDatabase {
+    public static boolean[] getIsHaving(SQLiteDatabase database) {
+        ArrayList<Boolean> arrayList = new ArrayList<>();
+        boolean[] isHaving;
+        Cursor cursor = database.query(TalentsDatabaseHelper.Table_Talents, null, null, null, null, null, null);
+        int isHavingColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_Having);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(cursor.getInt(isHavingColumnIndex) == 1);
+        } while (cursor.moveToNext());
+        cursor.close();
+        isHaving = new boolean[arrayList.size()];
+        for (int i = 0; i < arrayList.size(); i++) isHaving[i] = arrayList.get(i);
+        return isHaving;
+    }
 
-    public static ArrayList<TalentInformation> getHavingTalents(Context context) {
+    public static ArrayList<StartingTalentsInformation> getStartingTalentsInformation(SQLiteDatabase database) {
+        ArrayList<StartingTalentsInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(TalentsDatabaseHelper.Table_Talents, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_Name),
+                isHavingColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_Having);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(new StartingTalentsInformation(cursor.getString(nameColumnIndex), cursor.getInt(isHavingColumnIndex) == 1));
+        } while (cursor.moveToNext());
+        cursor.close();
+        return arrayList;
+    }
+
+    public static ArrayList<CapabilitiesInformation> getHavingTalents(Context context) {
         Cursor cursor = new TalentsDatabaseHelper(context).getReadableDatabase().query(TalentsDatabaseHelper.Table_Talents, null, null, null, null, null, null);
         int isHavingColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_Having),
                 idColumnIndex = cursor.getColumnIndex(TalentsDatabaseHelper.KEY_ID), ID, count = 0;
-        ArrayList<TalentInformation> information = new ArrayList<>();
+        ArrayList<CapabilitiesInformation> information = new ArrayList<>();
         cursor.moveToFirst();
         do {
             if (cursor.getInt(isHavingColumnIndex) == 1) {
                 ID = cursor.getInt(idColumnIndex);
                 switch (ID) {
                     case 1:
-                        information.add(new TalentInformation("Певец", ID));
+                        information.add(new CapabilitiesInformation("Певец", ID));
                         break;
                     case 2:
-                        information.add(new TalentInformation("Бугай", ID));
+                        information.add(new CapabilitiesInformation("Бугай", ID));
                         break;
                     case 3:
-                        information.add(new TalentInformation("Сильный удар", ID));
+                        information.add(new CapabilitiesInformation("Сильный удар", ID));
                         break;
                     case 4:
-                        information.add(new TalentInformation("Опытный", ID));
+                        information.add(new CapabilitiesInformation("Опытный", ID));
                         break;
                     case 5:
-                        information.add(new TalentInformation("Натренированный", ID));
+                        information.add(new CapabilitiesInformation("Натренированный", ID));
                         break;
                     case 6:
-                        information.add(new TalentInformation("Тяжеловес", ID));
+                        information.add(new CapabilitiesInformation("Тяжеловес", ID));
                         break;
                     case 7:
-                        information.add(new TalentInformation("Добрый малый", ID));
+                        information.add(new CapabilitiesInformation("Добрый малый", ID));
                         break;
                 }
                 count++;
@@ -357,7 +385,7 @@ public class TalentsDatabase {
         return isAllGood;
     }
 
-    public static void settingStartingValuesInDatabase(SQLiteDatabase database) {
+    public static void settingStartingValuesInDatabase(SQLiteDatabase database, String[] names) {
         database.delete(TalentsDatabaseHelper.Table_Talents, null, null);
         ContentValues contentValues1 = new ContentValues(),
                 contentValues2 = new ContentValues(), contentValues3 = new ContentValues(),
@@ -372,13 +400,13 @@ public class TalentsDatabase {
         contentValues6.put(TalentsDatabaseHelper.KEY_ID, 6);
         contentValues7.put(TalentsDatabaseHelper.KEY_ID, 7);
 
-        contentValues1.put(TalentsDatabaseHelper.KEY_Name, "singer");
-        contentValues2.put(TalentsDatabaseHelper.KEY_Name, "bull");
-        contentValues3.put(TalentsDatabaseHelper.KEY_Name, "strongKick");
-        contentValues4.put(TalentsDatabaseHelper.KEY_Name, "experienced");
-        contentValues5.put(TalentsDatabaseHelper.KEY_Name, "trained");
-        contentValues6.put(TalentsDatabaseHelper.KEY_Name, "heavyweight");
-        contentValues7.put(TalentsDatabaseHelper.KEY_Name, "kindOne");
+        contentValues1.put(TalentsDatabaseHelper.KEY_Name, names[0]);
+        contentValues2.put(TalentsDatabaseHelper.KEY_Name, names[1]);
+        contentValues3.put(TalentsDatabaseHelper.KEY_Name, names[2]);
+        contentValues4.put(TalentsDatabaseHelper.KEY_Name, names[3]);
+        contentValues5.put(TalentsDatabaseHelper.KEY_Name, names[4]);
+        contentValues6.put(TalentsDatabaseHelper.KEY_Name, names[5]);
+        contentValues7.put(TalentsDatabaseHelper.KEY_Name, names[6]);
 
         contentValues1.put(TalentsDatabaseHelper.KEY_Having, 0);
         contentValues2.put(TalentsDatabaseHelper.KEY_Having, 0);

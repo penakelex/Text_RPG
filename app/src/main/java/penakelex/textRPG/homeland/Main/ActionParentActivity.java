@@ -32,6 +32,7 @@ public class ActionParentActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         String name = sharedPreferences.getString(Main_Character_Name, "");
         toolbar.setTitleTextColor(Color.parseColor("#EFDB3D"));
+        toolbar.setTitleTextAppearance(this, R.style.gameFont);
         if (name.equals("")) {
             toolbar.setTitle("");
         } else {

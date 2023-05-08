@@ -9,16 +9,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="4dp">
 
         <TextView
             android:id="@+id/skillName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1.4"
             android:gravity="center|start"
+            android:layout_gravity="center"
+            android:fontFamily="@font/game_font1"
+            android:layout_margin="2dp"
             android:text="Название"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -29,25 +32,41 @@
             android:layout_height="match_parent"
             android:layout_weight="1.9"
             android:gravity="end|center"
+            android:fontFamily="@font/game_font1"
             android:text="0-100"
+            android:layout_margin="2dp"
             android:textColor="@color/black"
             android:textSize="24sp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/raiseSkill"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:backgroundTint="@color/blue_green"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.1"
+            android:layout_gravity="center"
+            android:fontFamily="@font/game_font1"
+            android:background="@drawable/buttons_background"
             android:contentDescription="@null"
-            android:src="@drawable/plus_one" />
+            android:gravity="center"
+            android:layout_margin="2dp"
+            android:text="@string/plus_one"
+            android:textColor="@color/golden_yellow"
+            android:textSize="24sp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/downgradeSkill"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:backgroundTint="@color/blue_green"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.1"
+            android:layout_margin="2dp"
+            android:fontFamily="@font/game_font1"
+            android:layout_gravity="center"
+            android:background="@drawable/buttons_background"
             android:contentDescription="@null"
-            android:src="@drawable/minus_one" />
+            android:gravity="center"
+            android:text="@string/minus_one"
+            android:textColor="@color/golden_yellow"
+            android:textSize="24sp" />
 
     </LinearLayout>
 

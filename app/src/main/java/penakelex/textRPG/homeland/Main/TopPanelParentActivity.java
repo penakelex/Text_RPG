@@ -70,6 +70,7 @@ public class TopPanelParentActivity extends ActionParentActivity {
     public void handlingToolBar(Toolbar toolbar) {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         toolbar.setTitleTextColor(getResources().getColor(R.color.golden_yellow));
+        toolbar.setTitleTextAppearance(this, R.style.gameFont);
         switch (sharedPreferences.getInt(Current_Top_Panel_Activity, 0)) {
             case 1:
                 toolbar.setTitle(getResources().getString(R.string.you));

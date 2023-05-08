@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/buttons_background"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/game_font1"
+        android:text="@string/r_u_sure_that_u_want_to_end_that"
+        android:textColor="@color/golden_yellow"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/endingFormYesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/game_font1"
+            android:gravity="center"
+            android:text="@string/yes_i_m_sure"
+            android:textColor="@color/golden_yellow"
+            android:textSize="24sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/endingFormNoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/game_font1"
+            android:gravity="center"
+            android:text="@string/no_i_m_not_sure"
+            android:textColor="@color/golden_yellow"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -17,7 +17,7 @@ public interface InventoryDao {
     void insertItem(InventoryItem item);
 
     @Delete
-    void throwAwayItem(InventoryItem item);
+    void throwAwayItem(InventoryItem inventoryItem);
 
     @Query("UPDATE inventory SET owner_id=:ownerID, price=:newPrice WHERE primary_id=:ID")
     void changeOwner(int ownerID, int newPrice, long ID);
@@ -27,4 +27,7 @@ public interface InventoryDao {
 
     @Query("DELETE FROM inventory")
     void deleteAll();
+
+    @Query("SELECT * FROM inventory WHERE primary_id=:ID")
+    InventoryItem getItem(long ID);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -9,31 +9,36 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:targetApi="31">
+        tools:targetApi="31" >
         <activity
-            android:name="penakelex.textRPG.homeland.TopPanel.Menu.MenuActivity"
+            android:name=".AllStarting.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.TextRPG" />
+        <activity
+            android:name=".TopPanel.Menu.MenuActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name="penakelex.textRPG.homeland.TopPanel.Quests.QuestsActivity"
+            android:name=".TopPanel.Quests.QuestsActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name="penakelex.textRPG.homeland.TopPanel.Person.PersonActivity"
+            android:name=".TopPanel.Person.PersonActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name="penakelex.textRPG.homeland.Map.ActivityLocalMap"
+            android:name=".Map.ActivityLocalMap"
             android:exported="false" />
         <activity
-            android:name="penakelex.textRPG.homeland.AllStarting.GameStartingActivity"
+            android:name=".AllStarting.GameStartingActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.TextRPG">
+            android:theme="@style/Theme.TextRPG" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,54 +46,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter"
+            android:name=".CreatingCharacterForm.CreatingCharacter"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name="penakelex.textRPG.homeland.Dialogs.DialogActivity"
+            android:name=".Dialogs.DialogActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.TextRPG" />
         <activity
-            android:name="penakelex.textRPG.homeland.Map.Map"
+            android:name=".Map.Map"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.TextRPG">
+            android:theme="@style/Theme.TextRPG" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="penakelex.textRPG.homeland.Activities.Credits"
+            android:name=".Activities.Credits"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.TextRPG">
+            android:theme="@style/Theme.TextRPG" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="penakelex.textRPG.homeland.AllStarting.GameLoad"
+            android:name=".AllStarting.GameLoad"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/title_activity_game_load"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.TextRPG">
+            android:theme="@style/Theme.TextRPG" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="penakelex.textRPG.homeland.AllStarting.MainMenu"
+            android:name=".AllStarting.MainMenu"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.TextRPG">
+            android:theme="@style/Theme.TextRPG" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

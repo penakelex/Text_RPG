@@ -33,6 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:fontFamily="@font/game_font1"
                     android:justificationMode="inter_word"
                     android:textColor="@color/white_yellow"
                     android:textSize="32sp" />
@@ -64,6 +65,7 @@
                         android:layout_gravity="start"
                         android:justificationMode="inter_word"
                         android:gravity="start"
+                        android:fontFamily="@font/game_font1"
                         android:textColor="@color/white_yellow"
                         android:textSize="24sp" />
                 </ScrollView>

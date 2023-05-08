@@ -8,9 +8,38 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
+import penakelex.textRPG.homeland.Adapters.Characteristics.CharacteristicInformation;
+import penakelex.textRPG.homeland.Adapters.StartingCharacteristics.StartingCharacteristicInformation;
 import penakelex.textRPG.homeland.Main.Constants;
 
 public class CharacteristicsDatabase {
+
+    public static ArrayList<StartingCharacteristicInformation> getStartingCharacteristicsInformation(SQLiteDatabase database) {
+        ArrayList<StartingCharacteristicInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Name),
+                valueColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(new StartingCharacteristicInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
+        } while (cursor.moveToNext());
+        cursor.close();
+        return arrayList;
+    }
+
+    public static ArrayList<CharacteristicInformation> getCharacteristicsInformation(SQLiteDatabase database) {
+        ArrayList<CharacteristicInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Name),
+                valueColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(new CharacteristicInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
+        } while (cursor.moveToNext());
+        cursor.close();
+        return arrayList;
+    }
+
     public static int[] getCharacteristicsValues(SQLiteDatabase database) {
         int valueColumnIndex;
         ArrayList<Integer> list = new ArrayList<>();
@@ -99,10 +128,10 @@ public class CharacteristicsDatabase {
                         ID));
                 return 1;
             } else return 2;
-        } else  return 3;
+        } else return 3;
     }
 
-    public static void settingStartValuesInDatabase(SQLiteDatabase database) {
+    public static void settingStartValuesInDatabase(SQLiteDatabase database, String[] names) {
         database.delete(CharacteristicsDatabaseHelper.Table_Characteristics, null, null);
 
         ContentValues contentValuesStrength = new ContentValues(),
@@ -114,31 +143,31 @@ public class CharacteristicsDatabase {
                 contentValuesAttractiveness = new ContentValues();
 
         contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_ID, 1);
-        contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_Name, "strength");
+        contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_Name, names[0]);
         contentValuesStrength.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_ID, 2);
-        contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_Name, "physique");
+        contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_Name, names[1]);
         contentValuesPhysique.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_ID, 3);
-        contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_Name, "dexterity");
+        contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_Name, names[2]);
         contentValuesDexterity.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_ID, 4);
-        contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_Name, "mentality");
+        contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_Name, names[3]);
         contentValuesMentality.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_ID, 5);
-        contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_Name, "luckiness");
+        contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_Name, names[4]);
         contentValuesLuckiness.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_ID, 6);
-        contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_Name, "watchfulness");
+        contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_Name, names[5]);
         contentValuesWatchfulness.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_ID, 7);
-        contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_Name, "attractiveness");
+        contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_Name, names[6]);
         contentValuesAttractiveness.put(CharacteristicsDatabaseHelper.KEY_Value, 2);
 
         database.insert(CharacteristicsDatabaseHelper.Table_Characteristics, null, contentValuesStrength);

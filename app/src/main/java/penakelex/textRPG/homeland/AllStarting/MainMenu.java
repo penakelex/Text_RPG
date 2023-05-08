@@ -7,6 +7,8 @@ import static penakelex.textRPG.homeland.Main.Constants.Is_Game_Started;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,6 +26,9 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainMenuBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         binding.createNewOne.setOnClickListener(l -> staringNewGame());
         binding.load.setOnClickListener(l -> loading());

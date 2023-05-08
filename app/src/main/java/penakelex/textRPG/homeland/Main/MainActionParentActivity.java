@@ -30,18 +30,18 @@ public class MainActionParentActivity extends ActionParentActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         switch (item.getItemId()) {
             case R.id.personToolBar:
                 if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
-                    toolbar.setTitle("*Вы*");
+                    toolbar.setTitle(getResources().getString(R.string.you8));
                 } else {
                     startActivity(new Intent(this, PersonActivity.class));
                 }
                 break;
             case R.id.questsToolBar:
                 if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
-                    toolbar.setTitle("*Заметки*");
+                    toolbar.setTitle(getResources().getString(R.string.notes8));
                 } else {
                     startActivity(new Intent(this, QuestsActivity.class));
                 }

@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -28,6 +30,8 @@ public class CreatingCharacter extends MainActionParentActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCreatingCharacterBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);

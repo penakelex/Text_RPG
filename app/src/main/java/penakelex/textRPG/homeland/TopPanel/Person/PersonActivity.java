@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class PersonActivity extends TopPanelParentActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPersonBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar1);
         setSupportActionBar(toolbar);
@@ -45,8 +47,6 @@ public class PersonActivity extends TopPanelParentActivity {
         sharedPreferences.edit().putInt(Current_Top_Panel_Activity, 1).apply();
         handlingToolBar(toolbar);
         toolbar.setNavigationOnClickListener(listener -> onBackPressed());
-        binding.name.setText(String.format("Ваше имя: %s.", sharedPreferences.getString(Main_Character_Name, "")));
-        binding.age.setText(String.format("Ваш возраст: %d.", sharedPreferences.getInt(Main_Character_Age, 0)));
         binding.level.setText(String.format("Ваш уровень: %d. Опыт: %d. До следующего уровня: %d.", sharedPreferences.getInt(Level, 0), sharedPreferences.getInt(Experience, 0), getUntilNextLevelXP(sharedPreferences.getInt(Experience, 0))));
         settingStartFragment();
         binding.navigationView.setOnItemSelectedListener(item -> {

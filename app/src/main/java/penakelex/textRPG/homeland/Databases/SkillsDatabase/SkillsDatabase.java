@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import penakelex.textRPG.homeland.Adapters.Skills.SkillInformation;
+import penakelex.textRPG.homeland.Adapters.StartingSkills.StartingSkillInformation;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
 
@@ -13,17 +15,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SkillsDatabase {
+
+    public static ArrayList<SkillInformation> getSkillsInformation(SQLiteDatabase database) {
+        ArrayList<SkillInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Name),
+                valueColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Value);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(new SkillInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
+        } while (cursor.moveToNext());
+        cursor.close();
+        return arrayList;
+    }
+
+    public static ArrayList<StartingSkillInformation> getStartingSkillsInformation(SQLiteDatabase database) {
+        ArrayList<StartingSkillInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(SkillsDatabaseHelper.Table_Skills, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Name),
+                isMainColumnIndex = cursor.getColumnIndex(SkillsDatabaseHelper.KEY_Is_Main);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(new StartingSkillInformation(cursor.getString(nameColumnIndex), cursor.getInt(isMainColumnIndex) == 1));
+        } while (cursor.moveToNext());
+        cursor.close();
+        return arrayList;
+    }
+
     @SuppressLint("DefaultLocale")
-    public static void updateSkillsValues(SQLiteDatabase skillsDatabase, int[] skillsValues) {
-        for (int i = 0; i < skillsValues.length; i++) {
+    public static void updateSkillsValues(SQLiteDatabase skillsDatabase, ArrayList<Integer> skillsValues) {
+        for (int i = 0; i < skillsValues.size(); i++) {
             skillsDatabase.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s = %s",
                     SkillsDatabaseHelper.Table_Skills,
                     SkillsDatabaseHelper.KEY_Value,
-                    skillsValues[i],
+                    skillsValues.get(i),
                     SkillsDatabaseHelper.KEY_ID,
                     i + 1));
         }
-        Log.d("new skills` values", Arrays.toString(getSkillValues(skillsDatabase)));
     }
 
     @SuppressLint("DefaultLocale")
@@ -227,7 +255,7 @@ public class SkillsDatabase {
         return isMains;
     }
 
-    public static void settingStartingSkillsInDatabase(SQLiteDatabase skillsDatabase, SQLiteDatabase characteristicsDatabase) {
+    public static void settingStartingSkillsInDatabase(SQLiteDatabase skillsDatabase, SQLiteDatabase characteristicsDatabase, String[] names) {
         skillsDatabase.delete(SkillsDatabaseHelper.Table_Skills, null, null);
         int[] values = CharacteristicsDatabase.getCharacteristicsValues(characteristicsDatabase);
         int strength = values[0], physique = values[1], dexterity = values[2], mentality = values[3],
@@ -240,47 +268,47 @@ public class SkillsDatabase {
                 contentValues9 = new ContentValues();
 
         contentValues1.put(SkillsDatabaseHelper.KEY_ID, 1);
-        contentValues1.put(SkillsDatabaseHelper.KEY_Name, "light weapons");
+        contentValues1.put(SkillsDatabaseHelper.KEY_Name, names[0]);
         contentValues1.put(SkillsDatabaseHelper.KEY_Value, watchfulness * 2 + luckiness + physique + 10);
         contentValues1.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues2.put(SkillsDatabaseHelper.KEY_ID, 2);
-        contentValues2.put(SkillsDatabaseHelper.KEY_Name, "heavy weapons");
+        contentValues2.put(SkillsDatabaseHelper.KEY_Name, names[1]);
         contentValues2.put(SkillsDatabaseHelper.KEY_Value, strength * 2 + watchfulness + luckiness + 10);
         contentValues2.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues3.put(SkillsDatabaseHelper.KEY_ID, 3);
-        contentValues3.put(SkillsDatabaseHelper.KEY_Name, "melee weapons");
+        contentValues3.put(SkillsDatabaseHelper.KEY_Name, names[2]);
         contentValues3.put(SkillsDatabaseHelper.KEY_Value, watchfulness + luckiness + physique + strength * 2 + 10);
         contentValues3.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues4.put(SkillsDatabaseHelper.KEY_ID, 4);
-        contentValues4.put(SkillsDatabaseHelper.KEY_Name, "communication");
+        contentValues4.put(SkillsDatabaseHelper.KEY_Name, names[3]);
         contentValues4.put(SkillsDatabaseHelper.KEY_Value, attractiveness * 3 + luckiness + mentality + 10);
         contentValues4.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues5.put(SkillsDatabaseHelper.KEY_ID, 5);
-        contentValues5.put(SkillsDatabaseHelper.KEY_Name, "trading");
+        contentValues5.put(SkillsDatabaseHelper.KEY_Name, names[4]);
         contentValues5.put(SkillsDatabaseHelper.KEY_Value, attractiveness * 3 + watchfulness + 10);
         contentValues5.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues6.put(SkillsDatabaseHelper.KEY_ID, 6);
-        contentValues6.put(SkillsDatabaseHelper.KEY_Name, "survival");
+        contentValues6.put(SkillsDatabaseHelper.KEY_Name, names[5]);
         contentValues6.put(SkillsDatabaseHelper.KEY_Value, physique * 2 + dexterity + mentality + 10);
         contentValues6.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues7.put(SkillsDatabaseHelper.KEY_ID, 7);
-        contentValues7.put(SkillsDatabaseHelper.KEY_Name, "medicine");
+        contentValues7.put(SkillsDatabaseHelper.KEY_Name, names[6]);
         contentValues7.put(SkillsDatabaseHelper.KEY_Value, mentality * 2 + watchfulness + 10);
         contentValues7.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues8.put(SkillsDatabaseHelper.KEY_ID, 8);
-        contentValues8.put(SkillsDatabaseHelper.KEY_Name, "science");
+        contentValues8.put(SkillsDatabaseHelper.KEY_Name, names[7]);
         contentValues8.put(SkillsDatabaseHelper.KEY_Value, mentality * 2 + watchfulness + 10);
         contentValues8.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
         contentValues9.put(SkillsDatabaseHelper.KEY_ID, 9);
-        contentValues9.put(SkillsDatabaseHelper.KEY_Name, "repair");
+        contentValues9.put(SkillsDatabaseHelper.KEY_Name, names[8]);
         contentValues9.put(SkillsDatabaseHelper.KEY_Value, mentality * 2 + watchfulness + dexterity + 10);
         contentValues9.put(SkillsDatabaseHelper.KEY_Is_Main, 0);
 
