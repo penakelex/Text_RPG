@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
+import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryItem;
 import penakelex.textRPG.homeland.databinding.InventoryItemBinding;
 
@@ -21,7 +22,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     private OnInventoryItemClickListener clickListener;
 
     public interface OnInventoryItemClickListener {
-        void onClickListener(String name, long ID, int position);
+        void onClickListener(long primaryID, int ID);
     }
 
     public InventoryAdapter(OnInventoryItemClickListener clickListener) {
@@ -32,10 +33,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     public void setInformation(InventoryDatabase inventoryDatabase) {
         List<InventoryItem> inventoryItems = inventoryDatabase.inventoryDao().getInventory(1);
         ArrayList<InventoryItemInformation> inventoryItemsInformation = new ArrayList<>();
-        for (int i = 0; i < inventoryItems.size(); i++) {
-            inventoryItemsInformation.add(new InventoryItemInformation(inventoryItems.get(i).getName(), inventoryItems.get(i).getType(), inventoryItems.get(i).getPrimaryID()));
-            Log.d("primary ID", String.valueOf(inventoryItems.get(i).getPrimaryID()));
-        }
+        for (int i = 0; i < inventoryItems.size(); i++)
+            inventoryItemsInformation.add(new InventoryItemInformation(inventoryItems.get(i).getId(), inventoryItems.get(i).getPrimaryID()));
         this.information = (ArrayList<InventoryItemInformation>) inventoryItemsInformation.clone();
         notifyDataSetChanged();
     }
@@ -50,7 +49,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(information.get(position));
-        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getItemName(), information.get(position).getID(), position));
+        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getPrimaryID(), information.get(position).getID()));
     }
 
     @Override
@@ -67,8 +66,9 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         }
 
         public void bind(InventoryItemInformation inventoryItemInformation) {
-            binding.itemName.setText(inventoryItemInformation.getItemName());
-            binding.itemType.setText(inventoryItemInformation.getType());
+            String[] itemInformation = InventoryDatabaseHelper.getInventoryItemShortInformation(itemView.getContext(), inventoryItemInformation.getID());
+            binding.itemName.setText(itemInformation[0]);
+            binding.itemType.setText(itemInformation[1]);
         }
     }
 }

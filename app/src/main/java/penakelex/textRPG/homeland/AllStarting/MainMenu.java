@@ -1,5 +1,6 @@
 package penakelex.textRPG.homeland.AllStarting;
 
+import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
 import static penakelex.textRPG.homeland.Main.Constants.Is_Game_Started;
@@ -13,13 +14,18 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import penakelex.textRPG.homeland.Activities.Credits;
+import com.google.android.material.snackbar.Snackbar;
+
+import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
+import penakelex.textRPG.homeland.Map.ActivityLocalMap;
 import penakelex.textRPG.homeland.Map.Map;
+import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ActivityMainMenuBinding;
 
 public class MainMenu extends AppCompatActivity {
     private ActivityMainMenuBinding binding;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +40,6 @@ public class MainMenu extends AppCompatActivity {
         binding.load.setOnClickListener(l -> loading());
         binding.exit.setOnClickListener(l -> closingGame());
         binding.credits.setOnClickListener(l -> startActivity(new Intent(MainMenu.this, Credits.class)));
-        //binding.map.setOnClickListener(listener -> startActivity(new Intent(MainMenu.this, Map.class)));
     }
 
 
@@ -45,7 +50,7 @@ public class MainMenu extends AppCompatActivity {
 
     private void loading() {
         binding = null;
-        startActivity(new Intent(MainMenu.this, GameLoad.class));
+        settingLastActivity();
         finish();
     }
 
@@ -58,6 +63,29 @@ public class MainMenu extends AppCompatActivity {
             binding = null;
             startActivity(new Intent(MainMenu.this, DialogActivity.class));
             finish();
+        }
+    }
+    private void settingLastActivity() {
+        sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
+        switch (sharedPreferences.getInt(Current_Activity, 0)) {
+            case 1:
+                startActivity(new Intent(this, CreatingCharacter.class));
+                finish();
+                break;
+            case 2:
+                startActivity(new Intent(this, Map.class));
+                finish();
+                break;
+            case 3:
+                startActivity(new Intent(this, DialogActivity.class));
+                finish();
+                break;
+            case 4:
+                startActivity(new Intent(this, ActivityLocalMap.class));
+                finish();
+                break;
+            default:
+                Snackbar.make(binding.getRoot(), getResources().getString(R.string.you_havent_started_game_yet), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }
     }
 }

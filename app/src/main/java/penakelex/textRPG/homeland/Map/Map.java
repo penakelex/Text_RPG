@@ -149,50 +149,50 @@ public class Map extends AppCompatActivity {
         switch (sharedPreferences.getInt(Global_Map_Location, Global_Map_Location_Def_Value)) {
             case 1: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 4).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_4()).commit();
-                activityMapBinding.information.setText(Going_To_West);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_4()).commit();
+                //activityMapBinding.information.setText(Going_To_West);
                 activityMapBinding.currentLocation.setText(Current_Locaton_West);
             }
             break;
             case 2: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 5).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_5()).commit();
-                activityMapBinding.information.setText(Going_To_Center);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_5()).commit();
+                //activityMapBinding.information.setText(Going_To_Center);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Center);
             }
             break;
             case 3: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 6).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_6()).commit();
-                activityMapBinding.information.setText(Going_To_East);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_6()).commit();
+                //activityMapBinding.information.setText(Going_To_East);
                 activityMapBinding.currentLocation.setText(Current_Locaton_East);
             }
             break;
             case 4: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 7).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_7()).commit();
-                activityMapBinding.information.setText(Going_To_Northwest);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_7()).commit();
+                //activityMapBinding.information.setText(Going_To_Northwest);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Northwest);
             }
             break;
             case 5: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 8).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_8()).commit();
-                activityMapBinding.information.setText(Going_To_North);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_8()).commit();
+                //activityMapBinding.information.setText(Going_To_North);
                 activityMapBinding.currentLocation.setText(Current_Locaton_North);
             }
             break;
             case 6: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 9).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_9()).commit();
-                activityMapBinding.information.setText(Going_To_Northeast);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_9()).commit();
+                //activityMapBinding.information.setText(Going_To_Northeast);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Northeast);
             }
             break;
             case 7:
             case 8:
             case 9:
-                activityMapBinding.information.setText(Can_Not_Do_That_1);
+                //activityMapBinding.information.setText(Can_Not_Do_That_1);
         }
     }
 
@@ -202,47 +202,47 @@ public class Map extends AppCompatActivity {
             case 1:
             case 2:
             case 3:
-                activityMapBinding.information.setText(Can_Not_Do_That_1);
+                //activityMapBinding.information.setText(Can_Not_Do_That_1);
                 break;
             case 4: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 1).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_1()).commit();
-                activityMapBinding.information.setText(Going_To_Southwest);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_1()).commit();
+                //activityMapBinding.information.setText(Going_To_Southwest);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Southwest);
             }
             break;
             case 5: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 2).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_2()).commit();
-                activityMapBinding.information.setText(Going_To_South);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_2()).commit();
+                //activityMapBinding.information.setText(Going_To_South);
                 activityMapBinding.currentLocation.setText(Current_Locaton_South);
             }
             break;
             case 6: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 3).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_3()).commit();
-                activityMapBinding.information.setText(Going_To_Southeast);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_3()).commit();
+                //activityMapBinding.information.setText(Going_To_Southeast);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Southeast);
             }
             break;
             case 7: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 4).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_4()).commit();
-                activityMapBinding.information.setText(Going_To_West);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_4()).commit();
+                //activityMapBinding.information.setText(Going_To_West);
                 activityMapBinding.currentLocation.setText(Current_Locaton_West);
             }
             break;
             case 8: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 5).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_5()).commit();
-                activityMapBinding.information.setText(Going_To_Center);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_5()).commit();
+                //activityMapBinding.information.setText(Going_To_Center);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Center);
             }
             break;
             case 9: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 6).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.linearLayout, new GlobalMapFragment_6()).commit();
-                activityMapBinding.information.setText(Going_To_East);
+                getSupportFragmentManager().beginTransaction().replace(activityMapBinding.containerForMapFragments.getId(), new GlobalMapFragment_6()).commit();
+                //activityMapBinding.information.setText(Going_To_East);
                 activityMapBinding.currentLocation.setText(Current_Locaton_East);
             }
             break;
@@ -251,52 +251,52 @@ public class Map extends AppCompatActivity {
 
     private void changingFieldEast() {
         sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
-        int container = R.id.linearLayout;
+        int container = activityMapBinding.containerForMapFragments.getId();
         switch (sharedPreferences.getInt(Global_Map_Location, 1)) {
             case 1: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 2).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_2()).commit();
-                activityMapBinding.information.setText(Going_To_South);
+                //activityMapBinding.information.setText(Going_To_South);
                 activityMapBinding.currentLocation.setText(Current_Locaton_South);
             }
             break;
             case 2: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 3).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_3()).commit();
-                activityMapBinding.information.setText(Going_To_Southeast);
+                //activityMapBinding.information.setText(Going_To_Southeast);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Southeast);
             }
             break;
             case 3:
             case 6:
             case 9:
-                activityMapBinding.information.setText(Can_Not_Do_That_2);
+                //activityMapBinding.information.setText(Can_Not_Do_That_2);
                 break;
             case 4: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 5).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_5()).commit();
-                activityMapBinding.information.setText(Going_To_West);
+                //activityMapBinding.information.setText(Going_To_West);
                 activityMapBinding.currentLocation.setText(Current_Locaton_West);
             }
             break;
             case 5: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 6).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_6()).commit();
-                activityMapBinding.information.setText(Going_To_Center);
+                //activityMapBinding.information.setText(Going_To_Center);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Center);
             }
             break;
             case 7: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 8).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_8()).commit();
-                activityMapBinding.information.setText(Going_To_North);
+                //activityMapBinding.information.setText(Going_To_North);
                 activityMapBinding.currentLocation.setText(Current_Locaton_North);
             }
             break;
             case 8: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 9).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_9()).commit();
-                activityMapBinding.information.setText(Going_To_Northeast);
+                //activityMapBinding.information.setText(Going_To_Northeast);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Northeast);
             }
             break;
@@ -305,52 +305,52 @@ public class Map extends AppCompatActivity {
 
     private void changingFieldWest() {
         sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
-        int container = R.id.linearLayout;
+        int container = activityMapBinding.containerForMapFragments.getId();
         switch (sharedPreferences.getInt(Global_Map_Location, Global_Map_Location_Def_Value)) {
             case 1:
             case 4:
             case 7:
-                activityMapBinding.information.setText(Can_Not_Do_That_2);
+               // activityMapBinding.information.setText(Can_Not_Do_That_2);
                 break;
             case 2: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 1).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_1()).commit();
-                activityMapBinding.information.setText(Going_To_Southwest);
+               // activityMapBinding.information.setText(Going_To_Southwest);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Southwest);
             }
             break;
             case 3: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 2).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_2()).commit();
-                activityMapBinding.information.setText(Going_To_South);
+                //activityMapBinding.information.setText(Going_To_South);
                 activityMapBinding.currentLocation.setText(Current_Locaton_South);
             }
             break;
             case 5: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 4).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_4()).commit();
-                activityMapBinding.information.setText(Going_To_West);
+                //activityMapBinding.information.setText(Going_To_West);
                 activityMapBinding.currentLocation.setText(Current_Locaton_West);
             }
             break;
             case 6: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 5).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_5()).commit();
-                activityMapBinding.information.setText(Going_To_Center);
+                //activityMapBinding.information.setText(Going_To_Center);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Center);
             }
             break;
             case 8: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 7).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_7()).commit();
-                activityMapBinding.information.setText(Going_To_Northwest);
+               // activityMapBinding.information.setText(Going_To_Northwest);
                 activityMapBinding.currentLocation.setText(Current_Locaton_Northwest);
             }
             break;
             case 9: {
                 sharedPreferences.edit().putInt(Global_Map_Location, 8).apply();
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_8()).commit();
-                activityMapBinding.information.setText(Going_To_North);
+                //activityMapBinding.information.setText(Going_To_North);
                 activityMapBinding.currentLocation.setText(Current_Locaton_North);
             }
             break;
@@ -358,11 +358,11 @@ public class Map extends AppCompatActivity {
     }
 
     private void startLocation() {
-        int container = R.id.linearLayout;
+        int container = activityMapBinding.containerForMapFragments.getId();
         sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(Starting, true).apply();
-        if (activityMapBinding.information.getText().equals("") || activityMapBinding.information.getText() == null)
-            activityMapBinding.information.setText(Not_Going_Yet);
+        //if (activityMapBinding.information.getText().equals("") || activityMapBinding.information.getText() == null)
+        //    activityMapBinding.information.setText(Not_Going_Yet);
         switch (sharedPreferences.getInt(Global_Map_Location, 1)) {
             case 1: {
                 getSupportFragmentManager().beginTransaction().replace(container, new GlobalMapFragment_1()).addToBackStack(null).commit();

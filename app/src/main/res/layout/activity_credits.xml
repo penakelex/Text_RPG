@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="4dp"
-    tools:context="penakelex.textRPG.homeland.Activities.Credits">
+    tools:context="penakelex.textRPG.homeland.AllStarting.Credits">
 
     <ScrollView
         android:layout_width="match_parent"

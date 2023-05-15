@@ -26,6 +26,7 @@ import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.Characterist
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
+import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelper;
 import penakelex.textRPG.homeland.Main.MainActionParentActivity;
 import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
@@ -74,6 +75,9 @@ public class DialogActivity extends MainActionParentActivity {
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, false).
                         putInt(ID_Dialog, 1).apply();
                 binding = null;
+                CharacteristicsDatabase.settingStartValuesInDatabase(new CharacteristicsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.strength),getResources().getString(R.string.physique), getResources().getString(R.string.dexterity), getResources().getString(R.string.mentality), getResources().getString(R.string.luckiness), getResources().getString(R.string.watchfulness), getResources().getString(R.string.attractiveness)});
+                SkillsDatabase.settingStartingSkillsInDatabase(new SkillsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), new String[]{getResources().getString(R.string.lightWeapons), getResources().getString(R.string.heavyWeapons), getResources().getString(R.string.meleeWeapons), getResources().getString(R.string.communication), getResources().getString(R.string.trading), getResources().getString(R.string.survival), getResources().getString(R.string.medicine), getResources().getString(R.string.scince), getResources().getString(R.string.repair)});
+                TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight),getResources().getString(R.string.kind_one)});
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 finish();
                 break;
@@ -141,7 +145,7 @@ public class DialogActivity extends MainActionParentActivity {
             if (checkingParameter != -1) {
                 int checkingValue;
                 if (checkingParameter >= 1 && checkingParameter <= 7) {
-                    checkingValue = CharacteristicsDatabase.getNewValue(new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), checkingParameter);
+                    checkingValue = CharacteristicsDatabase.getValue(new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), checkingParameter);
 
                 } else if (checkingParameter >= 8 && checkingParameter <= 16) {
                     checkingParameter -= 7;
@@ -166,6 +170,9 @@ public class DialogActivity extends MainActionParentActivity {
         switch (image) {
             case 1:
                 binding.imageOfCharacter.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.registrator));
+                break;
+            case 2:
+                binding.imageOfCharacter.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.instructor_serdcev));
                 break;
             default:
                 binding.imageOfCharacter.setImageDrawable(null);

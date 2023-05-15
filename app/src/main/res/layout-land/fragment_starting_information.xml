@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInformationFragment">
+    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInformationFragment"
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:id="@+id/linearLayout"

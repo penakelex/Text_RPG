@@ -266,8 +266,8 @@ public class TalentsDatabase {
     @SuppressLint("DefaultLocale")
     public static boolean choosingBull(SQLiteDatabase talentsDatabase, SQLiteDatabase
             characteristicsDatabase, SQLiteDatabase infoDatabase) {
-        int strength = CharacteristicsDatabase.getNewValue(characteristicsDatabase, 1),
-                physique = CharacteristicsDatabase.getNewValue(characteristicsDatabase, 2),
+        int strength = CharacteristicsDatabase.getValue(characteristicsDatabase, 1),
+                physique = CharacteristicsDatabase.getValue(characteristicsDatabase, 2),
                 ap = OtherInformationDatabase.getValue(infoDatabase, 2);
         Log.d("value of ap, strength, physique", String.format("%d, %d,%d",
                 OtherInformationDatabase.getValue(infoDatabase, 2),
@@ -340,15 +340,15 @@ public class TalentsDatabase {
         }
         Log.d("value of ap, strength, physique", String.format("%d, %d,%d",
                 OtherInformationDatabase.getValue(infoDatabase, 2),
-                CharacteristicsDatabase.getNewValue(characteristicsDatabase, 1),
-                CharacteristicsDatabase.getNewValue(characteristicsDatabase, 2)));
+                CharacteristicsDatabase.getValue(characteristicsDatabase, 1),
+                CharacteristicsDatabase.getValue(characteristicsDatabase, 2)));
         return isAllGood;
     }
 
     @SuppressLint("DefaultLocale")
     public static boolean choosingSinger(SQLiteDatabase talentsDatabase, SQLiteDatabase
             characteristicsDatabase) {
-        int value = CharacteristicsDatabase.getNewValue(characteristicsDatabase, 7);
+        int value = CharacteristicsDatabase.getValue(characteristicsDatabase, 7);
         boolean isAllGood;
         if (isHaving(1, talentsDatabase)) {
             isAllGood = value - 1 >= 0;

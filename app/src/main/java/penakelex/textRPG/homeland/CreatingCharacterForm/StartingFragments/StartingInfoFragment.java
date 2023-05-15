@@ -19,13 +19,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
+import penakelex.textRPG.homeland.Adapters.StartingOtherInformation.StartingOtherInformationAdapter;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import penakelex.textRPG.homeland.databinding.FragmentStartingInfoBinding;
 
 public class StartingInfoFragment extends Fragment {
-    FragmentStartingInfoBinding binding;
+    private FragmentStartingInfoBinding binding;
+    private StartingOtherInformationAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +39,9 @@ public class StartingInfoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        settingValues();
+        adapter = new StartingOtherInformationAdapter();
+        adapter.setInformation(getActivity());
+        binding.containerForStartingOtherInformation.setAdapter(adapter);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean(Is_Going_To_Starting_Information_First_Time, true)) {
             new CountDownTimer(5000, 1000) {
@@ -53,7 +57,7 @@ public class StartingInfoFragment extends Fragment {
                 }
             }.start();
         }
-        binding.characterName.addTextChangedListener(new TextWatcher() {
+        binding.signature.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -73,15 +77,5 @@ public class StartingInfoFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-    }
-
-    private void settingValues() {
-        int[] values = OtherInformationDatabase.getValues(new OtherInformationDatabaseHelper(getActivity()).getReadableDatabase());
-        binding.healthPointsValue.setText(String.valueOf(values[6]));
-        binding.criticalHitValue.setText(String.valueOf(values[5]));
-        binding.meleeDamageValue.setText(String.valueOf(values[4]));
-        binding.carryVolumeValue.setText(String.valueOf(values[3]));
-        binding.loadCapacityValue.setText(String.valueOf(values[2]));
-        binding.apValue.setText(String.valueOf(values[1]));
     }
 }

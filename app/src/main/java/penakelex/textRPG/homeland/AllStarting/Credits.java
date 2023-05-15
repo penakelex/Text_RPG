@@ -1,4 +1,4 @@
-package penakelex.textRPG.homeland.Activities;
+package penakelex.textRPG.homeland.AllStarting;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.content.Intent;
 import android.os.Bundle;
 
-import penakelex.textRPG.homeland.AllStarting.MainMenu;
 import penakelex.textRPG.homeland.databinding.ActivityCreditsBinding;
 
 

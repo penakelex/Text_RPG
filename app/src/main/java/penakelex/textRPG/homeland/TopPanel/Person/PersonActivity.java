@@ -5,8 +5,6 @@ import static penakelex.textRPG.homeland.Main.Constants.Current_Top_Panel_Activi
 import static penakelex.textRPG.homeland.Main.Constants.Experience;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.Level;
-import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Age;
-import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,7 +21,7 @@ import penakelex.textRPG.homeland.Main.TopPanelParentActivity;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.TopPanel.Person.Fragments.CapabilitiesFragment;
 import penakelex.textRPG.homeland.TopPanel.Person.Fragments.CharacteristicsFragment;
-import penakelex.textRPG.homeland.TopPanel.Person.Fragments.HealthAndOtherInformationFragment;
+import penakelex.textRPG.homeland.TopPanel.Person.Fragments.HealthAndOtherInformation.HealthAndOtherInformationFragment;
 import penakelex.textRPG.homeland.TopPanel.Person.Fragments.InventoryFragment;
 import penakelex.textRPG.homeland.TopPanel.Person.Fragments.SkillsFragment;
 import penakelex.textRPG.homeland.databinding.ActivityPersonBinding;
@@ -46,7 +43,7 @@ public class PersonActivity extends TopPanelParentActivity {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         sharedPreferences.edit().putInt(Current_Top_Panel_Activity, 1).apply();
         handlingToolBar(toolbar);
-        toolbar.setNavigationOnClickListener(listener -> onBackPressed());
+        toolbar.setNavigationOnClickListener(listener -> onNavigationClick());
         binding.level.setText(String.format("Ваш уровень: %d. Опыт: %d. До следующего уровня: %d.", sharedPreferences.getInt(Level, 0), sharedPreferences.getInt(Experience, 0), getUntilNextLevelXP(sharedPreferences.getInt(Experience, 0))));
         settingStartFragment();
         binding.navigationView.setOnItemSelectedListener(item -> {
@@ -69,6 +66,12 @@ public class PersonActivity extends TopPanelParentActivity {
             }
             return false;
         });
+    }
+
+    private void onNavigationClick() {
+        binding = null;
+        onBackPressed();
+        finish();
     }
 
     private int getUntilNextLevelXP(int XP) {

@@ -20,10 +20,7 @@ public interface InventoryDao {
     void throwAwayItem(InventoryItem inventoryItem);
 
     @Query("UPDATE inventory SET owner_id=:ownerID, price=:newPrice WHERE primary_id=:ID")
-    void changeOwner(int ownerID, int newPrice, long ID);
-
-    @Query("UPDATE inventory SET count=:newCount WHERE primary_id=:ID")
-    void updateCount(long newCount, long ID);
+    void changeOwner(int ownerID, float newPrice, long ID);
 
     @Query("DELETE FROM inventory")
     void deleteAll();

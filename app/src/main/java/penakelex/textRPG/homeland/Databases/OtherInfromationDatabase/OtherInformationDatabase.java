@@ -8,10 +8,39 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import penakelex.textRPG.homeland.Adapters.OtherInformation.OtherInformationInformation;
+import penakelex.textRPG.homeland.Adapters.StartingOtherInformation.StartingOtherInformationInformation;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 
 public class OtherInformationDatabase {
+    public static ArrayList<OtherInformationInformation> getInformation(SQLiteDatabase database) {
+        ArrayList<OtherInformationInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(OtherInformationDatabaseHelper.Table_Other_Info, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(OtherInformationDatabaseHelper.KEY_Name),
+                valueColumnIndex = cursor.getColumnIndex(OtherInformationDatabaseHelper.KEY_Value);
+        cursor.moveToFirst();
+        do {
+            arrayList.add(new OtherInformationInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
+        } while (cursor.moveToNext());
+        cursor.close();
+        arrayList.remove(arrayList.size() - 1);
+        return (ArrayList<OtherInformationInformation>) arrayList.clone();
+    }
+
+    public static ArrayList<StartingOtherInformationInformation> getStartingInformation(SQLiteDatabase database) {
+        ArrayList<StartingOtherInformationInformation> arrayList = new ArrayList<>();
+        Cursor cursor = database.query(OtherInformationDatabaseHelper.Table_Other_Info, null, null, null, null, null, null);
+        int nameColumnIndex = cursor.getColumnIndex(OtherInformationDatabaseHelper.KEY_Name),
+                valueColumnIndex = cursor.getColumnIndex(OtherInformationDatabaseHelper.KEY_Value);
+        cursor.moveToFirst();
+        cursor.moveToNext();
+        do {
+            arrayList.add(new StartingOtherInformationInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
+        } while (cursor.moveToNext());
+        cursor.close();
+        return arrayList;
+    }
 
     public static int getValue(SQLiteDatabase database, int ID) {
         Cursor cursor = database.query(OtherInformationDatabaseHelper.Table_Other_Info, null, null, null, null, null, null);
@@ -43,7 +72,7 @@ public class OtherInformationDatabase {
         return values;
     }
 
-    public static void settingStartingValuesInInformationDatabase(SQLiteDatabase infoDatabase, SQLiteDatabase characteristicsDatabase, SQLiteDatabase skillsDatabase) {
+    public static void settingStartingValuesInInformationDatabase(SQLiteDatabase infoDatabase, SQLiteDatabase characteristicsDatabase, SQLiteDatabase skillsDatabase, String[] names) {
         infoDatabase.delete(OtherInformationDatabaseHelper.Table_Other_Info, null, null);
         int[] characteristics = CharacteristicsDatabase.getCharacteristicsValues(characteristicsDatabase);
         int[] skills = SkillsDatabase.getSkillValues(skillsDatabase);
@@ -60,13 +89,13 @@ public class OtherInformationDatabase {
         contentValues6.put(OtherInformationDatabaseHelper.KEY_ID, 6);
         contentValues7.put(OtherInformationDatabaseHelper.KEY_ID, 7);
 
-        contentValues1.put(OtherInformationDatabaseHelper.KEY_Name, "armor_class");
-        contentValues2.put(OtherInformationDatabaseHelper.KEY_Name, "ap");
-        contentValues3.put(OtherInformationDatabaseHelper.KEY_Name, "load_capacity");
-        contentValues4.put(OtherInformationDatabaseHelper.KEY_Name, "carry_volume");
-        contentValues5.put(OtherInformationDatabaseHelper.KEY_Name, "melee_damage");
-        contentValues6.put(OtherInformationDatabaseHelper.KEY_Name, "critical_hit");
-        contentValues7.put(OtherInformationDatabaseHelper.KEY_Name, "health_points");
+        contentValues1.put(OtherInformationDatabaseHelper.KEY_Name, names[0]);
+        contentValues2.put(OtherInformationDatabaseHelper.KEY_Name, names[1]);
+        contentValues3.put(OtherInformationDatabaseHelper.KEY_Name, names[2]);
+        contentValues4.put(OtherInformationDatabaseHelper.KEY_Name, names[3]);
+        contentValues5.put(OtherInformationDatabaseHelper.KEY_Name, names[4]);
+        contentValues6.put(OtherInformationDatabaseHelper.KEY_Name, names[5]);
+        contentValues7.put(OtherInformationDatabaseHelper.KEY_Name, names[6]);
 
         contentValues1.put(OtherInformationDatabaseHelper.KEY_Value, 0);
         contentValues2.put(OtherInformationDatabaseHelper.KEY_Value, Math.max(characteristics[2] + characteristics[1], 5));

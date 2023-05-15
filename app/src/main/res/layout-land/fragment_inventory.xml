@@ -5,16 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TopPanel.Person.Fragments.InventoryFragment">
+    tools:context=".TopPanel.Person.Fragments.InventoryFragment"
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1.2"
             android:orientation="vertical">
 
@@ -46,38 +50,110 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/black_small_rectangle"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/itemName"
-                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/game_font1"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="32sp" />
+                    android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/itemType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/game_font1"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/game_font1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/itemDescription"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/volume"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/game_font1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/game_font1"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:layout_height="match_parent"
+                    android:background="@drawable/black_small_rectangle"
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/itemName"
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/game_font1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/itemType"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/game_font1"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/itemWeight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/game_font1"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/itemVolume"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/game_font1"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/itemDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/game_font1"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+                    </ScrollView>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -89,7 +165,8 @@
                 android:gravity="center"
                 android:text="@string/throw_away"
                 android:textColor="@color/golden_yellow"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                tools:ignore="VisualLintButtonSize" />
         </LinearLayout>
 
     </LinearLayout>

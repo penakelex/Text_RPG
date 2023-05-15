@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/healthInformation"
+        android:icon="@drawable/health"
+        android:title="@string/health_status" />
+    <item
+        android:id="@+id/reputation"
+        android:icon="@drawable/star"
+        android:title="@string/reputation" />
+    <item
+        android:id="@+id/statistics"
+        android:icon="@drawable/statistics"
+        android:title="@string/statistics" />
+    <item
+        android:id="@+id/otherInformation"
+        android:icon="@drawable/other_information"
+        android:title="@string/other_information" />
+</menu>

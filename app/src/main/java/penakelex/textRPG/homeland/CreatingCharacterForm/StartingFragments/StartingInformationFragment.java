@@ -145,6 +145,7 @@ public class StartingInformationFragment extends Fragment {
             }
         }
         if (isAllGood) {
+            binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
         }
     }

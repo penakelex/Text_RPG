@@ -18,6 +18,9 @@ import androidx.annotation.Nullable;
 import com.google.android.material.snackbar.Snackbar;
 
 import penakelex.textRPG.homeland.Adapters.StartingSkills.StartingSkillsAdapter;
+import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
+import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
 
@@ -161,6 +164,7 @@ public class StartingSkillsFragment extends Fragment {
     private void settingAbilitiesFragment() {
         if (getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE).getInt(Constants.Main_Skills, 3) == 0) {
             binding = null;
+            OtherInformationDatabase.settingStartingValuesInInformationDatabase(new OtherInformationDatabaseHelper(getActivity()).getReadableDatabase(), new CharacteristicsDatabaseHelper(getActivity()).getReadableDatabase(), new SkillsDatabaseHelper(getActivity()).getReadableDatabase(), new String[]{getResources().getString(R.string.armor_class), getResources().getString(R.string.ap), getResources().getString(R.string.max_carry_weight), getResources().getString(R.string.max_carry_volume), getResources().getString(R.string.melee_damage), getResources().getString(R.string.critical_damage), getResources().getString(R.string.health_points)});
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingTalentsFragment()).commit();
         } else {
             Snackbar.make(binding.getRoot(), getResources().getString(R.string.have_not_used_all_main_skills_points_yet), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();

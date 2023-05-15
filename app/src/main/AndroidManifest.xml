@@ -68,20 +68,9 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activities.Credits"
+            android:name=".AllStarting.Credits"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.TextRPG" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".AllStarting.GameLoad"
-            android:configChanges="orientation"
-            android:exported="false"
-            android:label="@string/title_activity_game_load"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.TextRPG" >
             <meta-data

@@ -2,6 +2,7 @@ package penakelex.textRPG.homeland.TopPanel.Menu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -26,16 +27,19 @@ public class MenuActivity extends ActionParentActivity {
     }
 
     private void startingSetting() {
+        binding = null;
+        startActivity(new Intent(this, Settings.class));
         finish();
     }
 
     private void backToLastActivity() {
+        binding = null;
         onBackPressed();
         finish();
     }
 
     private void goingToMainMenu() {
-        //TODO: Сделать диалоговое окно
+        binding = null;
         startActivity(new Intent(MenuActivity.this, MainMenu.class));
     }
 

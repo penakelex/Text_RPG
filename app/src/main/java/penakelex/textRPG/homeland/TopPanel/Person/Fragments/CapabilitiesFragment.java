@@ -25,6 +25,7 @@ public class CapabilitiesFragment extends Fragment {
         @Override
         public void onClickListener(String name, int ID) {
             binding.capabilityName.setText(name);
+            ID--;
             switch (ID) {
                 case 0:
                     binding.capabilityDescription.setText(getResources().getString(R.string.description_singer));

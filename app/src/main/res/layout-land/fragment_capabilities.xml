@@ -43,46 +43,48 @@
         android:background="@drawable/black_small_rectangle"
         android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/black_small_rectangle"
-            android:orientation="vertical"
-            android:padding="4dp"
-            tools:ignore="NestedWeights">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/capabilityName"
-                style="@style/TextAppearance.AppCompat.Title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/game_font1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:padding="4dp"
+                tools:ignore="NestedWeights">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/capabilityMeaning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/game_font1"
-                android:justificationMode="inter_word"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/capabilityName"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/game_font1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/capabilityDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/game_font1"
-                android:justificationMode="inter_word"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/capabilityMeaning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/game_font1"
+                    android:justificationMode="inter_word"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/capabilityDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/game_font1"
+                    android:justificationMode="inter_word"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </LinearLayout>

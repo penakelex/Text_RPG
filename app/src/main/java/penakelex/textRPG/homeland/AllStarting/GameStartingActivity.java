@@ -16,7 +16,7 @@ public class GameStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_game_starting);
-        Thread thread = new Thread() {
+        /*Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -29,6 +29,8 @@ public class GameStartingActivity extends AppCompatActivity {
                 }
             }
         };
-        thread.start();
+        thread.start();*/
+        startActivity(new Intent(GameStartingActivity.this, MainMenu.class));
+        finish();
     }
 }

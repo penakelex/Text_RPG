@@ -55,7 +55,7 @@ public class CharacteristicsDatabase {
         return array;
     }
 
-    public static int getNewValue(SQLiteDatabase database, int ID) {
+    public static int getValue(SQLiteDatabase database, int ID) {
         Cursor afterCursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
         int newIdColumnIndex = afterCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_ID),
                 newValueColumnIndex = afterCursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value),

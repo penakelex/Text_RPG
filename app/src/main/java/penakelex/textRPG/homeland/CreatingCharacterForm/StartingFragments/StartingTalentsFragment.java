@@ -182,6 +182,7 @@ public class StartingTalentsFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         if (sharedPreferences.getInt(Talents_Points, 2) == 0) {
             sharedPreferences.edit().putBoolean(First_Visit_Talents, false).apply();
+            binding = null;
             getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingSkillsFragment()).commit();
         } else {
             Snackbar.make(binding.getRoot(), getResources().getString(R.string.have_not_chosen_ur_talents), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();

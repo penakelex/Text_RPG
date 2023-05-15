@@ -54,7 +54,13 @@ public class QuestsActivity extends TopPanelParentActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar1);
         setSupportActionBar(toolbar);
         handlingToolBar(toolbar);
-        toolbar.setNavigationOnClickListener(listener -> onBackPressed());
+        toolbar.setNavigationOnClickListener(listener -> onNavigationClick());
+    }
+
+    private void onNavigationClick() {
+        binding = null;
+        onBackPressed();
+        finish();
     }
 
     @Override

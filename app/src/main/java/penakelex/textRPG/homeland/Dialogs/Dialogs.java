@@ -4,7 +4,7 @@ package penakelex.textRPG.homeland.Dialogs;
 import penakelex.textRPG.homeland.R;
 
 public class Dialogs {
-    private final int[] names = {R.string.names_MT, R.string.name_registrator, R.string.instructor_serdcev};
+    private final int[] names = {R.string.names_MT, R.string.name_registrator, R.string.instructor_serdcev, R.string.alina_vasilievna};
     Quote[] quotes0 = new Quote[]{
             new Quote(0, names[0], R.string.quotes0_quote0,
                     new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes0_character_quote0_0, 0, 1),
@@ -93,7 +93,8 @@ public class Dialogs {
             new Quote(0, names[2], R.string.quotes3_quote7,
                     new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote7_0, 0, 8)}),
             new Quote(0, names[2], R.string.quotes3_quote8,
-                    new Quote.CharacterQuote[]{})
+                    new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote8_0, 0, 9)}),
+            new Quote(2, names[2], R.string.quotes3_quote9, new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote9_0, 0, -2)}),
     };
 
 

@@ -1,9 +1,6 @@
 package penakelex.textRPG.homeland.AllStarting;
 
 import static penakelex.textRPG.homeland.Main.Constants.Characteristics_Points;
-import static penakelex.textRPG.homeland.Main.Constants.First_Visit_Characteristics;
-import static penakelex.textRPG.homeland.Main.Constants.First_Visit_Main_Information;
-import static penakelex.textRPG.homeland.Main.Constants.First_Visit_Skills;
 import static penakelex.textRPG.homeland.Main.Constants.First_Visit_Talents;
 import static penakelex.textRPG.homeland.Main.Constants.Gender;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
@@ -14,7 +11,6 @@ import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Age;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Height;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Skills;
-import static penakelex.textRPG.homeland.Main.Constants.Skill_Points;
 import static penakelex.textRPG.homeland.Main.Constants.Talents_Points;
 
 import android.app.AlertDialog;
@@ -69,7 +65,7 @@ public class StartingNewGameWithProgress extends DialogFragment {
         SkillsDatabase.settingStartingSkillsInDatabase(new SkillsDatabaseHelper(getActivity()).getWritableDatabase(), characteristicsDatabase,
                 new String[]{getResources().getString(R.string.lightWeapons), getResources().getString(R.string.heavyWeapons), getResources().getString(R.string.meleeWeapons), getResources().getString(R.string.communication), getResources().getString(R.string.trading), getResources().getString(R.string.survival), getResources().getString(R.string.medicine), getResources().getString(R.string.scince), getResources().getString(R.string.repair)});
         TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getActivity()).getWritableDatabase(),
-                new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kikc), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight),getResources().getString(R.string.kind_one)});
+                new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight),getResources().getString(R.string.kind_one)});
         InventoryDatabase.getDatabase(getActivity()).inventoryDao().deleteAll();
         QuestsDatabase.getDatabase(getActivity()).questsDao().deleteAll();
         startActivity(new Intent(getActivity(), DialogActivity.class));
