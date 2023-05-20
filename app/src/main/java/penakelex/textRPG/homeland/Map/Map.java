@@ -62,10 +62,10 @@ public class Map extends MainActionParentActivity {
         binding.east.setOnClickListener(listener -> changingFieldEast());
         binding.south.setOnClickListener(listener -> changingFieldSouth());
         binding.west.setOnClickListener(listener -> changingFieldWest());
-        binding.button.setOnClickListener(listener -> goingOnLocalMap());
+        binding.button.setOnClickListener(listener -> worldButtonPressed());
     }
 
-    private void goingOnLocalMap() {
+    private void worldButtonPressed() {
         sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         switch (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value)) {
             case 2:
@@ -368,19 +368,7 @@ public class Map extends MainActionParentActivity {
     }
 
     private void setClickable() {
-        if (sharedPreferences.getBoolean(Static_Position, false)) {
-            binding.containerForMapFragments.setEnabled(false);
-            binding.east.setEnabled(false);
-            binding.north.setEnabled(false);
-            binding.south.setEnabled(false);
-            binding.west.setEnabled(false);
-        } else {
-            binding.containerForMapFragments.setClickable(true);
-            binding.east.setClickable(true);
-            binding.north.setClickable(true);
-            binding.south.setClickable(true);
-            binding.west.setClickable(true);
-        }
+        Snackbar.make(binding.getRoot(), getResources().getString(R.string.press_world), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
     }
 
     @Override

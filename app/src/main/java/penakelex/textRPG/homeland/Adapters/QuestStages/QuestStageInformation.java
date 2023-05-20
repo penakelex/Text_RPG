@@ -19,6 +19,16 @@ public class QuestStageInformation {
                         break;
                 }
                 break;
+            case 1:
+                switch (stage) {
+                    case 0:
+                        this.stage = context.getResources().getString(R.string.quest_stage_take_a_tour);
+                        break;
+                    case 1:
+                        this.stage = context.getResources().getString(R.string.quest_completed);
+                        break;
+                }
+                break;
         }
     }
 

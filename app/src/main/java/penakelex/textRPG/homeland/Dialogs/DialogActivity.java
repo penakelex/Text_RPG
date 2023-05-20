@@ -1,6 +1,7 @@
 package penakelex.textRPG.homeland.Dialogs;
 
 import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
+import static penakelex.textRPG.homeland.Main.Constants.Experience;
 import static penakelex.textRPG.homeland.Main.Constants.Global_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Going_To_Starting_Information;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
@@ -10,6 +11,7 @@ import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 import static penakelex.textRPG.homeland.Main.Constants.Money;
 import static penakelex.textRPG.homeland.Main.Constants.Reputation;
+import static penakelex.textRPG.homeland.Main.Constants.S;
 import static penakelex.textRPG.homeland.Main.Constants.Static_Position;
 
 import android.content.Intent;
@@ -24,9 +26,16 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import penakelex.textRPG.homeland.AllStarting.MainMenu;
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
+import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDao;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
@@ -81,40 +90,83 @@ public class DialogActivity extends MainActionParentActivity {
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, false).
                         putInt(ID_Dialog, 1).apply();
                 binding = null;
-                CharacteristicsDatabase.settingStartValuesInDatabase(new CharacteristicsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.strength),getResources().getString(R.string.physique), getResources().getString(R.string.dexterity), getResources().getString(R.string.mentality), getResources().getString(R.string.luckiness), getResources().getString(R.string.watchfulness), getResources().getString(R.string.attractiveness)});
+                CharacteristicsDatabase.settingStartValuesInDatabase(new CharacteristicsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.strength), getResources().getString(R.string.physique), getResources().getString(R.string.dexterity), getResources().getString(R.string.mentality), getResources().getString(R.string.luckiness), getResources().getString(R.string.watchfulness), getResources().getString(R.string.attractiveness)});
                 SkillsDatabase.settingStartingSkillsInDatabase(new SkillsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), new String[]{getResources().getString(R.string.lightWeapons), getResources().getString(R.string.heavyWeapons), getResources().getString(R.string.meleeWeapons), getResources().getString(R.string.communication), getResources().getString(R.string.trading), getResources().getString(R.string.survival), getResources().getString(R.string.medicine), getResources().getString(R.string.scince), getResources().getString(R.string.repair)});
-                TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight),getResources().getString(R.string.kind_one)});
+                TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight), getResources().getString(R.string.kind_one)});
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 finish();
                 break;
             case -2:
                 binding = null;
-                sharedPreferences.edit().putInt(Global_Map_Location, 2).putBoolean(Static_Position, true).putInt(Local_Map_Location, 51).apply();
-                startActivity(new Intent(DialogActivity.this, Map.class));
-                finish();
+                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new Quest(getResources().getString(R.string.excursion)));
+                sharedPreferences.edit().putInt(Global_Map_Location, 2).putBoolean(Static_Position, true).putInt(Local_Map_Location, 24).putInt(ID_Dialog, 4).apply();
+                goingToMap();
                 break;
             case -3:
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
                         putBoolean(Is_Going_To_Starting_Information_First_Time, true).
                         putInt(ID_Dialog, 2).apply();
                 binding = null;
-                startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
-                finish();
+                goingToCreatingCharacter();
                 break;
             case -4:
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
                         putBoolean(Is_Going_To_Starting_Information_First_Time, false).
+                        putInt(Experience, 200).
                         putInt(ID_Dialog, 3).apply();
                 QuestsDatabase.getDatabase(getApplicationContext()).questsDao().updateQuestStage((short) 2, 1);
                 binding = null;
-                startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
-                finish();
+                goingToCreatingCharacter();
                 break;
+            case -5:
+                binding = null;
+                sharedPreferences.edit().putInt(Global_Map_Location, 6).putInt(Local_Map_Location, 44).putInt(ID_Dialog, 5).apply();
+                goingToMap();
+                break;
+            case -6:
+                binding = null;
+                sharedPreferences.edit().putInt(Local_Map_Location, 43).putInt(ID_Dialog, 6).apply();
+                goingToMap();
+                break;
+            case -7:
+                InventoryDatabaseHelper.insertNewItemToPlayersInventory(1, getApplicationContext());
+                fillReplicas(quotes[1]);
+                break;
+            case -8:
+                InventoryDatabaseHelper.insertNewItemToPlayersInventory(1, getApplicationContext());
+                fillReplicas(quotes[3]);
+                break;
+            case -9:
+                sharedPreferences.edit().putInt(ID_Dialog, 7).apply();
+                QuestsDao dao = QuestsDatabase.getDatabase(getApplicationContext()).questsDao();
+                dao.updateQuestStage((short) 2, 2);
+                dao.addQuest(new Quest(getResources().getString(R.string.quest_flight)));
+                InventoryDatabase.getDatabase(getApplicationContext()).inventoryDao().deleteAll();
+                InventoryDatabaseHelper.insertNewItemToPlayersInventory(2, getApplicationContext());
+                initiateDialog(sharedPreferences.getInt(ID_Dialog, 0));
+                break;
+            case -11:
+                InventoryDatabase.getDatabase(getApplicationContext()).inventoryDao().deleteAll();
+                initiateDialog(8);
+                break;
+            case -12:
+                sharedPreferences.edit().putBoolean(S, true).apply();
+                startActivity(new Intent(this, MainMenu.class));
+                finish();
             default:
                 fillReplicas(quotes[step]);
         }
     }
 
+    private void goingToMap() {
+        startActivity(new Intent(DialogActivity.this, Map.class));
+        finish();
+    }
+
+    private void goingToCreatingCharacter() {
+        startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
+        finish();
+    }
 
     private void fillReplicas(Dialogs.Quote quote) {
         binding.containerForReplicasVariants.removeAllViews();
@@ -137,7 +189,7 @@ public class DialogActivity extends MainActionParentActivity {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         switch (quote) {
             case 1: {
-                binding.text.setText(String.format("Ваше имя - %s.", sharedPreferences.getString(Main_Character_Name, "")));
+                binding.text.setText(String.format("%s %s.", getResources().getString(R.string.ur_name), sharedPreferences.getString(Main_Character_Name, "")));
             }
             break;
             default:
@@ -168,6 +220,9 @@ public class DialogActivity extends MainActionParentActivity {
                                     + characterQuote.getReputation()).
                             putInt(Money, sharedPreferences.getInt(Money, 0)
                                     + characterQuote.getMoney()).apply();
+                    Snackbar.make(binding.getRoot(), getResources().getString(R.string.u_won), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+                } else {
+                    Snackbar.make(binding.getRoot(), getResources().getString(R.string.u_did_not_win), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
                 }
             }
         }
@@ -182,6 +237,11 @@ public class DialogActivity extends MainActionParentActivity {
             case 2:
                 binding.imageOfCharacter.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.instructor_serdcev));
                 break;
+            case 3:
+                binding.imageOfCharacter.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.alina_vasilievna));
+                break;
+            case 4:
+                binding.imageOfCharacter.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.andrey));
             default:
                 binding.imageOfCharacter.setImageDrawable(null);
                 break;

@@ -67,7 +67,15 @@ public class InventoryDatabaseHelper {
         switch (ID) {
             case 1:
                 return 7;
+            case 2:
+                return 0;
         }
         return 0;
+    }
+
+    public static boolean isItemForQuest(long ID, Context context) {
+        InventoryItem item = InventoryDatabase.getDatabase(context).inventoryDao().getItem(ID);
+        int id = item.getId();
+        return id != 2;
     }
 }

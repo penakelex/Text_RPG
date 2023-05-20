@@ -4,6 +4,7 @@ import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
 import static penakelex.textRPG.homeland.Main.Constants.Is_Game_Started;
+import static penakelex.textRPG.homeland.Main.Constants.S;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,7 +44,7 @@ public class MainMenu extends AppCompatActivity {
 
     private void staringNewGame() {
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
-        if (sharedPreferences.getBoolean(Is_Game_Started, false)) {
+        if (sharedPreferences.getBoolean(Is_Game_Started, false) || sharedPreferences.getBoolean(S, false)) {
             new StartingNewGameWithProgress().show(getFragmentManager().beginTransaction(), "new or not");
         } else {
             sharedPreferences.edit().putInt(ID_Dialog, 0).putBoolean(Is_Game_Started, true).apply();

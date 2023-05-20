@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.google.android.material.snackbar.Snackbar;
 import penakelex.textRPG.homeland.Adapters.Inventory.InventoryAdapter;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
+import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.FragmentInventoryBinding;
 
@@ -59,7 +62,6 @@ public class InventoryFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         inventoryDatabase = InventoryDatabase.getDatabase(getActivity());
         settingVolumeNWeight();
-        InventoryDatabaseHelper.insertNewItemToPlayersInventory(1, getActivity());
         inventoryAdapter = new InventoryAdapter(clickListener);
         inventoryAdapter.setInformation(inventoryDatabase, getActivity().getApplicationContext());
         binding.containerForItems.setAdapter(inventoryAdapter);
@@ -68,12 +70,13 @@ public class InventoryFragment extends Fragment {
 
     @SuppressLint("DefaultLocale")
     private void settingVolumeNWeight() {
-        binding.volume.setText(String.format("%s %d/%d", getResources().getString(R.string.volume), sharedPreferences.getInt(Using_Volume, 0), sharedPreferences.getInt(Volume, 0)));
-        binding.weight.setText(String.format("%s %d/%d", getResources().getString(R.string.weight), sharedPreferences.getInt(Using_Weight, 0), sharedPreferences.getInt(Weight, 0)));
+        SQLiteDatabase database = new OtherInformationDatabaseHelper(getActivity()).getReadableDatabase();
+        binding.volume.setText(String.format("%s %d/%d", getResources().getString(R.string.volume), sharedPreferences.getInt(Using_Volume, 0), OtherInformationDatabase.getValue(database, 3)));
+        binding.weight.setText(String.format("%s %d/%d", getResources().getString(R.string.weight), sharedPreferences.getInt(Using_Weight, 0), OtherInformationDatabase.getValue(database, 3)));
     }
 
     private void throwingAwayItem() {
-        if (currentPosition != -1) {
+        if (currentPosition != -1 && InventoryDatabaseHelper.isItemForQuest(currentPosition, getActivity().getApplicationContext())) {
             inventoryDatabase.inventoryDao().throwAwayItem(inventoryDatabase.inventoryDao().getItem(currentPosition));
             binding.itemName.setText("");
             binding.itemType.setText("");

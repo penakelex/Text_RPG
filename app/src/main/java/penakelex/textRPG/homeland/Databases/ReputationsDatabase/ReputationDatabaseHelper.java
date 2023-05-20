@@ -5,18 +5,20 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import penakelex.textRPG.homeland.Adapters.Reputations.ReputationInformation;
+
 public class ReputationDatabaseHelper {
 
     public static void addNewOne(Context context, String name) {
         ReputationDatabase.getDatabase(context).reputationDao().insert(new ReputationItem(name));
     }
-    public static ArrayList<String> getReputationsInformation(Context context) {
-        ArrayList<String> arrayList = new ArrayList<>();
+    public static ArrayList<ReputationInformation> getReputationsInformation(Context context) {
+        ArrayList<ReputationInformation> arrayList = new ArrayList<>();
         List<ReputationItem> list = ReputationDatabase.getDatabase(context).reputationDao().getAllReputation();
         for (ReputationItem item : list) {
-            arrayList.add(item.getName());
+            arrayList.add(new ReputationInformation(item.getName()));
         }
-        return (ArrayList<String>) arrayList.clone();
+        return (ArrayList<ReputationInformation>) arrayList.clone();
     }
 
     public static ReputationItem getItem(Context context, short ID) {

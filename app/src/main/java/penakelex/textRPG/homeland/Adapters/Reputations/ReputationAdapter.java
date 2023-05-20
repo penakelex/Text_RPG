@@ -16,7 +16,7 @@ import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemReputationBinding;
 
 public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.ViewHolder> {
-    private ArrayList<String> information = new ArrayList<>();
+    private ArrayList<ReputationInformation> information = new ArrayList<>();
     private final OnReputationItemClickListener clickListener;
     private int lastPosition = -1;
     private Context context;
@@ -37,7 +37,7 @@ public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.Vi
 
     private void onClicked(ViewHolder holder, int position) {
         if (lastPosition != position) {
-            clickListener.onClickListener(information.get(position), position);
+            clickListener.onClickListener((information.get(position)).getName(), position);
             holder.binding.reputationsName.setBackgroundColor(context.getResources().getColor(R.color.gray));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -68,9 +68,9 @@ public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.Vi
             this.binding = ItemReputationBinding.bind(itemView);
         }
 
-        public void bind(String name, Context context) {
+        public void bind(ReputationInformation name, Context context) {
             binding.reputationsName.setBackgroundColor(context.getResources().getColor(R.color.white));
-            binding.reputationsName.setText(name);
+            binding.reputationsName.setText((name).getName());
         }
     }
 }

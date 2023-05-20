@@ -9,7 +9,7 @@ public class Constants {
             Volume = "Volume", Using_Volume = "Using Volume", Using_Weight = "Using Weight",
             World = "World", Going_To_Starting_Information = "Going To Starting Information",
             Is_Game_Started = "Game Started", Homeland_Tag = "homeland", Skill_Points = "Skill Points",
-            ID_Dialog = "ID dialog", Reputation = "Reputation", Money = "Money",
+            ID_Dialog = "ID dialog", Reputation = "Reputation", Money = "Money", S = "S",
             Current_Activity = "Current Activity", Level = "Level", Static_Position = "Static Position",
             Is_Going_To_Starting_Information_First_Time = "Is Going To Starting Information First Time",
             Main_Character_Name = "Main Character Name", Gender = "Gender",
