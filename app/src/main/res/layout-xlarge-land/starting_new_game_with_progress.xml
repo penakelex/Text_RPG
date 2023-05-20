@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/startingNewGameWithProgress"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/buttons_background"
+    android:padding="8dp"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/game_font1"
+        android:text="@string/new_game_creating"
+        android:textColor="@color/golden_yellow"
+        android:textSize="60sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/message"
+        style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:fontFamily="@font/game_font1"
+        android:text="@string/message_starting_game_with_progress"
+        android:textColor="@color/golden_yellow"
+        android:textSize="50sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutInStartingNewGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/yesButton"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/game_font1"
+            android:text="@string/yeah_i_understand"
+            android:textColor="@color/golden"
+            android:textSize="45sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noButton"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/game_font1"
+            android:text="@string/nah_i_changed_my_mind"
+            android:textColor="@color/golden"
+            android:textSize="45sp" />
+    </LinearLayout>
+</RelativeLayout>

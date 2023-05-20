@@ -12,7 +12,11 @@ public class QuestStageInformation {
             case 0:
                 switch (stage) {
                     case 0:
-                      this.stage = context.getResources().getString(R.string.you8);
+                        this.stage = context.getResources().getString(R.string.quest_stage_register);
+                        break;
+                    case 1:
+                        this.stage = context.getResources().getString(R.string.quest_completed);
+                        break;
                 }
                 break;
         }

@@ -17,15 +17,15 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.material.snackbar.Snackbar;
 
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
-import penakelex.textRPG.homeland.Map.ActivityLocalMap;
 import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ActivityMainMenuBinding;
 
 public class MainMenu extends AppCompatActivity {
     private ActivityMainMenuBinding binding;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +33,12 @@ public class MainMenu extends AppCompatActivity {
         binding = ActivityMainMenuBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
-        binding.createNewOne.setOnClickListener(l -> staringNewGame());
-        binding.load.setOnClickListener(l -> loading());
-        binding.exit.setOnClickListener(l -> closingGame());
+        binding.createNewOne.setOnClickListener(listener -> staringNewGame());
+        binding.load.setOnClickListener(l -> settingLastActivity());
+        binding.exit.setOnClickListener(l -> this.finishAffinity());
         binding.credits.setOnClickListener(l -> startActivity(new Intent(MainMenu.this, Credits.class)));
-    }
-
-
-    private void closingGame() {
-        binding = null;
-        this.finishAffinity();
-    }
-
-    private void loading() {
-        binding = null;
-        settingLastActivity();
-        finish();
     }
 
     private void staringNewGame() {
@@ -60,13 +47,14 @@ public class MainMenu extends AppCompatActivity {
             new StartingNewGameWithProgress().show(getFragmentManager().beginTransaction(), "new or not");
         } else {
             sharedPreferences.edit().putInt(ID_Dialog, 0).putBoolean(Is_Game_Started, true).apply();
-            binding = null;
+            QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new Quest(getResources().getString(R.string.quest_registration)));
             startActivity(new Intent(MainMenu.this, DialogActivity.class));
             finish();
         }
     }
+
     private void settingLastActivity() {
-        sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         switch (sharedPreferences.getInt(Current_Activity, 0)) {
             case 1:
                 startActivity(new Intent(this, CreatingCharacter.class));
@@ -80,12 +68,12 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(new Intent(this, DialogActivity.class));
                 finish();
                 break;
-            case 4:
-                startActivity(new Intent(this, ActivityLocalMap.class));
-                finish();
-                break;
             default:
-                Snackbar.make(binding.getRoot(), getResources().getString(R.string.you_havent_started_game_yet), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+                Snackbar.make(binding.getRoot(),
+                                getResources().getString(R.string.you_havent_started_game_yet),
+                                Snackbar.LENGTH_SHORT).
+                        setTextColor(getResources().getColor(R.color.golden_yellow)).
+                        setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }
     }
 }

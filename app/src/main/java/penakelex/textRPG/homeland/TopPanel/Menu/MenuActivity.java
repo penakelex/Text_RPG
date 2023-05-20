@@ -23,13 +23,6 @@ public class MenuActivity extends ActionParentActivity {
         binding.exitGame.setOnClickListener(listener -> this.finishAffinity());
         binding.backToGame.setOnClickListener(listener -> backToLastActivity());
         binding.backToMainMenu.setOnClickListener(listener -> goingToMainMenu());
-        binding.settings.setOnClickListener(listener -> startingSetting());
-    }
-
-    private void startingSetting() {
-        binding = null;
-        startActivity(new Intent(this, Settings.class));
-        finish();
     }
 
     private void backToLastActivity() {

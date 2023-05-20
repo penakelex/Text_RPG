@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="penakelex.textRPG.homeland.Map.Map"
+    tools:ignore="MissingDefaultResource">
+
+    <include layout="@layout/tool_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.15"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/containerForMapFragments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/currentLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/game_font1"
+                android:textAllCaps="false"
+                android:layout_margin="10dp"
+                android:textColor="@color/black"
+                android:textSize="60sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/west"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:textColor="@color/golden_yellow"
+                    android:background="@drawable/buttons_background"
+                    android:layout_weight="1"
+                    android:text="@string/west"
+                    android:textAllCaps="false"
+                    android:textSize="60sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/east"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/golden_yellow"
+                    android:background="@drawable/buttons_background"
+                    android:text="@string/east"
+                    android:textAllCaps="false"
+                    android:textSize="60sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/north"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/north"
+                    android:gravity="center"
+                    android:textColor="@color/golden_yellow"
+                    android:background="@drawable/buttons_background"
+                    android:textAllCaps="false"
+                    android:textSize="60sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/south"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/south"
+                    android:gravity="center"
+                    android:textColor="@color/golden_yellow"
+                    android:background="@drawable/buttons_background"
+                    android:textAllCaps="false"
+                    android:textSize="60sp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/world"
+                android:layout_margin="10dp"
+                android:textAllCaps="false"
+                android:textColor="@color/golden_yellow"
+                android:background="@drawable/buttons_background"
+                android:textSize="60sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,7 +1,7 @@
 package penakelex.textRPG.homeland.Adapters.Inventory;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,14 @@ import java.util.List;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryItem;
+import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.InventoryItemBinding;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder> {
     private ArrayList<InventoryItemInformation> information = new ArrayList<>();
     private OnInventoryItemClickListener clickListener;
+    private int lastPosition = -1;
+    private Context context;
 
     public interface OnInventoryItemClickListener {
         void onClickListener(long primaryID, int ID);
@@ -30,12 +33,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(InventoryDatabase inventoryDatabase) {
+    public void setInformation(InventoryDatabase inventoryDatabase, Context context) {
         List<InventoryItem> inventoryItems = inventoryDatabase.inventoryDao().getInventory(1);
         ArrayList<InventoryItemInformation> inventoryItemsInformation = new ArrayList<>();
         for (int i = 0; i < inventoryItems.size(); i++)
             inventoryItemsInformation.add(new InventoryItemInformation(inventoryItems.get(i).getId(), inventoryItems.get(i).getPrimaryID()));
         this.information = (ArrayList<InventoryItemInformation>) inventoryItemsInformation.clone();
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -48,8 +52,21 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
-        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getPrimaryID(), information.get(position).getID()));
+        holder.bind(information.get(position), context);
+        holder.itemView.setOnClickListener(listener -> onClicked(position, holder));
+    }
+
+    private void onClicked(int position, ViewHolder holder) {
+        if (position != lastPosition) {
+            clickListener.onClickListener(information.get(position).getPrimaryID(), information.get(position).getID());
+            holder.binding.containerForInventoryItem.setBackgroundColor(context.getResources().getColor(R.color.blue_green));
+            notifyItemChanged(lastPosition);
+            lastPosition = position;
+        }
+    }
+
+    public void setLastPosition(int lastPosition) {
+        this.lastPosition = lastPosition;
     }
 
     @Override
@@ -65,8 +82,9 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
             this.binding = InventoryItemBinding.bind(itemView);
         }
 
-        public void bind(InventoryItemInformation inventoryItemInformation) {
+        public void bind(InventoryItemInformation inventoryItemInformation, Context context) {
             String[] itemInformation = InventoryDatabaseHelper.getInventoryItemShortInformation(itemView.getContext(), inventoryItemInformation.getID());
+            binding.containerForInventoryItem.setBackgroundColor(context.getResources().getColor(R.color.light_blue_green));
             binding.itemName.setText(itemInformation[0]);
             binding.itemType.setText(itemInformation[1]);
         }

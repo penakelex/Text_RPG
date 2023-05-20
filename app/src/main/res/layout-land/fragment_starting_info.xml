@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="horizontal"
-    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInfoFragment">
+    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInfoFragment"
+    tools:ignore="MissingDefaultResource"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +31,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/game_font2"
             android:textColor="@color/blue"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout

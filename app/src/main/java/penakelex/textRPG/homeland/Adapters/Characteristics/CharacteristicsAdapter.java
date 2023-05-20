@@ -14,13 +14,16 @@ import java.util.ArrayList;
 
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
-import penakelex.textRPG.homeland.TopPanel.Person.Fragments.CharacteristicsFragment;
+import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemCharacteristicBinding;
 
 
 public class CharacteristicsAdapter extends RecyclerView.Adapter<CharacteristicsAdapter.ViewHolder> {
-    private ArrayList<CharacteristicInformation> information = new ArrayList<>();
+    private ArrayList<CharacteristicsInformation> information = new ArrayList<>();
     private final OnCharacteristicItemClickListener clickListener;
+    private int lastPosition = -1;
+    private Context context;
+
     public interface OnCharacteristicItemClickListener {
         void onClickListener(String name, int position);
     }
@@ -37,8 +40,17 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
-        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getName(), position));
+        holder.bind(information.get(position), context);
+        holder.itemView.setOnClickListener(listener -> onClicked(position, holder));
+    }
+
+    private void onClicked(int position, ViewHolder holder) {
+        if (lastPosition != position) {
+            clickListener.onClickListener(information.get(position).getName(), position);
+            holder.binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
+            notifyItemChanged(lastPosition);
+            lastPosition = position;
+        }
     }
 
     @Override
@@ -49,6 +61,7 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
     @SuppressLint("NotifyDataSetChanged")
     public void setInformation(Context context) {
         this.information = CharacteristicsDatabase.getCharacteristicsInformation(new CharacteristicsDatabaseHelper(context).getReadableDatabase());
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -60,9 +73,10 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
             this.binding = ItemCharacteristicBinding.bind(itemView);
         }
 
-        public void bind(CharacteristicInformation characteristicInformation) {
-            binding.characteristicName.setText(characteristicInformation.getName());
-            binding.characteristicValue.setText(String.valueOf(characteristicInformation.getValue()));
+        public void bind(CharacteristicsInformation characteristicsInformation, Context context) {
+            binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.white));
+            binding.characteristicName.setText(characteristicsInformation.getName());
+            binding.characteristicValue.setText(String.valueOf(characteristicsInformation.getValue()));
         }
     }
 }

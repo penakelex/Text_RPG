@@ -1,10 +1,10 @@
 package penakelex.textRPG.homeland.Adapters.Characteristics;
 
-public class CharacteristicInformation {
+public class CharacteristicsInformation {
     private String name;
     private int value;
 
-    public CharacteristicInformation(String name, int value) {
+    public CharacteristicsInformation(String name, int value) {
         this.name = name;
         this.value = value;
     }

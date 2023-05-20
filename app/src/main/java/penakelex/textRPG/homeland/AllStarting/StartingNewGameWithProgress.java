@@ -29,6 +29,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDao;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
@@ -67,7 +69,9 @@ public class StartingNewGameWithProgress extends DialogFragment {
         TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getActivity()).getWritableDatabase(),
                 new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight),getResources().getString(R.string.kind_one)});
         InventoryDatabase.getDatabase(getActivity()).inventoryDao().deleteAll();
-        QuestsDatabase.getDatabase(getActivity()).questsDao().deleteAll();
+        QuestsDao dao = QuestsDatabase.getDatabase(getActivity()).questsDao();
+        dao.deleteAll();
+        dao.addQuest(new Quest(getActivity().getString(R.string.quest_registration)));
         startActivity(new Intent(getActivity(), DialogActivity.class));
         getActivity().finish();
     }

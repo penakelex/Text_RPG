@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
     </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -78,7 +78,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
     </LinearLayout>
 
@@ -95,7 +95,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -105,7 +105,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -115,7 +115,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
 

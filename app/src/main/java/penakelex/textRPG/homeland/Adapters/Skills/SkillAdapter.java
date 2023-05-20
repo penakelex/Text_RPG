@@ -6,7 +6,6 @@ import static penakelex.textRPG.homeland.Main.Constants.Skill_Points;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,12 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.ViewHolder> 
     private OnSkillItemClickListener clickListener;
     private Context context;
     private View view;
+    private int lastPosition = -1;
     private SharedPreferences sharedPreferences;
 
     public interface OnSkillItemClickListener {
         void onClickListener(String name, int position);
+
         void setNewPoints();
     }
 
@@ -47,10 +48,19 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
-        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getName(), position));
+        holder.bind(information.get(position), context);
+        holder.itemView.setOnClickListener(listener -> onClicked(holder, position));
         holder.binding.raiseSkill.setOnClickListener(listener -> raisingSkill(position));
         holder.binding.downgradeSkill.setOnClickListener(listener -> downgradingSkill(position));
+    }
+
+    private void onClicked(ViewHolder holder, int position) {
+        if (position != lastPosition) {
+            clickListener.onClickListener(information.get(position).getName(), position);
+            holder.binding.containerForSkillItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
+            notifyItemChanged(lastPosition);
+            lastPosition = position;
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -122,7 +132,8 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.ViewHolder> 
             this.binding = ItemSkillBinding.bind(itemView);
         }
 
-        public void bind(SkillInformation skillInformation) {
+        public void bind(SkillInformation skillInformation, Context context) {
+            binding.containerForSkillItem.setBackgroundColor(context.getResources().getColor(R.color.white));
             binding.skillName.setText(skillInformation.getName());
             binding.skillValue.setText(String.valueOf(skillInformation.getValue()));
         }

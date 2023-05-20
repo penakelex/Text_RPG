@@ -16,9 +16,9 @@ public class Quest {
     @ColumnInfo(name = "stage")
     private short stages;
 
-    public Quest(String name, short stages) {
+    public Quest(String name) {
         this.name = name;
-        this.stages = stages;
+        this.stages = 1;
 
     }
 

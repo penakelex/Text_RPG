@@ -9,9 +9,10 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/reputationsName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fontFamily="@font/game_font1"
         android:gravity="center"
+        android:background="@color/white"
         android:text="Имя"
         android:textColor="@color/black"
         android:textSize="24sp" />

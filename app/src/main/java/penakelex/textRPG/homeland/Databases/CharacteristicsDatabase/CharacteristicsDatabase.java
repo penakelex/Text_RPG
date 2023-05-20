@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import penakelex.textRPG.homeland.Adapters.Characteristics.CharacteristicInformation;
+import penakelex.textRPG.homeland.Adapters.Characteristics.CharacteristicsInformation;
 import penakelex.textRPG.homeland.Adapters.StartingCharacteristics.StartingCharacteristicInformation;
 import penakelex.textRPG.homeland.Main.Constants;
 
@@ -27,14 +27,14 @@ public class CharacteristicsDatabase {
         return arrayList;
     }
 
-    public static ArrayList<CharacteristicInformation> getCharacteristicsInformation(SQLiteDatabase database) {
-        ArrayList<CharacteristicInformation> arrayList = new ArrayList<>();
+    public static ArrayList<CharacteristicsInformation> getCharacteristicsInformation(SQLiteDatabase database) {
+        ArrayList<CharacteristicsInformation> arrayList = new ArrayList<>();
         Cursor cursor = database.query(CharacteristicsDatabaseHelper.Table_Characteristics, null, null, null, null, null, null);
         int nameColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Name),
                 valueColumnIndex = cursor.getColumnIndex(CharacteristicsDatabaseHelper.KEY_Value);
         cursor.moveToFirst();
         do {
-            arrayList.add(new CharacteristicInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
+            arrayList.add(new CharacteristicsInformation(cursor.getString(nameColumnIndex), cursor.getInt(valueColumnIndex)));
         } while (cursor.moveToNext());
         cursor.close();
         return arrayList;

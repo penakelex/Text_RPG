@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cosmos"
     android:gravity="center"
     android:orientation="horizontal"
-    tools:context="penakelex.textRPG.homeland.AllStarting.MainMenu">
+    android:background="@drawable/cosmos"
+    tools:context="penakelex.textRPG.homeland.AllStarting.MainMenu"
+    tools:ignore="MissingDefaultResource">
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -50,20 +51,8 @@
             android:text="@string/continue_game"
             android:textAllCaps="false"
             android:textColor="#EFDB3D"
-            android:textSize="26sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:fontFamily="@font/game_font1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:background="@drawable/buttons_background"
-            android:text="@string/settings"
-            android:textAllCaps="false"
-            android:textColor="#EFDB3D"
-            android:textSize="26sp" />
+            android:textSize="26sp"
+            tools:ignore="OnClick" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/credits"
@@ -91,17 +80,6 @@
             android:textColor="#EFDB3D"
             android:textSize="26sp" />
 
-        <!--<Button
-            android:id="@+id/map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:backgroundTint="#3A04B5"
-            android:text="map"
-            android:textAllCaps="false"
-            android:textColor="#EFDB3D"
-            android:textSize="26sp" />-->
     </LinearLayout>
 
 

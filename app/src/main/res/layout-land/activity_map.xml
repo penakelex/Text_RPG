@@ -31,6 +31,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="bottom"
             android:layout_weight="1"
             android:layout_marginStart="4dp"
             android:orientation="vertical">
@@ -59,7 +60,7 @@
                     android:textColor="@color/golden_yellow"
                     android:background="@drawable/buttons_background"
                     android:layout_weight="1"
-                    android:text="@string/go_to_west_MAP"
+                    android:text="@string/west"
                     android:textAllCaps="false"
                     android:textSize="20sp" />
 
@@ -73,7 +74,7 @@
                     android:gravity="center"
                     android:textColor="@color/golden_yellow"
                     android:background="@drawable/buttons_background"
-                    android:text="@string/go_to_east_MAP"
+                    android:text="@string/east"
                     android:textAllCaps="false"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -90,7 +91,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:text="@string/go_to_north_MAP"
+                    android:text="@string/north"
                     android:gravity="center"
                     android:textColor="@color/golden_yellow"
                     android:background="@drawable/buttons_background"
@@ -104,7 +105,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:text="@string/go_to_south_MAP"
+                    android:text="@string/south"
                     android:gravity="center"
                     android:textColor="@color/golden_yellow"
                     android:background="@drawable/buttons_background"

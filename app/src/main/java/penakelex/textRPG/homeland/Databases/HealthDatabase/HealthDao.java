@@ -17,4 +17,7 @@ public interface HealthDao {
 
     @Query("UPDATE health_status SET value=:newValue WHERE id=:ID")
     void updateValue(short newValue, byte ID);
+
+    @Query("DELETE FROM health_status")
+    void deleteAll();
 }

@@ -7,7 +7,8 @@
     android:background="@drawable/cosmos"
     android:gravity="center"
     android:orientation="horizontal"
-    tools:context=".TopPanel.Menu.MenuActivity">
+    tools:context=".TopPanel.Menu.MenuActivity"
+    tools:ignore="MissingDefaultResource">
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -35,19 +36,6 @@
             android:fontFamily="@font/game_font1"
             android:gravity="center"
             android:text="@string/back_to_game"
-            android:textAllCaps="false"
-            android:textColor="@color/golden_yellow"
-            android:textSize="24sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="@drawable/buttons_background"
-            android:fontFamily="@font/game_font1"
-            android:gravity="center"
-            android:text="@string/settings"
             android:textAllCaps="false"
             android:textColor="@color/golden_yellow"
             android:textSize="24sp" />

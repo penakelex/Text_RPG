@@ -14,11 +14,14 @@ import java.util.ArrayList;
 
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelper;
+import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemStartingTalentBinding;
 
 public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalentsAdapter.ViewHolder> {
     private ArrayList<StartingTalentsInformation> information = new ArrayList<>();
     private final OnStartingTalentItemClickListener clickListener;
+    private int lastPosition = -1;
+    private Context context;
 
     public StartingTalentsAdapter(OnStartingTalentItemClickListener clickListener) {
         this.clickListener = clickListener;
@@ -36,8 +39,17 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
-        holder.itemView.setOnClickListener(listener -> clickListener.onClickListener(information.get(position).getName(), position));
+        holder.bind(information.get(position), context, position, lastPosition);
+        holder.itemView.setOnClickListener(listener -> isClicked(holder, position));
+    }
+
+    private void isClicked(ViewHolder holder, int position) {
+        if (lastPosition != position) {
+            clickListener.onClickListener(information.get(position).getName(), position);
+            holder.binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
+            notifyItemChanged(lastPosition);
+            lastPosition = position;
+        }
     }
 
     @Override
@@ -48,6 +60,7 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
     @SuppressLint("NotifyDataSetChanged")
     public void setInformation(Context context) {
         this.information = TalentsDatabase.getStartingTalentsInformation(new TalentsDatabaseHelper(context).getReadableDatabase());
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -59,7 +72,11 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
             this.binding = ItemStartingTalentBinding.bind(itemView);
         }
 
-        public void bind(StartingTalentsInformation startingTalentsInformation) {
+        public void bind(StartingTalentsInformation startingTalentsInformation, Context context, int position, int lastPosition) {
+            if (lastPosition == position)
+                binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
+            else
+                binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.white));
             binding.nameOfTalent.setText(startingTalentsInformation.getName());
             binding.checkBox.setChecked(startingTalentsInformation.isHaving());
         }

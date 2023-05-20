@@ -1,19 +1,23 @@
 package penakelex.textRPG.homeland.Dialogs;
 
 import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
+import static penakelex.textRPG.homeland.Main.Constants.Global_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Going_To_Starting_Information;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
 import static penakelex.textRPG.homeland.Main.Constants.Is_Going_To_Starting_Information_First_Time;
+import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 import static penakelex.textRPG.homeland.Main.Constants.Money;
 import static penakelex.textRPG.homeland.Main.Constants.Reputation;
+import static penakelex.textRPG.homeland.Main.Constants.Static_Position;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -23,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
@@ -44,6 +49,7 @@ public class DialogActivity extends MainActionParentActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDialogBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
@@ -83,6 +89,7 @@ public class DialogActivity extends MainActionParentActivity {
                 break;
             case -2:
                 binding = null;
+                sharedPreferences.edit().putInt(Global_Map_Location, 2).putBoolean(Static_Position, true).putInt(Local_Map_Location, 51).apply();
                 startActivity(new Intent(DialogActivity.this, Map.class));
                 finish();
                 break;
@@ -98,6 +105,7 @@ public class DialogActivity extends MainActionParentActivity {
                 sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
                         putBoolean(Is_Going_To_Starting_Information_First_Time, false).
                         putInt(ID_Dialog, 3).apply();
+                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().updateQuestStage((short) 2, 1);
                 binding = null;
                 startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
                 finish();

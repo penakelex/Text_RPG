@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/map_part_8"
+    android:background="@drawable/map_part_2"
     android:orientation="vertical"
     android:padding="2dp"
     tools:context="penakelex.textRPG.homeland.Map.GlobalMapFragments.GlobalMapFragment_8">
@@ -21,8 +21,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
-            android:textSize="42sp" />
+            android:textColor="@color/red"
+            android:textSize="42sp"
+            tools:ignore="NestedWeights" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_8"
@@ -31,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -41,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
     </LinearLayout>
 
@@ -58,8 +59,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
-            android:textSize="42sp" />
+            android:textColor="@color/red"
+            android:textSize="42sp"
+            tools:ignore="NestedWeights" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_5"
@@ -68,7 +70,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -78,7 +80,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
     </LinearLayout>
 
@@ -95,8 +97,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
-            android:textSize="42sp" />
+            android:textColor="@color/red"
+            android:textSize="42sp"
+            tools:ignore="NestedWeights" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_2"
@@ -105,7 +108,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -115,7 +118,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/black_circle"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="42sp" />
 
 

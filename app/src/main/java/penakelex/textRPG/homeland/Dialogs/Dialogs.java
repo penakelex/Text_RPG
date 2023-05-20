@@ -90,9 +90,9 @@ public class Dialogs {
                             new Quote.CharacterQuote(R.string.quotes3_character_quote5_1, 0, 6)}),
             new Quote(0, names[0], R.string.quotes3_quote6,
                     new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote6_0, 0, 7)}),
-            new Quote(0, names[2], R.string.quotes3_quote7,
+            new Quote(2, names[2], R.string.quotes3_quote7,
                     new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote7_0, 0, 8)}),
-            new Quote(0, names[2], R.string.quotes3_quote8,
+            new Quote(2, names[2], R.string.quotes3_quote8,
                     new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote8_0, 0, 9)}),
             new Quote(2, names[2], R.string.quotes3_quote9, new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes3_character_quote9_0, 0, -2)}),
     };

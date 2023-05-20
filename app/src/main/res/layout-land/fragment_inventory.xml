@@ -157,16 +157,22 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <LinearLayout
                 android:id="@+id/throwAway"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:background="@drawable/buttons_background"
                 android:gravity="center"
-                android:text="@string/throw_away"
+                android:orientation="vertical"
                 android:textColor="@color/golden_yellow"
-                android:textSize="24sp"
-                tools:ignore="VisualLintButtonSize" />
+                tools:ignore="VisualLintButtonSize">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/basket"
+                    android:contentDescription="@null" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

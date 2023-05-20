@@ -7,7 +7,8 @@
     android:background="@color/white"
     android:orientation="horizontal"
     tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingCharacteristicsFragment"
-    tools:ignore="MissingDefaultResource">
+    tools:ignore="MissingDefaultResource"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"

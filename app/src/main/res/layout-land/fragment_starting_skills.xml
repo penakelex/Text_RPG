@@ -6,8 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="4dp"
+    android:background="@color/white"
     tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingSkillsFragment"
-    tools:ignore="MissingDefaultResource">
+    tools:ignore="MissingDefaultResource"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"

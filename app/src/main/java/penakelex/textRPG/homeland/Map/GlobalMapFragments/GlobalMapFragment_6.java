@@ -5,6 +5,7 @@ import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location_Def_Value;
 import static penakelex.textRPG.homeland.Main.Constants.Starting;
+import static penakelex.textRPG.homeland.Main.Constants.Static_Position;
 import static penakelex.textRPG.homeland.Main.Constants.U_Here;
 
 import android.content.Context;
@@ -21,7 +22,7 @@ import androidx.fragment.app.Fragment;
 import penakelex.textRPG.homeland.databinding.FragmentGlobalMap6Binding;
 
 
-public class GlobalMapFragment_6 extends Fragment {
+public class GlobalMapFragment_6 extends Fragment implements GlobalMap {
     private FragmentGlobalMap6Binding binding;
     private SharedPreferences sharedPreferences;
 
@@ -39,7 +40,34 @@ public class GlobalMapFragment_6 extends Fragment {
         binding.button9.setOnClickListener(listener -> ninthButton());
     }
 
-    private void startLocation() {
+    @Override
+    public void setClickable() {
+        sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(Static_Position, false)) {
+            binding.button1.setEnabled(false);
+            binding.button2.setEnabled(false);
+            binding.button3.setEnabled(false);
+            binding.button4.setEnabled(false);
+            binding.button5.setEnabled(false);
+            binding.button6.setEnabled(false);
+            binding.button7.setEnabled(false);
+            binding.button8.setEnabled(false);
+            binding.button9.setEnabled(false);
+        } else {
+            binding.button1.setEnabled(true);
+            binding.button2.setEnabled(true);
+            binding.button3.setEnabled(true);
+            binding.button4.setEnabled(true);
+            binding.button5.setEnabled(true);
+            binding.button6.setEnabled(true);
+            binding.button7.setEnabled(true);
+            binding.button8.setEnabled(true);
+            binding.button9.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void startLocation() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         switch (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value)) {
             case 34:
@@ -72,8 +100,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-
-    private void ninthButton() {
+    @Override
+    public void ninthButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[8]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[8]) {
@@ -82,7 +110,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void eighthButton() {
+    @Override
+    public void eighthButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[7]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[7]) {
@@ -91,7 +120,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void seventhButton() {
+    @Override
+    public void seventhButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[6]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[6]) {
@@ -100,7 +130,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void sixthButton() {
+    @Override
+    public void sixthButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[5]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[5]) {
@@ -109,7 +140,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void fifthButton() {
+    @Override
+    public void fifthButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[4]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[4]) {
@@ -118,7 +150,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void fourthButton() {
+    @Override
+    public void fourthButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[3]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[3]) {
@@ -127,7 +160,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void thirdButton() {
+    @Override
+    public void thirdButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[2]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[2]) {
@@ -136,7 +170,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void secondButton() {
+    @Override
+    public void secondButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[1]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[1]) {
@@ -145,7 +180,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void firstButton() {
+    @Override
+    public void firstButton() {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         settingNothing(Global_Map_6[0]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != Global_Map_6[0]) {
@@ -162,7 +198,8 @@ public class GlobalMapFragment_6 extends Fragment {
         return binding.getRoot();
     }
 
-    private void settingNothing(int destination) {
+    @Override
+    public void settingNothing(int destination) {
         sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         int location = sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value);
         if ((location == Global_Map_6[0] || location == Global_Map_6[1] || location == Global_Map_6[2] ||
@@ -176,7 +213,8 @@ public class GlobalMapFragment_6 extends Fragment {
         }
     }
 
-    private void settingNothingToLocation(int location) {
+    @Override
+    public void settingNothingToLocation(int location) {
         switch (location) {
             case 34:
                 binding.button1.setText("");

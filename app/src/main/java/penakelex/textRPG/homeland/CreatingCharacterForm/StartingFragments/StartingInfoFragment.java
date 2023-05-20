@@ -66,9 +66,21 @@ public class StartingInfoFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!sharedPreferences.getBoolean(Is_Going_To_Starting_Information_First_Time, true)) {
                     if (sharedPreferences.getString(Main_Character_Name, "").equals(s.toString())) {
-                        binding = null;
-                        startActivity(new Intent(getActivity(), DialogActivity.class));
-                        getActivity().finish();
+                        Thread thread = new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    sleep(400);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                } finally {
+                                    binding = null;
+                                    startActivity(new Intent(getActivity(), DialogActivity.class));
+                                    getActivity().finish();
+                                }
+                            }
+                        };
+                        thread.start();
                     }
                 }
             }

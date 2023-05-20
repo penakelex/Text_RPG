@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="4dp"
-    tools:context=".TopPanel.Person.Fragments.CharacteristicsFragment">
+    tools:context=".TopPanel.Person.Fragments.CharacteristicsFragment"
+    tools:ignore="MissingDefaultResource"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,12 +46,12 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="4dp"
                 tools:ignore="NestedWeights">

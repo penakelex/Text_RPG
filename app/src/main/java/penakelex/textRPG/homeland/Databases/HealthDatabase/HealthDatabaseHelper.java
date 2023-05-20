@@ -21,6 +21,7 @@ public class HealthDatabaseHelper {
 
     public static void settingStartingValues(Context context, String[] names) {
         HealthDao healthDao = HealthDatabase.getDatabase(context).healthDao();
+        healthDao.deleteAll();
         healthDao.insert(new HealthItem(names[0], (short) OtherInformationDatabase.getValue(new OtherInformationDatabaseHelper(context).getReadableDatabase(), 7)));
         for (int i = 1; i < names.length; i++) {
             healthDao.insert(new HealthItem(names[i], (short) 1));

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    app:cardCornerRadius="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/containerForSkillItem"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/skillName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:gravity="center|start"
+            android:layout_gravity="center"
+            android:fontFamily="@font/game_font1"
+            android:layout_margin="2dp"
+            android:text="Название"
+            android:textColor="@color/black"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/skillValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.9"
+            android:gravity="end|center"
+            android:fontFamily="@font/game_font1"
+            android:text="0-100"
+            android:layout_margin="2dp"
+            android:textColor="@color/black"
+            android:textSize="60sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/raiseSkill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.1"
+            android:layout_gravity="center"
+            android:fontFamily="@font/game_font1"
+            android:background="@drawable/buttons_background"
+            android:contentDescription="@null"
+            android:gravity="center"
+            android:layout_margin="2dp"
+            android:text="@string/plus_one"
+            android:textColor="@color/golden_yellow"
+            android:textSize="60sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/downgradeSkill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.1"
+            android:layout_margin="2dp"
+            android:fontFamily="@font/game_font1"
+            android:layout_gravity="center"
+            android:background="@drawable/buttons_background"
+            android:contentDescription="@null"
+            android:gravity="center"
+            android:text="@string/minus_one"
+            android:textColor="@color/golden_yellow"
+            android:textSize="60sp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

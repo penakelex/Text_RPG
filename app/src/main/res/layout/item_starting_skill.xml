@@ -10,6 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/containerForSkillItem"
+        android:background="@color/white"
         android:padding="4dp"
         android:orientation="horizontal">
 

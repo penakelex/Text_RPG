@@ -44,7 +44,7 @@ public class QuestsActivity extends TopPanelParentActivity {
         toolBar();
         questsDatabase = QuestsDatabase.getDatabase(getApplicationContext());
         QuestsAdapter questsAdapter = new QuestsAdapter(clickListener);
-        questsAdapter.setInformation(questsDatabase);
+        questsAdapter.setInformation(questsDatabase, getApplicationContext());
         binding.containerForQuests.setAdapter(questsAdapter);
     }
 

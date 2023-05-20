@@ -40,11 +40,7 @@ public class MainActionParentActivity extends ActionParentActivity {
                 }
                 break;
             case R.id.questsToolBar:
-                if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
-                    toolbar.setTitle(getResources().getString(R.string.notes8));
-                } else {
-                    startActivity(new Intent(this, QuestsActivity.class));
-                }
+                startActivity(new Intent(this, QuestsActivity.class));
                 break;
             case R.id.menuToolBar:
                 startActivity(new Intent(this, MenuActivity.class));
