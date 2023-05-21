@@ -63,7 +63,7 @@ public class InventoryFragment extends Fragment {
         inventoryDatabase = InventoryDatabase.getDatabase(getActivity());
         settingVolumeNWeight();
         inventoryAdapter = new InventoryAdapter(clickListener);
-        inventoryAdapter.setInformation(inventoryDatabase, getActivity().getApplicationContext());
+        inventoryAdapter.setInformation(inventoryDatabase, getActivity().getApplicationContext(), 1);
         binding.containerForItems.setAdapter(inventoryAdapter);
         binding.throwAway.setOnClickListener(listener -> throwingAwayItem());
     }
@@ -71,7 +71,7 @@ public class InventoryFragment extends Fragment {
     @SuppressLint("DefaultLocale")
     private void settingVolumeNWeight() {
         SQLiteDatabase database = new OtherInformationDatabaseHelper(getActivity()).getReadableDatabase();
-        binding.volume.setText(String.format("%s %d/%d", getResources().getString(R.string.volume), sharedPreferences.getInt(Using_Volume, 0), OtherInformationDatabase.getValue(database, 3)));
+        binding.volume.setText(String.format("%s %d/%d", getResources().getString(R.string.volume), sharedPreferences.getInt(Using_Volume, 0), OtherInformationDatabase.getValue(database, 4)));
         binding.weight.setText(String.format("%s %d/%d", getResources().getString(R.string.weight), sharedPreferences.getInt(Using_Weight, 0), OtherInformationDatabase.getValue(database, 3)));
     }
 
@@ -84,7 +84,7 @@ public class InventoryFragment extends Fragment {
             binding.itemWeight.setText("");
             binding.itemVolume.setText("");
             currentPosition = -1;
-            inventoryAdapter.setInformation(inventoryDatabase, getActivity().getApplicationContext());
+            inventoryAdapter.setInformation(inventoryDatabase, getActivity().getApplicationContext(), 1);
             inventoryAdapter.setLastPosition(-1);
         } else {
             Snackbar.make(binding.getRoot(), getResources().getString(R.string.have_not_chosen_inventory_item), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();

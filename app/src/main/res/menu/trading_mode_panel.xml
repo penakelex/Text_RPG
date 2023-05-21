@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/purchase"
+        android:icon="@drawable/sale_icon"
+        android:title="@string/purchase" />
+    <item
+        android:id="@+id/sale"
+        android:icon="@drawable/sell_icon"
+        android:title="@string/sale" />
+</menu>

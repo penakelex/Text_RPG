@@ -33,8 +33,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(InventoryDatabase inventoryDatabase, Context context) {
-        List<InventoryItem> inventoryItems = inventoryDatabase.inventoryDao().getInventory(1);
+    public void setInformation(InventoryDatabase inventoryDatabase, Context context, int ownersID) {
+        List<InventoryItem> inventoryItems = inventoryDatabase.inventoryDao().getInventory(ownersID);
         ArrayList<InventoryItemInformation> inventoryItemsInformation = new ArrayList<>();
         for (int i = 0; i < inventoryItems.size(); i++)
             inventoryItemsInformation.add(new InventoryItemInformation(inventoryItems.get(i).getId(), inventoryItems.get(i).getPrimaryID()));

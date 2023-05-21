@@ -1,9 +1,20 @@
 package penakelex.textRPG.homeland.Databases.InventoryDatabase;
 
+import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
+import static penakelex.textRPG.homeland.Main.Constants.Using_Volume;
+import static penakelex.textRPG.homeland.Main.Constants.Using_Weight;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
+import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
 import penakelex.textRPG.homeland.R;
@@ -32,8 +43,15 @@ public class InventoryDatabaseHelper {
         return itemInformation;
     }
 
-    public static void insertNewItemToPlayersInventory(int ID, Context context) {
-        InventoryDatabase.getDatabase(context).inventoryDao().insertItem(new InventoryItem(ID, 1, getItemPriceForPlayerSelling(context, ID)));
+    public static void insertNewItemToPlayersInventory(int ID, Context context, View view) {
+        String[] itemInformation = getAllInventoryItemInformation(context, ID);
+        float weight = Float.parseFloat(itemInformation[2]), volume = Float.parseFloat(itemInformation[3]);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        SQLiteDatabase database = new OtherInformationDatabaseHelper(context).getReadableDatabase();
+        if (sharedPreferences.getFloat(Using_Weight, 0) + weight <= OtherInformationDatabase.getValue(database, 3) ||
+                sharedPreferences.getFloat(Using_Volume, 0) + volume <= OtherInformationDatabase.getValue(database, 4))
+            InventoryDatabase.getDatabase(context).inventoryDao().insertItem(new InventoryItem(ID, 1, getItemPriceForPlayerSelling(context, ID)));
+        else Snackbar.make(view, context.getResources().getString(R.string.too_many_items), Snackbar.LENGTH_SHORT).setTextColor(context.getResources().getColor(R.color.golden_yellow)).setBackgroundTint(context.getResources().getColor(R.color.dark_purple)).show();
     }
 
     public static void trading(int primaryID, int newOwnerID, Context context) {

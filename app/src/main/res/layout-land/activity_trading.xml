@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Trading.TradingActivity"
+    tools:ignore="MissingDefaultResource">
+
+    <include layout="@layout/tool_bar" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationViewForTrading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/trading_mode_panel" />
+
+    <LinearLayout
+        android:id="@+id/containerForTradingFragments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+</LinearLayout>
