@@ -216,15 +216,90 @@ public class Dialogs {
                     new Quote.CharacterQuote(R.string.quotes10_character_quote3_0, 4)
             }),
             new Quote(2, names[2], R.string.quotes10_quote4, new Quote.CharacterQuote[]{
-                    new Quote.CharacterQuote(R.string.quotes10_character_quote4_0, 5)
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote4_0, 6),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote4_1, 7)
             }),
             new Quote(0, names[0], R.string.quotes10_quote5, new Quote.CharacterQuote[]{
-                    //new Quote.CharacterQuote()
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote5_0, 8),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote5_1, 21)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote6, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote6_0, 0, 5, 2, 1),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote6_1, 8)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote7, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote7_0, -13),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote7_1, 9)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote8, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote8_0, 22)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote9, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote9_0, 6)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote10, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote10_0, 0, 5, 2, 2),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote10_1, 8)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote11, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote11_0, 0, 5, 2, 3),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote11_1, 8)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote12, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote12_0, 0, 5, 2, 4),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote12_1, 8)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote13, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote13_0, 0, 5, 2, 5),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote13_1, 8)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote14, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote14_0, 15),
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote15, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote15_0, 16),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote15_1, 16)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote16, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote16_0, 17),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote16_1, 18)
+            }),
+            new Quote(4, names[4], R.string.quotes10_quote17, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote17_0, 19)
+            }),
+            new Quote(4, names[4], R.string.quotes10_quote18, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote18_0, 17),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote18_1, 20)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote19, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote19_0, -14)
+            }),
+            new Quote(4, names[4], R.string.quotes10_quote20, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote20_0, 17)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote21, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote21_0, -13)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote22, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote22_0, 16)
             })
     };
+
+    Quote[] quotes11 = new Quote[]{
+            new Quote(2, names[2], R.string.quotes11_quote0, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes11_character_quote0_0, -15),
+                    new Quote.CharacterQuote(R.string.quotes11_character_quote0_1, -16)
+            })
+    };
+
+    Quote[] quotes12 = new Quote[]{
+        new Quote(0, names[0], R.string.quotes12_quote0, new Quote.CharacterQuote[] {
+
+        })
+    };
     private final Quote[][] quotes = {quotes0, quotes1, quotes2, quotes3, quotes4, quotes5, quotes6,
-            quotes7, quotes8, quotes9, quotes10,
-            // quotes11, quotes12, quotes13, quotes14, quotes15
+            quotes7, quotes8, quotes9, quotes10, quotes11, quotes12,
+            // quotes13, quotes14, quotes15
     };
 
     public Quote[] getQuotes(int index) {

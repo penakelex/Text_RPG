@@ -54,6 +54,18 @@ public class DialogActivityHelper {
                     case R.string.quotes6_character_quote0_1:
                         characterQuote.setNextStep(2);
                         break;
+                    case R.string.quotes10_character_quote10_0:
+                        characterQuote.setNextStep(11);
+                        break;
+                    case R.string.quotes10_character_quote11_0:
+                        characterQuote.setNextStep(12);
+                        break;
+                    case R.string.quotes10_character_quote12_0:
+                        characterQuote.setNextStep(13);
+                        break;
+                    case R.string.quotes10_character_quote13_0:
+                        characterQuote.setNextStep(14);
+                        break;
                 }
                 plusStatistics[0]++;
             }

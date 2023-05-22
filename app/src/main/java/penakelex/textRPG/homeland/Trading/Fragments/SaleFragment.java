@@ -28,7 +28,7 @@ public class SaleFragment extends Fragment {
     private InventoryItem item;
     SharedPreferences sharedPreferences;
     private final TradingAdapter.OnTradingItemClickListener clickListener = ID -> {
-        item = InventoryDatabaseHelper.getInventoryItem(ID + 1, requireActivity().getApplicationContext());
+        item = InventoryDatabaseHelper.getInventoryItem(ID, requireActivity().getApplicationContext());
         String[] information = InventoryDatabaseHelper.getAllInventoryItemInformation(requireActivity().getApplicationContext(), item.getId());
         binding.itemName.setText(information[0]);
         binding.itemValue.setText(String.valueOf(item.getPrice()));

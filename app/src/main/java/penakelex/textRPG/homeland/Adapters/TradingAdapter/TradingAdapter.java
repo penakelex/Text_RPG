@@ -2,6 +2,7 @@ package penakelex.textRPG.homeland.Adapters.TradingAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
     private Context context;
 
     public interface OnTradingItemClickListener {
-        void onClickListener(int ID);
+        void onClickListener(long ID);
     }
 
     @NonNull
@@ -39,8 +40,8 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
 
     private void onClicked(int position, ViewHolder holder) {
         if (lastPosition != position) {
-            clickListener.onClickListener(position);
-            holder.binding.containerForTradingItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
+            clickListener.onClickListener(information.get(position).getPrimaryID());
+            holder.binding.containerForTradingItem.setBackgroundColor(context.getResources().getColor(R.color.blue_green));
             notifyItemChanged((int) lastPosition);
             lastPosition = position;
         }
@@ -71,9 +72,11 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
         }
 
         public void bind(TradingInformation tradingInformation, Context context) {
-            binding.containerForTradingItem.setBackgroundColor(context.getResources().getColor(R.color.white));
+            binding.containerForTradingItem.setBackgroundColor(context.getResources().getColor(R.color.light_blue_green));
             binding.nameOfItem.setText(tradingInformation.getName());
             binding.valueOfItem.setText(String.valueOf(tradingInformation.getValue()));
+            Log.d("name", tradingInformation.getName());
+            Log.d("value", String.valueOf(tradingInformation.getValue()));
         }
     }
 }

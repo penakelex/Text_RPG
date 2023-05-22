@@ -24,13 +24,14 @@ public class TradingActivity extends MainActionParentActivity {
         binding = ActivityTradingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolBar();
+        getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
         binding.navigationViewForTrading.setOnNavigationItemSelectedListener(listener -> {
             switch (listener.getItemId()) {
                 case R.id.sale:
-                    getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new SaleFragment()).commit();
                     return true;
                 case R.id.purchase:
-                    getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new SaleFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
                     return true;
             }
             return false;

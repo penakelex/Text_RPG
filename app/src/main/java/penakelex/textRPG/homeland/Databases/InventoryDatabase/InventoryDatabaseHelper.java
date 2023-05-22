@@ -7,6 +7,7 @@ import static penakelex.textRPG.homeland.Main.Constants.Using_Weight;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -24,14 +25,16 @@ import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
 import penakelex.textRPG.homeland.R;
 
 public class InventoryDatabaseHelper {
-    public static InventoryItem getInventoryItem(int primaryID, Context context) {
+    public static InventoryItem getInventoryItem(long primaryID, Context context) {
         return InventoryDatabase.getDatabase(context).inventoryDao().getItem(primaryID);
     }
     public static ArrayList<TradingInformation> getTradingInformation(Context context, int ownerID, boolean typeTrading) {
         ArrayList<TradingInformation> arrayList = new ArrayList<>();
         List<InventoryItem> list = InventoryDatabase.getDatabase(context).inventoryDao().getInventory(ownerID);
-        for (InventoryItem item : list) arrayList.add(new TradingInformation(getAllInventoryItemInformation(context, item.getId())[0], (typeTrading ? getItemPriceForPlayerBuying(context, item.getId()) : getItemPriceForPlayerSelling(context, item.getId()))));
-        return (ArrayList<TradingInformation>) arrayList.clone();
+        for (InventoryItem item : list) {
+            arrayList.add(new TradingInformation(getAllInventoryItemInformation(context, item.getId())[0], (typeTrading ? getItemPriceForPlayerBuying(context, item.getId()) : getItemPriceForPlayerSelling(context, item.getId())), item.getPrimaryID()));
+        }
+        return arrayList;
     }
 
     public static String[] getInventoryItemShortInformation(Context context, int ID) {
@@ -50,6 +53,15 @@ public class InventoryDatabaseHelper {
                 itemInformation[2] = String.valueOf(0.1); //weight
                 itemInformation[3] = String.valueOf(75); //volume
                 itemInformation[4] = context.getResources().getString(R.string.description_chocolate_bar); //description
+            }
+            break;
+            case 2:
+            {
+                itemInformation[0] = context.getResources().getString(R.string.name_water); //name
+                itemInformation[1] = context.getResources().getString(R.string.type_food); //type
+                itemInformation[2] = String.valueOf(0.1); //weight
+                itemInformation[3] = String.valueOf(75); //volume
+                itemInformation[4] = context.getResources().getString(R.string.description_water); //description
             }
             break;
         }
@@ -98,6 +110,8 @@ public class InventoryDatabaseHelper {
         switch (ID) {
             case 1:
                 return 7;
+            case 2:
+                return 0;
         }
         return 0;
     }

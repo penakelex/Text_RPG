@@ -7,10 +7,12 @@ import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
 import static penakelex.textRPG.homeland.Main.Constants.Is_Going_To_Starting_Information_First_Time;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
+import static penakelex.textRPG.homeland.Main.Constants.Trader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -26,6 +28,9 @@ import java.util.Arrays;
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
+import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryItem;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
@@ -36,6 +41,7 @@ import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelpe
 import penakelex.textRPG.homeland.Main.MainActionParentActivity;
 import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
+import penakelex.textRPG.homeland.Trading.TradingActivity;
 import penakelex.textRPG.homeland.databinding.ActivityDialogBinding;
 import penakelex.textRPG.homeland.databinding.ReplicaButtonBinding;
 
@@ -88,7 +94,8 @@ public class DialogActivity extends MainActionParentActivity {
                 CharacteristicsDatabase.settingStartValuesInDatabase(new CharacteristicsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.strength), getResources().getString(R.string.physique), getResources().getString(R.string.dexterity), getResources().getString(R.string.mentality), getResources().getString(R.string.luckiness), getResources().getString(R.string.watchfulness), getResources().getString(R.string.attractiveness)});
                 SkillsDatabase.settingStartingSkillsInDatabase(new SkillsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), new String[]{getResources().getString(R.string.lightWeapons), getResources().getString(R.string.heavyWeapons), getResources().getString(R.string.meleeWeapons), getResources().getString(R.string.communication), getResources().getString(R.string.trading), getResources().getString(R.string.survival), getResources().getString(R.string.medicine), getResources().getString(R.string.scince), getResources().getString(R.string.repair)});
                 TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight), getResources().getString(R.string.kind_one)});
-                saveChanges();binding = null;
+                saveChanges();
+                binding = null;
                 goingToCreatingCharacter();
                 break;
             case -2:
@@ -156,13 +163,42 @@ public class DialogActivity extends MainActionParentActivity {
                 goingToMap();
                 break;
             case -12:
+                saveChanges();
                 binding = null;
                 DialogActivityHelper.updateLocationForDialog(10, 2, 24, getApplicationContext(), false);
                 goingToMap();
                 break;
+            case -13:
+                DialogActivityHelper.updateLocationForDialog(12, 1, 20, getApplicationContext(), false);
+                saveChanges();
+                initiateDialog(12);
+                break;
+            case -14:
+                DialogActivityHelper.updateLocationForDialog(11, 2, 24, getApplicationContext(), false);
+                saveChanges();
+                initiateDialog(11);
+                break;
+            case -15:
+                sharedPreferences.edit().putInt(Trader, 2).apply();
+                for (int i = 0; i < 10; i++) {
+                    InventoryDatabase.getDatabase(getApplicationContext()).inventoryDao().insertItem(new InventoryItem(2, 2, 0));
+                }
+                saveChanges();
+                binding = null;
+                goingToTrading();
+                break;
+            case -16:
+                DialogActivityHelper.updateLocationForDialog(12, 2, 24, getApplicationContext(), false);
+                saveChanges();
+                break;
             default:
                 fillReplicas(quotes[step]);
         }
+    }
+
+    private void goingToTrading() {
+        startActivity(new Intent(this, TradingActivity.class));
+        finish();
     }
 
     private void saveChanges() {

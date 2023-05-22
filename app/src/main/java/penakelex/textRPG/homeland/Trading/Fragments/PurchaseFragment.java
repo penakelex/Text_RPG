@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,9 @@ public class PurchaseFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private final TradingAdapter.OnTradingItemClickListener clickListener = new TradingAdapter.OnTradingItemClickListener() {
         @Override
-        public void onClickListener(int ID) {
-            item = InventoryDatabaseHelper.getInventoryItem(ID + 1, requireActivity().getApplicationContext());
+        public void onClickListener(long ID) {
+            item = InventoryDatabaseHelper.getInventoryItem(ID, requireActivity().getApplicationContext());
+            Log.d("id", String.valueOf(item.getPrimaryID()));
             String[] information = InventoryDatabaseHelper.getAllInventoryItemInformation(requireActivity().getApplicationContext(), item.getId());
             binding.itemName.setText(information[0]);
             binding.itemValue.setText(String.valueOf(item.getPrice()));
