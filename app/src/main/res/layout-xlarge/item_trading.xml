@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
-    app:cardCornerRadius="4dp"
+    android:padding="8dp"
+    app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@color/light_blue_green"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nameOfItem"
@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:text="Название"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="60sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/valueOfItem"
@@ -32,7 +32,7 @@
             android:gravity="end"
             android:text="Цена"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="60sp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

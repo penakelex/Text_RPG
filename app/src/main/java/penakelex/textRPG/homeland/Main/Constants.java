@@ -12,7 +12,7 @@ public class Constants {
             ID_Dialog = "ID dialog", Reputation = "Reputation", Money = "Money", S = "S",
             Current_Activity = "Current Activity", Level = "Level", Static_Position = "Static Position",
             Is_Going_To_Starting_Information_First_Time = "Is Going To Starting Information First Time",
-            Main_Character_Name = "Main Character Name", Gender = "Gender",
+            Main_Character_Name = "Main Character Name", Gender = "Gender", Trader = "Trader",
             Main_Character_Age = "Main Character Age", Main_Character_Height = "Main Character Height";
     public static final int Local_Map_Location_Def_Value = 11;
     public static final int[] Global_Map_1 = {1, 2, 3, 10, 11, 12, 19, 20, 21},

@@ -11,6 +11,10 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import penakelex.textRPG.homeland.Adapters.TradingAdapter.TradingInformation;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
@@ -20,6 +24,15 @@ import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
 import penakelex.textRPG.homeland.R;
 
 public class InventoryDatabaseHelper {
+    public static InventoryItem getInventoryItem(int primaryID, Context context) {
+        return InventoryDatabase.getDatabase(context).inventoryDao().getItem(primaryID);
+    }
+    public static ArrayList<TradingInformation> getTradingInformation(Context context, int ownerID, boolean typeTrading) {
+        ArrayList<TradingInformation> arrayList = new ArrayList<>();
+        List<InventoryItem> list = InventoryDatabase.getDatabase(context).inventoryDao().getInventory(ownerID);
+        for (InventoryItem item : list) arrayList.add(new TradingInformation(getAllInventoryItemInformation(context, item.getId())[0], (typeTrading ? getItemPriceForPlayerBuying(context, item.getId()) : getItemPriceForPlayerSelling(context, item.getId()))));
+        return (ArrayList<TradingInformation>) arrayList.clone();
+    }
 
     public static String[] getInventoryItemShortInformation(Context context, int ID) {
         String[] shortItemInformation = new String[2], itemInformation = getAllInventoryItemInformation(context, ID);
@@ -54,7 +67,7 @@ public class InventoryDatabaseHelper {
         else Snackbar.make(view, context.getResources().getString(R.string.too_many_items), Snackbar.LENGTH_SHORT).setTextColor(context.getResources().getColor(R.color.golden_yellow)).setBackgroundTint(context.getResources().getColor(R.color.dark_purple)).show();
     }
 
-    public static void trading(int primaryID, int newOwnerID, Context context) {
+    public static void trading(long primaryID, int newOwnerID, Context context) {
         InventoryDatabase database = InventoryDatabase.getDatabase(context);
         if (newOwnerID == 1) {
             database.inventoryDao().changeOwner(newOwnerID, getItemPriceForPlayerSelling(context, database.inventoryDao().getItem(primaryID).getId()), primaryID);
@@ -85,8 +98,6 @@ public class InventoryDatabaseHelper {
         switch (ID) {
             case 1:
                 return 7;
-            case 2:
-                return 0;
         }
         return 0;
     }

@@ -34,6 +34,7 @@ import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDao;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.StatisticsDatabase.StatisticsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
 import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelper;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
@@ -55,6 +56,12 @@ public class StartingNewGameWithProgress extends DialogFragment {
     }
 
     private void startingNewGame() {
+        settingNothingInValues();
+        startActivity(new Intent(getActivity(), DialogActivity.class));
+        getActivity().finish();
+    }
+
+    private void settingNothingInValues() {
         getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE).edit().putInt(ID_Dialog, 0).
                 putBoolean(Is_Game_Started, true).putBoolean(First_Visit_Talents, true).
                 putInt(Main_Character_Age, 0).putInt(Main_Character_Height, 0).
@@ -72,7 +79,6 @@ public class StartingNewGameWithProgress extends DialogFragment {
         QuestsDao dao = QuestsDatabase.getDatabase(getActivity()).questsDao();
         dao.deleteAll();
         dao.addQuest(new Quest(getActivity().getString(R.string.quest_registration)));
-        startActivity(new Intent(getActivity(), DialogActivity.class));
-        getActivity().finish();
+        StatisticsDatabaseHelper.settingStartingValues(getActivity().getApplicationContext(), new String[]{getActivity().getResources().getString(R.string.successful_persuasion)});
     }
 }

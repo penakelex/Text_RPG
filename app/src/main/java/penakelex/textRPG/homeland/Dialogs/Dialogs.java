@@ -4,7 +4,7 @@ package penakelex.textRPG.homeland.Dialogs;
 import penakelex.textRPG.homeland.R;
 
 public class Dialogs {
-    private final int[] names = {R.string.names_MT, R.string.name_registrator, R.string.instructor_serdcev, R.string.alina_vasilievna, R.string.head_of_security};
+    private final int[] names = {R.string.names_MT, R.string.name_registrator, R.string.instructor_serdcev, R.string.alena, R.string.head_of_security, R.string.andrey};
     Quote[] quotes0 = new Quote[]{
             new Quote(0, names[0], R.string.quotes0_quote0,
                     new Quote.CharacterQuote[]{new Quote.CharacterQuote(R.string.quotes0_character_quote0_0, 0, 1),
@@ -96,7 +96,7 @@ public class Dialogs {
                     new Quote.CharacterQuote(R.string.quotes4_character_quote1_0, 3),
             }),
             new Quote(5, names[4], R.string.quotes4_quote2, new Quote.CharacterQuote[]{
-                    new Quote.CharacterQuote(3, 2)
+                    new Quote.CharacterQuote(3, 1)
             }),
             new Quote(5, names[4], R.string.quotes4_quote3, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes4_character_quote3_0, 5),
@@ -138,23 +138,23 @@ public class Dialogs {
                     new Quote.CharacterQuote(5, 1),
                     new Quote.CharacterQuote(R.string.quotes6_character_quote0_1, 0, 4, 11, 20)
             }),
-            new Quote(2, names[2],R.string.quotes6_quote1, new Quote.CharacterQuote[] {
+            new Quote(2, names[2], R.string.quotes6_quote1, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes6_character_quote1_0, -8)
             }),
-            new Quote(2, names[2], R.string.quotes6_quote2, new Quote.CharacterQuote[] {
+            new Quote(2, names[2], R.string.quotes6_quote2, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes6_character_quote2_0, -9),
                     new Quote.CharacterQuote(R.string.quotes6_character_quote2_1, 3)
             }),
-            new Quote(2, names[2], R.string.quotes6_quote3, new Quote.CharacterQuote[] {
+            new Quote(2, names[2], R.string.quotes6_quote3, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes6_character_quote3_0, -8)
             }),
-            new Quote(2, names[2], R.string.quotes6_quote4, new Quote.CharacterQuote[] {
+            new Quote(2, names[2], R.string.quotes6_quote4, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes6_character_quote4_0, -8)
             })
     };
 
-    Quote[] quotes7 = new Quote[] {
-            new Quote(2, names[2], R.string.quotes7_quote0, new Quote.CharacterQuote[] {
+    Quote[] quotes7 = new Quote[]{
+            new Quote(2, names[2], R.string.quotes7_quote0, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes7_character_quote0_0, 1),
             }),
             new Quote(2, names[2], R.string.quotes7_quote1, new Quote.CharacterQuote[]{
@@ -162,28 +162,69 @@ public class Dialogs {
             })
     };
 
-    Quote[] quotes8 = new Quote[] {
-            new Quote(2, names[2], R.string.quotes8_quote0, new Quote.CharacterQuote[] {
+    Quote[] quotes8 = new Quote[]{
+            new Quote(2, names[2], R.string.quotes8_quote0, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes8_character_quote0_0, 1)
             }),
-            new Quote(2, names[2], R.string.quotes8_quote1, new Quote.CharacterQuote[] {
+            new Quote(2, names[2], R.string.quotes8_quote1, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes8_character_quote1_0, 2)
             }),
-            new Quote(2, names[2], R.string.quotes8_quote2, new Quote.CharacterQuote[] {
+            new Quote(2, names[2], R.string.quotes8_quote2, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes8_character_quote2_0, 3)
             }),
-            new Quote(0, names[0], R.string.quotes8_quote3, new Quote.CharacterQuote[] {
+            new Quote(0, names[0], R.string.quotes8_quote3, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes8_character_quote3_0, -11)
             })
     };
 
-    Quote[] quotes9 = new Quote[] {
+    Quote[] quotes9 = new Quote[]{
             new Quote(2, names[2], R.string.quotes9_quote0, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes9_character_quote0_0, 1)
             }),
+            new Quote(2, names[2], R.string.quotes9_quote1, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes9_character_quote1_0, 2)
+            }),
+            new Quote(4, names[2], R.string.quotes9_quote2, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes9_character_quote2_0, 3)
+            }),
+            new Quote(3, names[2], R.string.quotes9_quote3, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes9_character_quote3_0, 4)
+            }),
+            new Quote(4, names[5], R.string.quotes9_quote4, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes9_character_quote4_0, 5)
+            }),
+            new Quote(3, names[3], R.string.quotes9_quote5, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes9_character_quote5_0, 6)
+            }),
+            new Quote(2, names[2], R.string.quotes9_quote6, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes9_character_quote6_0, -12)
+            })
+    };
+
+    Quote[] quotes10 = new Quote[]{
+            new Quote(4, names[5], R.string.quotes10_quote0, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote0_0, 1),
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote0_1, 2)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote1, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote1_0, 3),
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote2, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote2_0, 3)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote3, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote3_0, 4)
+            }),
+            new Quote(2, names[2], R.string.quotes10_quote4, new Quote.CharacterQuote[]{
+                    new Quote.CharacterQuote(R.string.quotes10_character_quote4_0, 5)
+            }),
+            new Quote(0, names[0], R.string.quotes10_quote5, new Quote.CharacterQuote[]{
+                    //new Quote.CharacterQuote()
+            })
     };
     private final Quote[][] quotes = {quotes0, quotes1, quotes2, quotes3, quotes4, quotes5, quotes6,
-            quotes7, quotes8, quotes9
+            quotes7, quotes8, quotes9, quotes10,
+            // quotes11, quotes12, quotes13, quotes14, quotes15
     };
 
     public Quote[] getQuotes(int index) {
@@ -320,6 +361,3 @@ public class Dialogs {
         }
     }
 }
-
-
-

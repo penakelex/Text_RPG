@@ -23,7 +23,7 @@
             android:gravity="center"
             android:text="@string/purchase_word"
             android:textColor="@color/black"
-            android:textSize="32sp" />
+            android:textSize="80sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -54,14 +54,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="32sp" />
+                android:textSize="80sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="50sp" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -72,14 +72,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="60sp" />
             </ScrollView>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/buyItem"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="80dp"
             android:background="@drawable/buttons_background"
             android:orientation="vertical">
 

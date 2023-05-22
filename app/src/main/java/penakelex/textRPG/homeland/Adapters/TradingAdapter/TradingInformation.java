@@ -2,9 +2,9 @@ package penakelex.textRPG.homeland.Adapters.TradingAdapter;
 
 public class TradingInformation {
     private String name;
-    private int value;
+    private float value;
 
-    public TradingInformation(String name, int value) {
+    public TradingInformation(String name, float value) {
         this.name = name;
         this.value = value;
     }
@@ -17,7 +17,7 @@ public class TradingInformation {
         this.name = name;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 

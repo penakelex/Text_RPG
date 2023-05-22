@@ -79,7 +79,8 @@ public class StartingInformationFragment extends Fragment {
             isAllGood = false;
             binding.characterAge.setText("");
         } else {
-            sharedPreferences.edit().putString(Main_Character_Name, binding.characterName.getText().toString()).apply();
+            String name = binding.characterName.getText().toString().replace("\n", "").replace(" ", "");
+            sharedPreferences.edit().putString(Main_Character_Name, name).apply();
         }
         if (binding.characterAge.getText().toString().equals("")) {
             binding.characterAge.setHint(getResources().getString(R.string.did_not_input_ur_age));

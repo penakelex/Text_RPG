@@ -2,6 +2,7 @@ package penakelex.textRPG.homeland.Adapters.QuestStages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class QuestStagesAdapter extends RecyclerView.Adapter<QuestStagesAdapter.
     public void setInformation(int ID, Context context) {
         short stages = QuestsDatabase.getDatabase(context).questsDao().getQuests().get(ID).getStages();
         ArrayList<QuestStageInformation> arrayList = new ArrayList<>();
+        Log.d("dwdwdqd", String.valueOf(stages));
         for (int stage = 0; stage < stages; stage++) arrayList.add(new QuestStageInformation(ID, stage, context));
         this.information = (ArrayList<QuestStageInformation>) arrayList.clone();
         notifyDataSetChanged();

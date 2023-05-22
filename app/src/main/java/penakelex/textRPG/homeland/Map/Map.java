@@ -6,6 +6,7 @@ import static penakelex.textRPG.homeland.Main.Constants.Global_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location_Def_Value;
+import static penakelex.textRPG.homeland.Main.Constants.Static_Position;
 import static penakelex.textRPG.homeland.Main.Constants.World;
 import static penakelex.textRPG.homeland.Main.Constants.Starting;
 
@@ -67,55 +68,58 @@ public class Map extends MainActionParentActivity {
         sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         switch (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value)) {
             case 2:
-                sharedPreferences.edit().putInt(World, 1).apply(); //Службный въезд
+                goingToDialog(); //Службный въезд
                 break;
             case 12:
-                sharedPreferences.edit().putInt(World, 2).apply();  //Гараж
+                goingToDialog();  //Гараж
                 break;
             case 20:
-                sharedPreferences.edit().putInt(World, 3).apply(); //Медпункт
+                goingToDialog(); //Медпункт
                 break;
             case 5:
             case 6:
-                sharedPreferences.edit().putInt(World, 4).apply(); //Технические помещения
+                goingToDialog(); //Технические помещения
                 break;
             case 15:
             case 24:
-                sharedPreferences.edit().putInt(World, 5).apply(); //Столовая
+                goingToDialog(); //Столовая
                 break;
             case 27:
-                sharedPreferences.edit().putInt(World, 6).apply(); //Пост охраны
+                goingToDialog(); //Пост охраны
                 break;
             case 43:
             case 35:
-                sharedPreferences.edit().putInt(World, 7).apply(); //Тренировочный комплекс
+                goingToDialog(); //Тренировочный комплекс
                 break;
             case 44:
             case 63:
             case 34:
-                sharedPreferences.edit().putInt(World, 8).apply(); //Спальные районы
+                goingToDialog(); //Спальные районы
                 break;
             case 42:
             case 51:
-                sharedPreferences.edit().putInt(World, 10).apply(); //Технические помещения
+                goingToDialog(); //Технические помещения
                 break;
             case 30:
-                sharedPreferences.edit().putInt(World, 11).apply(); //Склад
+                goingToDialog(); //Склад
                 break;
             case 46:
             case 47:
-                sharedPreferences.edit().putInt(World, 12).apply(); //Антены слева
+                goingToDialog(); //Антены слева
                 break;
             case 73:
-                sharedPreferences.edit().putInt(World, 13).apply(); //Ракета
+                goingToDialog(); //Ракета
                 break;
             case 57:
-                sharedPreferences.edit().putInt(World, 14).apply(); //Диспетчерская
+                goingToDialog(); //Диспетчерская
                 break;
             case 67:
-                sharedPreferences.edit().putInt(World, 15).apply(); //Антены справа
+                goingToDialog(); //Антены справа
                 break;
         }
+    }
+
+    private void goingToDialog() {
         startActivity(new Intent(Map.this, DialogActivity.class));
         binding = null;
         finish();
@@ -366,7 +370,8 @@ public class Map extends MainActionParentActivity {
     }
 
     private void setClickable() {
-        Snackbar.make(binding.getRoot(), getResources().getString(R.string.press_world), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+        if (sharedPreferences.getBoolean(Static_Position, false))
+            Snackbar.make(binding.getRoot(), getResources().getString(R.string.press_world), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
     }
 
     @Override
