@@ -10,10 +10,10 @@ import java.util.List;
 @Dao
 public interface QuestsDao {
     @Query("SELECT * FROM quests")
-    List<Quest> getQuests();
+    List<QuestItem> getQuests();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addQuest(Quest quest);
+    void addQuest(QuestItem quest);
 
     @Query("UPDATE quests SET stage=:newStage WHERE id=:ID")
     void updateQuestStage(short newStage, int ID);

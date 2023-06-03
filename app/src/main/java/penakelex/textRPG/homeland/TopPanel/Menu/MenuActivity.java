@@ -17,8 +17,6 @@ public class MenuActivity extends ActionParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         binding.exitGame.setOnClickListener(listener -> this.finishAffinity());
         binding.backToGame.setOnClickListener(listener -> backToLastActivity());

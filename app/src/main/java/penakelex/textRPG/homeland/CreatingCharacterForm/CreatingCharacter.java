@@ -29,9 +29,6 @@ public class CreatingCharacter extends MainActionParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCreatingCharacterBinding.inflate(getLayoutInflater());
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);

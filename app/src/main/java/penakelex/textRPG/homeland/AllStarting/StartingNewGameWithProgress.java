@@ -29,7 +29,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDao;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
@@ -78,7 +78,7 @@ public class StartingNewGameWithProgress extends DialogFragment {
         InventoryDatabase.getDatabase(getActivity()).inventoryDao().deleteAll();
         QuestsDao dao = QuestsDatabase.getDatabase(getActivity()).questsDao();
         dao.deleteAll();
-        dao.addQuest(new Quest(getActivity().getString(R.string.quest_registration)));
+        dao.addQuest(new QuestItem(getActivity().getString(R.string.quest_registration)));
         StatisticsDatabaseHelper.settingStartingValues(getActivity().getApplicationContext(), new String[]{getActivity().getResources().getString(R.string.successful_persuasion)});
     }
 }

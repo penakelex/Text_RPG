@@ -17,8 +17,6 @@ public class Credits extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityCreditsBinding = ActivityCreditsBinding.inflate(getLayoutInflater());
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(activityCreditsBinding.getRoot());
         activityCreditsBinding.exitButton.setOnClickListener(l -> {
             activityCreditsBinding = null;

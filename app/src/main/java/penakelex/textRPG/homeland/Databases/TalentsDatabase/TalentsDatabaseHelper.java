@@ -4,14 +4,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import io.reactivex.rxjava3.annotations.Nullable;
 
 public class TalentsDatabaseHelper extends SQLiteOpenHelper {
     public final static int Database_Version = 1;
     public final static String Database_Name = "talentsdb", Table_Talents = "talents",
             KEY_ID = "_id", KEY_Name = "name", KEY_Having = "availability";
 
-    public TalentsDatabaseHelper(@Nullable Context context) {
+    public TalentsDatabaseHelper(Context context) {
         super(context, Database_Name, null, Database_Version);
     }
 

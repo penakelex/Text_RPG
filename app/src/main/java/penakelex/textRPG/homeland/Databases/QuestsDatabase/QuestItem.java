@@ -4,10 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
-
 @Entity(tableName = "quests")
-public class Quest {
+public class QuestItem {
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "id")
@@ -16,7 +14,7 @@ public class Quest {
     @ColumnInfo(name = "stage")
     private short stages;
 
-    public Quest(String name) {
+    public QuestItem(String name) {
         this.name = name;
         this.stages = 1;
 

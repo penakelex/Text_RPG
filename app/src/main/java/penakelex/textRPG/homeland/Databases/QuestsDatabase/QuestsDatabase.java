@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Quest.class}, exportSchema = false, version = 1)
+@Database(entities = {QuestItem.class}, exportSchema = false, version = 1)
 public abstract class QuestsDatabase extends RoomDatabase {
     private static final String Database_Name = "quests.db";
     private static QuestsDatabase database;

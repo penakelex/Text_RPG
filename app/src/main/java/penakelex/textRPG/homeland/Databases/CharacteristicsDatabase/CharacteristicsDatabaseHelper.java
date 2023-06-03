@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import io.reactivex.rxjava3.annotations.Nullable;
 
 public class CharacteristicsDatabaseHelper extends SQLiteOpenHelper {
     public static final int Database_Version = 1;
@@ -12,7 +11,7 @@ public class CharacteristicsDatabaseHelper extends SQLiteOpenHelper {
             Table_Characteristics = "characteristics",
     KEY_ID = "_id", KEY_Name = "name", KEY_Value = "value";
 
-    public CharacteristicsDatabaseHelper(@Nullable Context context) {
+    public CharacteristicsDatabaseHelper(Context context) {
         super(context, Database_Name, null, Database_Version);
     }
 

@@ -6,13 +6,11 @@ import static penakelex.textRPG.homeland.Main.Constants.Going_To_Starting_Inform
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
 import static penakelex.textRPG.homeland.Main.Constants.Is_Going_To_Starting_Information_First_Time;
-import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 import static penakelex.textRPG.homeland.Main.Constants.Trader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -29,9 +27,8 @@ import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
 import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
 import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryItem;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
 import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
@@ -58,8 +55,6 @@ public class DialogActivity extends MainActionParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDialogBinding.inflate(getLayoutInflater());
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
@@ -127,7 +122,7 @@ public class DialogActivity extends MainActionParentActivity {
                 initiateDialog(4);
                 break;
             case -6:
-                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new Quest(getResources().getString(R.string.excursion)));
+                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new QuestItem(getResources().getString(R.string.excursion)));
                 DialogActivityHelper.updateLocationForDialog(5, 1, 20, getApplicationContext(), true);
                 saveChanges();
                 binding = null;

@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.material.snackbar.Snackbar;
 
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
 import penakelex.textRPG.homeland.Map.Map;
@@ -32,9 +32,6 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainMenuBinding.inflate(getLayoutInflater());
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         binding.createNewOne.setOnClickListener(listener -> staringNewGame());
         binding.load.setOnClickListener(l -> settingLastActivity());
@@ -48,7 +45,7 @@ public class MainMenu extends AppCompatActivity {
             new StartingNewGameWithProgress().show(getFragmentManager().beginTransaction(), "new or not");
         } else {
             sharedPreferences.edit().putInt(ID_Dialog, 0).putBoolean(Is_Game_Started, true).apply();
-            QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new Quest(getResources().getString(R.string.quest_registration)));
+            QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new QuestItem(getResources().getString(R.string.quest_registration)));
             startActivity(new Intent(MainMenu.this, DialogActivity.class));
             finish();
         }

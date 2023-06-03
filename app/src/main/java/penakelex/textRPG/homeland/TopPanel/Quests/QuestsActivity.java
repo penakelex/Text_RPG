@@ -16,7 +16,7 @@ import java.util.List;
 
 import penakelex.textRPG.homeland.Adapters.QuestStages.QuestStagesAdapter;
 import penakelex.textRPG.homeland.Adapters.Quests.QuestsAdapter;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.Quest;
+import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
 import penakelex.textRPG.homeland.Main.TopPanelParentActivity;
 import penakelex.textRPG.homeland.R;
@@ -28,7 +28,7 @@ public class QuestsActivity extends TopPanelParentActivity {
     private final QuestsAdapter.OnQuestClickListener clickListener = new QuestsAdapter.OnQuestClickListener() {
         @Override
         public void onQuestClick(int position) {
-            List<Quest> questList = questsDatabase.questsDao().getQuests();
+            List<QuestItem> questList = questsDatabase.questsDao().getQuests();
             binding.questName.setText(questList.get(position).getName());
             QuestStagesAdapter stagesAdapter = new QuestStagesAdapter();
             stagesAdapter.setInformation(position, getApplicationContext());
@@ -39,7 +39,6 @@ public class QuestsActivity extends TopPanelParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityQuestsBinding.inflate(getLayoutInflater());
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         toolBar();
         questsDatabase = QuestsDatabase.getDatabase(getApplicationContext());
