@@ -11,10 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import penakelex.textRPG.homeland.Main.TopPanelParentActivity;
@@ -28,7 +26,6 @@ import penakelex.textRPG.homeland.databinding.ActivityPersonBinding;
 
 public class PersonActivity extends TopPanelParentActivity {
     private ActivityPersonBinding binding;
-    private SharedPreferences sharedPreferences;
 
     @SuppressLint({"NonConstantResourceId", "DefaultLocale"})
     @Override
@@ -36,9 +33,9 @@ public class PersonActivity extends TopPanelParentActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPersonBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar1);
+        Toolbar toolbar = findViewById(R.id.toolBar1);
         setSupportActionBar(toolbar);
-        sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         sharedPreferences.edit().putInt(Current_Top_Panel_Activity, 1).apply();
         handlingToolBar(toolbar);
         toolbar.setNavigationOnClickListener(listener -> onNavigationClick());
@@ -46,21 +43,26 @@ public class PersonActivity extends TopPanelParentActivity {
         settingStartFragment();
         binding.navigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.characteristic:
-                    getFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CharacteristicsFragment()).commit();
+                case R.id.characteristic -> {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CharacteristicsFragment()).commit();
                     return true;
-                case R.id.skills:
-                    getFragmentManager().beginTransaction().replace(R.id.containerForPerson, new SkillsFragment()).commit();
+                }
+                case R.id.skills -> {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new SkillsFragment()).commit();
                     return true;
-                case R.id.capabilities:
-                    getFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CapabilitiesFragment()).commit();
+                }
+                case R.id.capabilities -> {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CapabilitiesFragment()).commit();
                     return true;
-                case R.id.items:
-                    getFragmentManager().beginTransaction().replace(R.id.containerForPerson, new InventoryFragment()).commit();
+                }
+                case R.id.items -> {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new InventoryFragment()).commit();
                     return true;
-                case R.id.healthStatus_Others:
-                    getFragmentManager().beginTransaction().replace(R.id.containerForPerson, new HealthAndOtherInformationFragment()).commit();
+                }
+                case R.id.healthStatus_Others -> {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new HealthAndOtherInformationFragment()).commit();
                     return true;
+                }
             }
             return false;
         });
@@ -78,7 +80,7 @@ public class PersonActivity extends TopPanelParentActivity {
     }
 
     private void settingStartFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CharacteristicsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CharacteristicsFragment()).commit();
     }
 
     @Override

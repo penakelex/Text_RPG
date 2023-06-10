@@ -13,10 +13,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 
@@ -24,17 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryItem;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
-import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
-import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
-import penakelex.textRPG.homeland.Databases.StatisticsDatabase.StatisticsDatabaseHelper;
-import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
-import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelper;
+import penakelex.textRPG.homeland.Dialogs.DialogHelper.BooleanSP;
+import penakelex.textRPG.homeland.Dialogs.DialogHelper.DialogActivityHelper;
+import penakelex.textRPG.homeland.Dialogs.DialogHelper.IntSP;
+import penakelex.textRPG.homeland.Dialogs.DialogHelper.ShortItemInformation;
 import penakelex.textRPG.homeland.Main.MainActionParentActivity;
 import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
@@ -44,12 +35,12 @@ import penakelex.textRPG.homeland.databinding.ReplicaButtonBinding;
 
 public class DialogActivity extends MainActionParentActivity {
     private final Dialogs dialogs = new Dialogs();
-    private SharedPreferences sharedPreferences;
     private ActivityDialogBinding binding;
     private Dialogs.Quote[] quotes;
+    private DialogActivityHelper dialogActivityHelper;
     private final int[] array = {0, 0, 0}; //репутация, опыт, деньги
-    private final ArrayList<Integer> itemsToAdd = new ArrayList<>();
-    private short[] plusStatistics;
+    private final ArrayList<ShortItemInformation> itemsToAdd = new ArrayList<>();
+    private final short[] plusStatistics = new short[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +50,9 @@ public class DialogActivity extends MainActionParentActivity {
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         handlingToolBar(toolbar);
-        sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
+        dialogActivityHelper = new DialogActivityHelper(this);
+        SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         sharedPreferences.edit().putInt(Current_Activity, 3).apply();
-        plusStatistics = new short[StatisticsDatabaseHelper.getStatisticsCount(getApplicationContext())];
         initiateDialog(sharedPreferences.getInt(ID_Dialog, 0));
     }
 
@@ -81,113 +72,102 @@ public class DialogActivity extends MainActionParentActivity {
     }
 
     private void startQuote(int step) {
-        sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         switch (step) {
-            case -1:
-                sharedPreferences.edit().putBoolean(Going_To_Starting_Information, false).
-                        putInt(ID_Dialog, 1).apply();
-                CharacteristicsDatabase.settingStartValuesInDatabase(new CharacteristicsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.strength), getResources().getString(R.string.physique), getResources().getString(R.string.dexterity), getResources().getString(R.string.mentality), getResources().getString(R.string.luckiness), getResources().getString(R.string.watchfulness), getResources().getString(R.string.attractiveness)});
-                SkillsDatabase.settingStartingSkillsInDatabase(new SkillsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new CharacteristicsDatabaseHelper(getApplicationContext()).getReadableDatabase(), new String[]{getResources().getString(R.string.lightWeapons), getResources().getString(R.string.heavyWeapons), getResources().getString(R.string.meleeWeapons), getResources().getString(R.string.communication), getResources().getString(R.string.trading), getResources().getString(R.string.survival), getResources().getString(R.string.medicine), getResources().getString(R.string.scince), getResources().getString(R.string.repair)});
-                TalentsDatabase.settingStartingValuesInDatabase(new TalentsDatabaseHelper(getApplicationContext()).getWritableDatabase(), new String[]{getResources().getString(R.string.singer), getResources().getString(R.string.bull), getResources().getString(R.string.strong_kick), getResources().getString(R.string.experienced), getResources().getString(R.string.trained), getResources().getString(R.string.heavyweight), getResources().getString(R.string.kind_one)});
+            case -1 -> {
+                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, false));
+                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(ID_Dialog, 1));
                 saveChanges();
                 binding = null;
                 goingToCreatingCharacter();
-                break;
-            case -2:
-
-                DialogActivityHelper.updateLocationForDialog(4, 2, 24, getApplicationContext(), false);
+            }
+            case -2 -> {
+                dialogActivityHelper.updateLocationForDialog(4, 2, 24, false);
                 saveChanges();
                 goingToMap();
                 binding = null;
-                break;
-            case -3:
-                sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
-                        putBoolean(Is_Going_To_Starting_Information_First_Time, true).
-                        putInt(ID_Dialog, 2).apply();
+            }
+            case -3 -> {
+                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, true), new BooleanSP(Is_Going_To_Starting_Information_First_Time, true));
+                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(ID_Dialog, 2));
                 saveChanges();
                 binding = null;
                 goingToCreatingCharacter();
-                break;
-            case -4:
-                sharedPreferences.edit().putBoolean(Going_To_Starting_Information, true).
-                        putBoolean(Is_Going_To_Starting_Information_First_Time, false).
-                        putInt(Experience, 200).
-                        putInt(ID_Dialog, 3).apply();
+            }
+            case -4 -> {
+                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, true), new BooleanSP(Is_Going_To_Starting_Information_First_Time, false));
+                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(Experience, 200), new IntSP(ID_Dialog, 3));
                 saveChanges();
-                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().updateQuestStage((short) 2, 1);
+                dialogActivityHelper.updateQuestStage((short) 2, (short) 1);
                 binding = null;
                 goingToCreatingCharacter();
-                break;
-            case -5:
-                initiateDialog(4);
-                break;
-            case -6:
-                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new QuestItem(getResources().getString(R.string.excursion)));
-                DialogActivityHelper.updateLocationForDialog(5, 1, 20, getApplicationContext(), true);
+            }
+            case -5 -> initiateDialog(4);
+            case -6 -> {
+                dialogActivityHelper.addQuest(R.string.excursion);
+                dialogActivityHelper.updateLocationForDialog(5, 1, 20, true);
                 saveChanges();
                 binding = null;
                 goingToMap();
-                break;
-            case -7:
-                DialogActivityHelper.updateLocationForDialog(6, 2, 24, getApplicationContext(), true);
+            }
+            case -7 -> {
+                dialogActivityHelper.updateLocationForDialog(6, 2, 24, true);
                 saveChanges();
                 binding = null;
                 goingToMap();
-                break;
-            case -8:
-                DialogActivityHelper.updateLocationForDialog(7, 6, 43, getApplicationContext(), true);
+            }
+            case -8 -> {
+                dialogActivityHelper.updateLocationForDialog(7, 6, 43,  true);
                 saveChanges();
                 binding = null;
                 goingToMap();
-                break;
-            case -9:
-                itemsToAdd.add(1);
+            }
+            case -9 -> {
+                itemsToAdd.add(new ShortItemInformation((short) 1));
                 fillReplicas(quotes[3]);
-                break;
-            case -10:
-                DialogActivityHelper.updateLocationForDialog(8, 6, 44, getApplicationContext(), true);
+            }
+            case -10 -> {
+                dialogActivityHelper.updateLocationForDialog(8, 6, 44, true);
                 saveChanges();
                 binding = null;
                 goingToMap();
-                break;
-            case -11:
+            }
+            case -11 -> {
                 saveChanges();
-                QuestsDatabase.getDatabase(getApplicationContext()).questsDao().updateQuestStage((short) 2, 2);
+                dialogActivityHelper.updateQuestStage((short) 2, (short) 2);
                 binding = null;
-                DialogActivityHelper.updateLocationForDialog(9, 6, 44, getApplicationContext(), false);
+                dialogActivityHelper.updateLocationForDialog(9, 6, 44, false);
                 goingToMap();
-                break;
-            case -12:
+            }
+            case -12 -> {
                 saveChanges();
                 binding = null;
-                DialogActivityHelper.updateLocationForDialog(10, 2, 24, getApplicationContext(), false);
+                dialogActivityHelper.updateLocationForDialog(10, 2, 24, false);
                 goingToMap();
-                break;
-            case -13:
-                DialogActivityHelper.updateLocationForDialog(12, 1, 20, getApplicationContext(), false);
+            }
+            case -13 -> {
+                dialogActivityHelper.updateLocationForDialog(12, 1, 20, false);
                 saveChanges();
                 initiateDialog(12);
-                break;
-            case -14:
-                DialogActivityHelper.updateLocationForDialog(11, 2, 24, getApplicationContext(), false);
+            }
+            case -14 -> {
+                dialogActivityHelper.updateLocationForDialog(11, 2, 24, false);
                 saveChanges();
                 initiateDialog(11);
-                break;
-            case -15:
-                sharedPreferences.edit().putInt(Trader, 2).apply();
+            }
+            case -15 -> {
+                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(Trader, 2));
                 for (int i = 0; i < 10; i++) {
-                    InventoryDatabase.getDatabase(getApplicationContext()).inventoryDao().insertItem(new InventoryItem(2, 2, 0));
+                    itemsToAdd.add(new ShortItemInformation((short) 2, (short) 2));
                 }
                 saveChanges();
                 binding = null;
                 goingToTrading();
-                break;
-            case -16:
-                DialogActivityHelper.updateLocationForDialog(12, 2, 24, getApplicationContext(), false);
+            }
+            case -16 -> {
+                dialogActivityHelper.updateLocationForDialog(12, 2, 24, false);
                 saveChanges();
-                break;
-            default:
-                fillReplicas(quotes[step]);
+            }
+            default -> fillReplicas(quotes[step]);
         }
     }
 
@@ -197,7 +177,7 @@ public class DialogActivity extends MainActionParentActivity {
     }
 
     private void saveChanges() {
-        DialogActivityHelper.saveChanges(array, itemsToAdd, plusStatistics, binding.getRoot(), getApplicationContext());
+        dialogActivityHelper.saveChanges(array, itemsToAdd, plusStatistics, binding.getRoot(), getApplicationContext());
         Arrays.fill(array, 0);
         itemsToAdd.clear();
         Arrays.fill(plusStatistics, (short) 0);
@@ -220,18 +200,18 @@ public class DialogActivity extends MainActionParentActivity {
         settingTalkingCharacterQuote(quote.getQuote());
         for (Dialogs.Quote.CharacterQuote characterQuote : quote.getCharacterQuotes()) {
             ReplicaButtonBinding buttonBinding = ReplicaButtonBinding.inflate(getLayoutInflater(), binding.containerForReplicasVariants, false);
-            buttonBinding.getRoot().setText(DialogActivityHelper.getSettingValueForCharacterQuote(characterQuote.getQuote(), getApplicationContext()));
+            buttonBinding.getRoot().setText(dialogActivityHelper.getSettingValueForCharacterQuote(characterQuote.getQuote(), getApplicationContext()));
             buttonBinding.getRoot().setOnClickListener(listener -> replicaListener(characterQuote));
             binding.containerForReplicasVariants.addView(buttonBinding.getRoot());
         }
     }
 
     private void settingTalkingCharacterQuote(int quote) {
-        binding.text.setText(DialogActivityHelper.getTalkingCharacterQuote(quote, getApplicationContext()));
+        binding.text.setText(dialogActivityHelper.getTalkingCharacterQuote(quote, getApplicationContext()));
     }
 
     private void replicaListener(Dialogs.Quote.CharacterQuote characterQuote) {
-        DialogActivityHelper.replicaListener(characterQuote, array, plusStatistics, getApplicationContext());
+        dialogActivityHelper.replicaListener(characterQuote, array, plusStatistics);
         startQuote(characterQuote.getNextStep());
     }
 

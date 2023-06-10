@@ -10,13 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
-import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.OtherInfromationDatabase.OtherInformationItem;
 import penakelex.textRPG.homeland.databinding.ItemStartingOtherInformationBinding;
 
 public class StartingOtherInformationAdapter extends RecyclerView.Adapter<StartingOtherInformationAdapter.ViewHolder> {
-    private ArrayList<StartingOtherInformationInformation> information = new ArrayList<>();
+    private List<OtherInformationItem> information = new ArrayList<>();
+    private Context context;
 
     @NonNull
     @Override
@@ -26,7 +27,7 @@ public class StartingOtherInformationAdapter extends RecyclerView.Adapter<Starti
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
+        holder.bind(information.get(position), context);
     }
 
     @Override
@@ -35,8 +36,9 @@ public class StartingOtherInformationAdapter extends RecyclerView.Adapter<Starti
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = OtherInformationDatabase.getStartingInformation(new OtherInformationDatabaseHelper(context).getReadableDatabase());
+    public void setInformation(List<OtherInformationItem> otherInformationItems,Context context) {
+        this.information = otherInformationItems;
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -48,8 +50,8 @@ public class StartingOtherInformationAdapter extends RecyclerView.Adapter<Starti
             this.binding = ItemStartingOtherInformationBinding.bind(itemView);
         }
 
-        public void bind(StartingOtherInformationInformation information) {
-            binding.name.setText(information.getName());
+        public void bind(OtherInformationItem information, Context context) {
+            binding.name.setText(context.getResources().getString(information.getName()));
             binding.value.setText(String.valueOf(information.getValue()));
         }
     }

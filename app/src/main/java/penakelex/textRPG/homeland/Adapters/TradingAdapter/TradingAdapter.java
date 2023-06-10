@@ -2,7 +2,6 @@ package penakelex.textRPG.homeland.Adapters.TradingAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryItem;
+import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryTableHelper;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemTradingBinding;
 
 public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHolder> {
-    private ArrayList<TradingInformation> information = new ArrayList<>();
+    private List<InventoryItem> information = new ArrayList<>();
     private final OnTradingItemClickListener clickListener;
     private long lastPosition = -1;
     private Context context;
+    //TODO: Возможно не доделана механика сохранения позиции
+    private final InventoryTableHelper tableHelper;
 
     public interface OnTradingItemClickListener {
-        void onClickListener(long ID);
+        void onClickListener(InventoryItem inventoryItem);
     }
 
     @NonNull
@@ -34,13 +37,13 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position), context);
+        holder.bind(information.get(position), context, tableHelper);
         holder.itemView.setOnClickListener(listener -> onClicked(position, holder));
     }
 
     private void onClicked(int position, ViewHolder holder) {
         if (lastPosition != position) {
-            clickListener.onClickListener(information.get(position).getPrimaryID());
+            clickListener.onClickListener(information.get(position));
             holder.binding.containerForTradingItem.setBackgroundColor(context.getResources().getColor(R.color.blue_green));
             notifyItemChanged((int) lastPosition);
             lastPosition = position;
@@ -53,14 +56,15 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context, int ID, boolean typeTrading) {
-        this.information = InventoryDatabaseHelper.getTradingInformation(context, ID, typeTrading);
+    public void setInformation(Context context, List<InventoryItem> inventoryItems) {
+        this.information = inventoryItems;
         this.context = context;
         notifyDataSetChanged();
     }
 
-    public TradingAdapter(OnTradingItemClickListener clickListener) {
+    public TradingAdapter(OnTradingItemClickListener clickListener, InventoryTableHelper tableHelper) {
         this.clickListener = clickListener;
+        this.tableHelper = tableHelper;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,12 +75,10 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
             this.binding = ItemTradingBinding.bind(itemView);
         }
 
-        public void bind(TradingInformation tradingInformation, Context context) {
+        public void bind(InventoryItem item, Context context, InventoryTableHelper tableHelper) {
             binding.containerForTradingItem.setBackgroundColor(context.getResources().getColor(R.color.light_blue_green));
-            binding.nameOfItem.setText(tradingInformation.getName());
-            binding.valueOfItem.setText(String.valueOf(tradingInformation.getValue()));
-            Log.d("name", tradingInformation.getName());
-            Log.d("value", String.valueOf(tradingInformation.getValue()));
+            binding.nameOfItem.setText(tableHelper.getAllInventoryItemInformation(context, item.getId())[0]);
+            binding.valueOfItem.setText(String.valueOf(item.getPrice()));
         }
     }
 }

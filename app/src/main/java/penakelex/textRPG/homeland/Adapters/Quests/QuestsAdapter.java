@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
+import penakelex.textRPG.homeland.Databases.Tables.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.QuestItemBinding;
 
 public class QuestsAdapter extends RecyclerView.Adapter<QuestsAdapter.ViewHolder> {
-    private ArrayList<QuestInformation> information = new ArrayList<>();
+    private List<QuestItem> information = new ArrayList<>();
     private final OnQuestClickListener clickListener;
     private int lastPosition = -1;
     private Context context;
@@ -28,12 +27,8 @@ public class QuestsAdapter extends RecyclerView.Adapter<QuestsAdapter.ViewHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(QuestsDatabase questsDatabase, Context context) {
-        List<QuestItem> questsInformation = questsDatabase.questsDao().getQuests();
-        ArrayList<QuestInformation> questInformation = new ArrayList<>();
-        for (int i = 0; i < questsInformation.size(); i++)
-            questInformation.add(new QuestInformation(questsInformation.get(i).getID(), questsInformation.get(i).getStages(), questsInformation.get(i).getName()));
-        this.information = questInformation;
+    public void setInformation(List<QuestItem> quests, Context context) {
+        this.information = quests;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -45,7 +40,7 @@ public class QuestsAdapter extends RecyclerView.Adapter<QuestsAdapter.ViewHolder
     }
 
     public interface OnQuestClickListener {
-        void onQuestClick(int position);
+        void onQuestClick(QuestItem questItem);
     }
 
     @Override
@@ -56,7 +51,7 @@ public class QuestsAdapter extends RecyclerView.Adapter<QuestsAdapter.ViewHolder
 
     private void onClicked(ViewHolder holder, int position) {
         if (lastPosition != position) {
-            clickListener.onQuestClick(position);
+            clickListener.onQuestClick(information.get(position));
             holder.binding.containerForQuestItem.setBackgroundColor(context.getResources().getColor(R.color.dark_purple));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -75,9 +70,9 @@ public class QuestsAdapter extends RecyclerView.Adapter<QuestsAdapter.ViewHolder
             this.binding = QuestItemBinding.bind(itemView);
         }
 
-        public void bind(QuestInformation questInformation, Context context) {
+        public void bind(QuestItem quest, Context context) {
             binding.containerForQuestItem.setBackgroundColor(context.getResources().getColor(R.color.purple));
-            binding.questName.setText(questInformation.getName());
+            binding.questName.setText(context.getResources().getString(quest.getName()));
         }
     }
 }

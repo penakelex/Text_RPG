@@ -1,7 +1,8 @@
 package penakelex.textRPG.homeland.Main;
 
 public class Constants {
-    public static final String Characteristics_Points = "Characteristics Points",
+    public static final String Characteristics_Points = "Characteristics Points", Is_All_Good = "Is All Good",
+            Satisfactory_Value = "Satisfactory Value",
             Main_Skills = "Main Skills", First_Visit_Talents = "First Visit Talents",
             Talents_Points = "Talents Points", Current_Top_Panel_Activity = "Current Top Panel Activity",
             Local_Map_Location = "Local Map Location", Starting = "Starting", U_Here = "∇",

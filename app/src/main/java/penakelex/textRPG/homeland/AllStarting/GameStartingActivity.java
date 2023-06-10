@@ -1,11 +1,9 @@
 package penakelex.textRPG.homeland.AllStarting;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import penakelex.textRPG.homeland.R;
 

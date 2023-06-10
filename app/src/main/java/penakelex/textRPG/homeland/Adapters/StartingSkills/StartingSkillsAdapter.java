@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabase;
-import penakelex.textRPG.homeland.Databases.SkillsDatabase.SkillsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.SkillsDatabase.SkillsItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemStartingSkillBinding;
 
 public class StartingSkillsAdapter extends RecyclerView.Adapter<StartingSkillsAdapter.ViewHolder> {
-    private ArrayList<StartingSkillInformation> information = new ArrayList<>();
-    private OnSkillItemClickListener clickListener;
+    private List<SkillsItem> information = new ArrayList<>();
+    private final OnSkillItemClickListener clickListener;
     private Context context;
     private int lastPosition = -1;
 
@@ -27,7 +27,7 @@ public class StartingSkillsAdapter extends RecyclerView.Adapter<StartingSkillsAd
     }
 
     public interface OnSkillItemClickListener {
-        void onClickListener(String name, int position);
+        void onClickListener(SkillsItem item);
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class StartingSkillsAdapter extends RecyclerView.Adapter<StartingSkillsAd
 
     private void onClicked(ViewHolder holder, int position) {
         if (lastPosition != position) {
-            clickListener.onClickListener(information.get(position).getName(), position);
+            clickListener.onClickListener(information.get(position));
             holder.binding.containerForSkillItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -57,10 +57,24 @@ public class StartingSkillsAdapter extends RecyclerView.Adapter<StartingSkillsAd
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = SkillsDatabase.getStartingSkillsInformation(new SkillsDatabaseHelper(context).getReadableDatabase());
-        this.context = context;
-        notifyDataSetChanged();
+    public void setInformation(List<SkillsItem> skills, Context context) {
+        boolean changed = false;
+        for (int i = 0; i < skills.size(); i++) {
+            try {
+                if (skills.get(i).isMain() != information.get(i).isMain()) {
+                    changed = true;
+                    break;
+                }
+            } catch (Exception exception) {
+                changed = true;
+                break;
+            }
+        }
+        if (changed) {
+            this.information = skills;
+            this.context = context;
+            notifyDataSetChanged();
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,13 +85,13 @@ public class StartingSkillsAdapter extends RecyclerView.Adapter<StartingSkillsAd
             this.binding = ItemStartingSkillBinding.bind(itemView);
         }
 
-        public void bind(StartingSkillInformation startingSkillInformation, Context context, int position, int lastPosition) {
+        public void bind(SkillsItem skill, Context context, int position, int lastPosition) {
             if (position == lastPosition)
                 binding.containerForSkillItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
             else
                 binding.containerForSkillItem.setBackgroundColor(context.getResources().getColor(R.color.white));
-            binding.nameOfSkill.setText(startingSkillInformation.getName());
-            binding.checkBox.setChecked(startingSkillInformation.isMain());
+            binding.nameOfSkill.setText(context.getResources().getString(skill.getName()));
+            binding.checkBox.setChecked(skill.isMain());
         }
     }
 }

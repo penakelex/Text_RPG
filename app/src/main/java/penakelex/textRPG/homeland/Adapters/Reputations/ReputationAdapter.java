@@ -10,18 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.ReputationsDatabase.ReputationDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.ReputationsDatabase.ReputationItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemReputationBinding;
 
 public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.ViewHolder> {
-    private ArrayList<ReputationInformation> information = new ArrayList<>();
+    //TODO: Возможно механика нажатия не работает
+    private List<ReputationItem> information = new ArrayList<>();
     private final OnReputationItemClickListener clickListener;
     private int lastPosition = -1;
     private Context context;
     public interface OnReputationItemClickListener {
-        void onClickListener(String name, int position);
+        void onClickListener(ReputationItem reputationItem);
     }
     @NonNull
     @Override
@@ -37,7 +39,7 @@ public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.Vi
 
     private void onClicked(ViewHolder holder, int position) {
         if (lastPosition != position) {
-            clickListener.onClickListener((information.get(position)).getName(), position);
+            clickListener.onClickListener(information.get(position));
             holder.binding.reputationsName.setBackgroundColor(context.getResources().getColor(R.color.gray));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -50,8 +52,8 @@ public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.Vi
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = ReputationDatabaseHelper.getReputationsInformation(context.getApplicationContext());
+    public void setInformation(Context context, List<ReputationItem> reputationItems) {
+        this.information = reputationItems;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -68,9 +70,9 @@ public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.Vi
             this.binding = ItemReputationBinding.bind(itemView);
         }
 
-        public void bind(ReputationInformation name, Context context) {
+        public void bind(ReputationItem reputationItem, Context context) {
             binding.reputationsName.setBackgroundColor(context.getResources().getColor(R.color.white));
-            binding.reputationsName.setText((name).getName());
+            binding.reputationsName.setText(context.getResources().getString(reputationItem.getName()));
         }
     }
 }

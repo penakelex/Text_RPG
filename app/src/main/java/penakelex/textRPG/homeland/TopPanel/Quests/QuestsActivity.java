@@ -7,43 +7,58 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
 import penakelex.textRPG.homeland.Adapters.QuestStages.QuestStagesAdapter;
 import penakelex.textRPG.homeland.Adapters.Quests.QuestsAdapter;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
+import penakelex.textRPG.homeland.Databases.Tables.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.Main.TopPanelParentActivity;
 import penakelex.textRPG.homeland.R;
+import penakelex.textRPG.homeland.ViewModels.QuestsViewModel.QuestsViewModel;
 import penakelex.textRPG.homeland.databinding.ActivityQuestsBinding;
 
 public class QuestsActivity extends TopPanelParentActivity {
     private ActivityQuestsBinding binding;
-    private QuestsDatabase questsDatabase;
+    private QuestStagesAdapter stagesAdapter;
+    private QuestsViewModel questsViewModel;
+
     private final QuestsAdapter.OnQuestClickListener clickListener = new QuestsAdapter.OnQuestClickListener() {
         @Override
-        public void onQuestClick(int position) {
-            List<QuestItem> questList = questsDatabase.questsDao().getQuests();
-            binding.questName.setText(questList.get(position).getName());
-            QuestStagesAdapter stagesAdapter = new QuestStagesAdapter();
-            stagesAdapter.setInformation(position, getApplicationContext());
-            binding.containerForQuestStages.setAdapter(stagesAdapter);
+        public void onQuestClick(QuestItem quest) {
+            binding.questName.setText(getResources().getString(quest.getName()));
+            stagesAdapter.setInformation(quest, getApplicationContext());
         }
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        questsViewModel = new ViewModelProvider(this).get(QuestsViewModel.class);
+        questsViewModel.initiate(getApplication());
         binding = ActivityQuestsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolBar();
-        questsDatabase = QuestsDatabase.getDatabase(getApplicationContext());
+        questsAdapter();
+        questsStagesAdapter();
+    }
+
+    private void questsStagesAdapter() {
+        stagesAdapter = new QuestStagesAdapter();
+        binding.containerForQuestStages.setAdapter(stagesAdapter);
+    }
+
+    private void questsAdapter() {
         QuestsAdapter questsAdapter = new QuestsAdapter(clickListener);
-        questsAdapter.setInformation(questsDatabase, getApplicationContext());
+        LiveData<List<QuestItem>> quests = questsViewModel.getAllQuests();
+        quests.observe(this, questItems -> {
+            quests.removeObservers(QuestsActivity.this);
+            questsAdapter.setInformation(questItems, getApplicationContext());
+        });
         binding.containerForQuests.setAdapter(questsAdapter);
     }
 

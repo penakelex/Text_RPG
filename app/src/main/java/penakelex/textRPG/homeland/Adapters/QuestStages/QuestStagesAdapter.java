@@ -2,7 +2,6 @@ package penakelex.textRPG.homeland.Adapters.QuestStages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
+import penakelex.textRPG.homeland.Databases.Tables.QuestsDatabase.QuestItem;
 import penakelex.textRPG.homeland.databinding.QuestStageItemBinding;
 
 public class QuestStagesAdapter extends RecyclerView.Adapter<QuestStagesAdapter.ViewHolder> {
-    private ArrayList<QuestStageInformation> information = new ArrayList<>();
+    private final ArrayList<QuestStageInformation> information = new ArrayList<>();
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,17 +33,14 @@ public class QuestStagesAdapter extends RecyclerView.Adapter<QuestStagesAdapter.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(int ID, Context context) {
-        short stages = QuestsDatabase.getDatabase(context).questsDao().getQuests().get(ID).getStages();
-        ArrayList<QuestStageInformation> arrayList = new ArrayList<>();
-        Log.d("dwdwdqd", String.valueOf(stages));
-        for (int stage = 0; stage < stages; stage++) arrayList.add(new QuestStageInformation(ID, stage, context));
-        this.information = (ArrayList<QuestStageInformation>) arrayList.clone();
+    public void setInformation(QuestItem questItem, Context context) {
+        information.clear();
+        for (int stage = 0; stage < questItem.getStages(); stage++) information.add(new QuestStageInformation(questItem.getID(), stage, context));
         notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private QuestStageItemBinding binding;
+        private final QuestStageItemBinding binding;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

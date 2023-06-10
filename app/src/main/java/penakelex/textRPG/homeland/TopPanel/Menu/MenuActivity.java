@@ -2,10 +2,6 @@ package penakelex.textRPG.homeland.TopPanel.Menu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Window;
-import android.view.WindowManager;
-
 import penakelex.textRPG.homeland.AllStarting.MainMenu;
 import penakelex.textRPG.homeland.Main.ActionParentActivity;
 import penakelex.textRPG.homeland.databinding.ActivityMenuBinding;

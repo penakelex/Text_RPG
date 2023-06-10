@@ -10,12 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.StatisticsDatabase.StatisticsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.StatisticsDatabase.StatisticItem;
 import penakelex.textRPG.homeland.databinding.ItemStatisticsBinding;
 
 public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.ViewHolder> {
-    private ArrayList<StatisticInformation> information = new ArrayList<>();
+    private List<StatisticItem> information = new ArrayList<>();
+    private Context context;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -24,7 +26,7 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
+        holder.bind(information.get(position), context);
 
     }
 
@@ -34,8 +36,9 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = StatisticsDatabaseHelper.getStatisticsInformation(context);
+    public void setInformation(Context context, List<StatisticItem> statisticItems) {
+        this.information = statisticItems;
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -47,9 +50,9 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
             this.binding = ItemStatisticsBinding.bind(itemView);
         }
 
-        public void bind(StatisticInformation statisticInformation) {
-            binding.nameOfStatistic.setText(statisticInformation.getName());
-            binding.countOfStatistic.setText(String.valueOf(statisticInformation.getCount()));
+        public void bind(StatisticItem statisticItem, Context context) {
+            binding.nameOfStatistic.setText(context.getResources().getString(statisticItem.getName()));
+            binding.countOfStatistic.setText(String.valueOf(statisticItem.getCount()));
         }
     }
 }

@@ -3,13 +3,10 @@ package penakelex.textRPG.homeland.Main;
 import static penakelex.textRPG.homeland.Main.Constants.Current_Top_Panel_Activity;
 import static penakelex.textRPG.homeland.Main.Constants.First_Visit_Talents;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
-import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -28,7 +25,7 @@ public class TopPanelParentActivity extends ActionParentActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         switch (item.getItemId()) {
             case R.id.personToolBar:
                 if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
@@ -72,15 +69,9 @@ public class TopPanelParentActivity extends ActionParentActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.golden_yellow));
         toolbar.setTitleTextAppearance(this, R.style.gameFont);
         switch (sharedPreferences.getInt(Current_Top_Panel_Activity, 0)) {
-            case 1:
-                toolbar.setTitle(getResources().getString(R.string.you));
-                break;
-            case 2:
-                toolbar.setTitle(getResources().getString(R.string.notes));
-                break;
-            case 3:
-                toolbar.setTitle(getResources().getString(R.string.menu));
-                break;
+            case 1 -> toolbar.setTitle(getResources().getString(R.string.you));
+            case 2 -> toolbar.setTitle(getResources().getString(R.string.notes));
+            case 3 -> toolbar.setTitle(getResources().getString(R.string.menu));
         }
     }
 

@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.CharacteristicsDatabase.CharacteristicItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemStartingCharacteristicBinding;
 
 
 public class StartingCharacteristicsAdapter extends RecyclerView.Adapter<StartingCharacteristicsAdapter.ViewHolder> {
-    private ArrayList<StartingCharacteristicInformation> information;
+    private List<CharacteristicItem> information = new ArrayList<>();
     private final OnStartingCharacteristicItemClickListener listener;
     private int lastPosition = -1;
     private Context context;
@@ -28,7 +28,7 @@ public class StartingCharacteristicsAdapter extends RecyclerView.Adapter<Startin
     }
 
     public interface OnStartingCharacteristicItemClickListener {
-        void onClickListener(String name, int position);
+        void onClickListener(CharacteristicItem item);
     }
 
     @NonNull
@@ -45,7 +45,7 @@ public class StartingCharacteristicsAdapter extends RecyclerView.Adapter<Startin
 
     private void onClicked(ViewHolder holder, int position) {
         if (lastPosition != position) {
-            listener.onClickListener(information.get(position).getName(), position);
+            listener.onClickListener(information.get(position));
             holder.binding.containerForStartingCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -58,8 +58,8 @@ public class StartingCharacteristicsAdapter extends RecyclerView.Adapter<Startin
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = CharacteristicsDatabase.getStartingCharacteristicsInformation(new CharacteristicsDatabaseHelper(context).getReadableDatabase());
+    public void setInformation(List<CharacteristicItem> characteristicItems, Context context) {
+        this.information = characteristicItems;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -72,13 +72,14 @@ public class StartingCharacteristicsAdapter extends RecyclerView.Adapter<Startin
             this.binding = ItemStartingCharacteristicBinding.bind(itemView);
         }
 
-        public void bind(StartingCharacteristicInformation startingCharacteristicInformation, Context context, int position, int lastPosition) {
-            if (position == lastPosition)
+        public void bind(CharacteristicItem item, Context context, int position, int lastPosition) {
+            if (position == lastPosition) {
                 binding.containerForStartingCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
-            else
+            } else {
                 binding.containerForStartingCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.white));
-            binding.characteristicName.setText(startingCharacteristicInformation.getName());
-            binding.characteristicValue.setText(String.valueOf(startingCharacteristicInformation.getValue()));
+            }
+            binding.characteristicName.setText(context.getResources().getString(item.getName()));
+            binding.characteristicValue.setText(String.valueOf(item.getValue()));
         }
     }
 }

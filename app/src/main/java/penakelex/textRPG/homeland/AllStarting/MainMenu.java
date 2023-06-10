@@ -9,17 +9,13 @@ import static penakelex.textRPG.homeland.Main.Constants.S;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import penakelex.textRPG.homeland.CreatingCharacterForm.CreatingCharacter;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestItem;
-import penakelex.textRPG.homeland.Databases.QuestsDatabase.QuestsDatabase;
+import penakelex.textRPG.homeland.Databases.Database.DatabaseCallback;
 import penakelex.textRPG.homeland.Dialogs.DialogActivity;
 import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
@@ -45,7 +41,7 @@ public class MainMenu extends AppCompatActivity {
             new StartingNewGameWithProgress().show(getFragmentManager().beginTransaction(), "new or not");
         } else {
             sharedPreferences.edit().putInt(ID_Dialog, 0).putBoolean(Is_Game_Started, true).apply();
-            QuestsDatabase.getDatabase(getApplicationContext()).questsDao().addQuest(new QuestItem(getResources().getString(R.string.quest_registration)));
+            new DatabaseCallback(getApplication(), this, this, this);
             startActivity(new Intent(MainMenu.this, DialogActivity.class));
             finish();
         }
@@ -54,24 +50,23 @@ public class MainMenu extends AppCompatActivity {
     private void settingLastActivity() {
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         switch (sharedPreferences.getInt(Current_Activity, 0)) {
-            case 1:
+            case 1 -> {
                 startActivity(new Intent(this, CreatingCharacter.class));
                 finish();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 startActivity(new Intent(this, Map.class));
                 finish();
-                break;
-            case 3:
+            }
+            case 3 -> {
                 startActivity(new Intent(this, DialogActivity.class));
                 finish();
-                break;
-            default:
-                Snackbar.make(binding.getRoot(),
-                                getResources().getString(R.string.you_havent_started_game_yet),
-                                Snackbar.LENGTH_SHORT).
-                        setTextColor(getResources().getColor(R.color.golden_yellow)).
-                        setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+            }
+            default -> Snackbar.make(binding.getRoot(),
+                            getResources().getString(R.string.you_havent_started_game_yet),
+                            Snackbar.LENGTH_SHORT).
+                    setTextColor(getResources().getColor(R.color.golden_yellow)).
+                    setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }
     }
 }

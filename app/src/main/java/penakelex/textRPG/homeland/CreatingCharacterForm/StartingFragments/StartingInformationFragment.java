@@ -6,7 +6,6 @@ import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Age;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Height;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.FragmentStartingInformationBinding;
@@ -25,21 +26,22 @@ public class StartingInformationFragment extends Fragment {
     SharedPreferences sharedPreferences;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentStartingInformationBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settingStartValues();
         binding.nextToCharacteristics.setOnClickListener(listener -> savingData());
     }
 
     private void settingStartValues() {
-        sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        }
         if (!sharedPreferences.getString(Main_Character_Name, "").equals("")) {
             binding.characterName.setText(sharedPreferences.getString(Main_Character_Name, ""));
         } else {
@@ -60,19 +62,17 @@ public class StartingInformationFragment extends Fragment {
         }
         if (sharedPreferences.getInt(Gender, 0) != 0) {
             switch (sharedPreferences.getInt(Gender, 0)) {
-                case 1:
-                    binding.male.setChecked(true);
-                    break;
-                case 2:
-                    binding.female.setChecked(true);
-                    break;
+                case 1 -> binding.male.setChecked(true);
+                case 2 -> binding.female.setChecked(true);
             }
         }
     }
 
     private void savingData() {
         boolean isAllGood = true;
-        sharedPreferences = getActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        }
         if (binding.characterName.getText().toString().equals("")) {
             binding.characterName.setHint(getResources().getString(R.string.did_not_input_ur_name));
             binding.characterName.setHintTextColor(getResources().getColor(R.color.red));
@@ -147,7 +147,7 @@ public class StartingInformationFragment extends Fragment {
         }
         if (isAllGood) {
             binding = null;
-            getActivity().getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingCharacteristicsFragment()).commit();
         }
     }
 }

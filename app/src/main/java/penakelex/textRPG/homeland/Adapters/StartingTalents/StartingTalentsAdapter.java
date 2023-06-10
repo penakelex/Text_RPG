@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
-import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemStartingTalentBinding;
 
 public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalentsAdapter.ViewHolder> {
-    private ArrayList<StartingTalentsInformation> information = new ArrayList<>();
+    private List<TalentItem> information = new ArrayList<>();
     private final OnStartingTalentItemClickListener clickListener;
     private int lastPosition = -1;
     private Context context;
@@ -28,7 +28,7 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
     }
 
     public interface OnStartingTalentItemClickListener {
-        void onClickListener(String name, int position);
+        void onClickListener(TalentItem talentItem);
     }
 
     @NonNull
@@ -45,7 +45,7 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
 
     private void isClicked(ViewHolder holder, int position) {
         if (lastPosition != position) {
-            clickListener.onClickListener(information.get(position).getName(), position);
+            clickListener.onClickListener(information.get(position));
             holder.binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -58,8 +58,8 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = TalentsDatabase.getStartingTalentsInformation(new TalentsDatabaseHelper(context).getReadableDatabase());
+    public void setInformation(List<TalentItem> talents, Context context) {
+        this.information = talents;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -72,13 +72,14 @@ public class StartingTalentsAdapter extends RecyclerView.Adapter<StartingTalents
             this.binding = ItemStartingTalentBinding.bind(itemView);
         }
 
-        public void bind(StartingTalentsInformation startingTalentsInformation, Context context, int position, int lastPosition) {
-            if (lastPosition == position)
+        public void bind(TalentItem talent, Context context, int position, int lastPosition) {
+            if (lastPosition == position) {
                 binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
-            else
+            } else {
                 binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.white));
-            binding.nameOfTalent.setText(startingTalentsInformation.getName());
-            binding.checkBox.setChecked(startingTalentsInformation.isHaving());
+            }
+            binding.nameOfTalent.setText(context.getResources().getString(talent.getName()));
+            binding.checkBox.setChecked(talent.isHaving());
         }
     }
 }

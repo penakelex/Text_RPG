@@ -10,13 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabase;
-import penakelex.textRPG.homeland.Databases.OtherInfromationDatabase.OtherInformationDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.OtherInfromationDatabase.OtherInformationItem;
 import penakelex.textRPG.homeland.databinding.OtherInformationItemBinding;
 
 public class OtherInformationAdapter extends RecyclerView.Adapter<OtherInformationAdapter.ViewHolder> {
-    private ArrayList<OtherInformationInformation> information = new ArrayList<>();
+    private List<OtherInformationItem> information = new ArrayList<>();
+    private Context context;
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -25,7 +27,7 @@ public class OtherInformationAdapter extends RecyclerView.Adapter<OtherInformati
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position));
+        holder.bind(information.get(position), context);
     }
 
     @Override
@@ -34,8 +36,9 @@ public class OtherInformationAdapter extends RecyclerView.Adapter<OtherInformati
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = OtherInformationDatabase.getInformation(new OtherInformationDatabaseHelper(context).getReadableDatabase());
+    public void setInformation(Context context, List<OtherInformationItem> otherInformationItems) {
+        this.information = otherInformationItems;
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -48,9 +51,9 @@ public class OtherInformationAdapter extends RecyclerView.Adapter<OtherInformati
             this.binding = OtherInformationItemBinding.bind(itemView);
         }
 
-        public void bind(OtherInformationInformation otherInformationInformation) {
-            binding.nameOfOtherInformation.setText(otherInformationInformation.getName());
-            binding.valueOfOtherInformation.setText(String.valueOf(otherInformationInformation.getValue()));
+        public void bind(OtherInformationItem otherInformationItem, Context context) {
+            binding.nameOfOtherInformation.setText(context.getResources().getString(otherInformationItem.getName()));
+            binding.valueOfOtherInformation.setText(String.valueOf(otherInformationItem.getValue()));
         }
     }
 }

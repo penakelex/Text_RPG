@@ -11,21 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabase;
-import penakelex.textRPG.homeland.Databases.CharacteristicsDatabase.CharacteristicsDatabaseHelper;
+import penakelex.textRPG.homeland.Databases.Tables.CharacteristicsDatabase.CharacteristicItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemCharacteristicBinding;
 
 
 public class CharacteristicsAdapter extends RecyclerView.Adapter<CharacteristicsAdapter.ViewHolder> {
-    private ArrayList<CharacteristicsInformation> information = new ArrayList<>();
+    private List<CharacteristicItem> information = new ArrayList<>();
     private final OnCharacteristicItemClickListener clickListener;
     private int lastPosition = -1;
     private Context context;
 
     public interface OnCharacteristicItemClickListener {
-        void onClickListener(String name, int position);
+        void onClickListener(CharacteristicItem characteristic);
     }
 
     public CharacteristicsAdapter(OnCharacteristicItemClickListener clickListener) {
@@ -46,7 +46,7 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
 
     private void onClicked(int position, ViewHolder holder) {
         if (lastPosition != position) {
-            clickListener.onClickListener(information.get(position).getName(), position);
+            clickListener.onClickListener(information.get(position));
             holder.binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.gray));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -59,8 +59,8 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = CharacteristicsDatabase.getCharacteristicsInformation(new CharacteristicsDatabaseHelper(context).getReadableDatabase());
+    public void setInformation(Context context, List<CharacteristicItem> characteristics) {
+        this.information = characteristics;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -73,10 +73,10 @@ public class CharacteristicsAdapter extends RecyclerView.Adapter<Characteristics
             this.binding = ItemCharacteristicBinding.bind(itemView);
         }
 
-        public void bind(CharacteristicsInformation characteristicsInformation, Context context) {
+        public void bind(CharacteristicItem characteristic, Context context) {
             binding.containerForCharacteristicItem.setBackgroundColor(context.getResources().getColor(R.color.white));
-            binding.characteristicName.setText(characteristicsInformation.getName());
-            binding.characteristicValue.setText(String.valueOf(characteristicsInformation.getValue()));
+            binding.characteristicName.setText(context.getResources().getString(characteristic.getName()));
+            binding.characteristicValue.setText(String.valueOf(characteristic.getValue()));
         }
     }
 }

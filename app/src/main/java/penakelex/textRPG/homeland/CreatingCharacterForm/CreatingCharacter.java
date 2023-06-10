@@ -8,11 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
+
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 
@@ -23,12 +21,11 @@ import penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.Starti
 import penakelex.textRPG.homeland.databinding.ActivityCreatingCharacterBinding;
 
 public class CreatingCharacter extends MainActionParentActivity {
-    private ActivityCreatingCharacterBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCreatingCharacterBinding.inflate(getLayoutInflater());
+        penakelex.textRPG.homeland.databinding.ActivityCreatingCharacterBinding binding = ActivityCreatingCharacterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
@@ -36,9 +33,9 @@ public class CreatingCharacter extends MainActionParentActivity {
         handlingToolBar(toolbar);
         sharedPreferences.edit().putInt(Current_Activity, 1).apply();
         if (sharedPreferences.getBoolean(Going_To_Starting_Information, true)) {
-            getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingInfoFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingInfoFragment()).commit();
         } else {
-            getFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingInformationFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingInformationFragment()).commit();
         }
     }
 

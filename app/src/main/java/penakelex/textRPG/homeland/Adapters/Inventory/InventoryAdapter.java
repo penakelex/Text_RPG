@@ -12,37 +12,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabase;
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryDatabaseHelper;
-import penakelex.textRPG.homeland.Databases.InventoryDatabase.InventoryItem;
+import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryTableHelper;
+import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.InventoryItemBinding;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder> {
-    private ArrayList<InventoryItemInformation> information = new ArrayList<>();
-    private OnInventoryItemClickListener clickListener;
+    private List<InventoryItem> information = new ArrayList<>();
+    private final OnInventoryItemClickListener clickListener;
     private int lastPosition = -1;
     private Context context;
+    private final InventoryTableHelper tableHelper;
 
     public interface OnInventoryItemClickListener {
-        void onClickListener(long primaryID, int ID);
+        void onClickListener(InventoryItem inventoryItem);
     }
 
-    public InventoryAdapter(OnInventoryItemClickListener clickListener) {
+    public InventoryAdapter(OnInventoryItemClickListener clickListener, InventoryTableHelper tableHelper) {
+        this.tableHelper = tableHelper;
         this.clickListener = clickListener;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(InventoryDatabase inventoryDatabase, Context context, int ownersID) {
-        List<InventoryItem> inventoryItems = inventoryDatabase.inventoryDao().getInventory(ownersID);
-        ArrayList<InventoryItemInformation> inventoryItemsInformation = new ArrayList<>();
-        for (int i = 0; i < inventoryItems.size(); i++)
-            inventoryItemsInformation.add(new InventoryItemInformation(inventoryItems.get(i).getId(), inventoryItems.get(i).getPrimaryID()));
-        this.information = (ArrayList<InventoryItemInformation>) inventoryItemsInformation.clone();
+    public void setInformation(Context context, List<InventoryItem> inventoryItems) {
+        this.information = inventoryItems;
         this.context = context;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -52,13 +48,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(information.get(position), context);
+        holder.bind(information.get(position), context, tableHelper);
         holder.itemView.setOnClickListener(listener -> onClicked(position, holder));
     }
 
     private void onClicked(int position, ViewHolder holder) {
         if (position != lastPosition) {
-            clickListener.onClickListener(information.get(position).getPrimaryID(), information.get(position).getID());
+            clickListener.onClickListener(information.get(position));
             holder.binding.containerForInventoryItem.setBackgroundColor(context.getResources().getColor(R.color.blue_green));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -82,8 +78,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
             this.binding = InventoryItemBinding.bind(itemView);
         }
 
-        public void bind(InventoryItemInformation inventoryItemInformation, Context context) {
-            String[] itemInformation = InventoryDatabaseHelper.getInventoryItemShortInformation(itemView.getContext(), inventoryItemInformation.getID());
+        public void bind(InventoryItem inventoryItem, Context context, InventoryTableHelper tableHelper) {
+            String[] itemInformation = tableHelper.getInventoryItemShortInformation(context, inventoryItem.getId());
             binding.containerForInventoryItem.setBackgroundColor(context.getResources().getColor(R.color.light_blue_green));
             binding.itemName.setText(itemInformation[0]);
             binding.itemType.setText(itemInformation[1]);

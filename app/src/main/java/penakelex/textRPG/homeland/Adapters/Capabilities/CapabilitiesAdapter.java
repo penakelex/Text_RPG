@@ -9,21 +9,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import penakelex.textRPG.homeland.Databases.TalentsDatabase.TalentsDatabase;
+import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentItem;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.CapabilitiesItemBinding;
 
 public class CapabilitiesAdapter extends RecyclerView.Adapter<CapabilitiesAdapter.ViewHolder> {
-    private ArrayList<CapabilitiesInformation> information;
-    private OnCapabilityItemClickListener clickListener;
+    private List<TalentItem> information;
+    private final OnCapabilityItemClickListener clickListener;
     private Context context;
     private int lastPosition = -1;
 
     public void onClicked(ViewHolder viewHolder, int position) {
         if (lastPosition != position) {
-            clickListener.onClickListener(information.get(position).getCapabilityName(), information.get(position).getCapabilityID());
+            clickListener.onClickListener(information.get(position));
             viewHolder.binding.capability.setBackgroundColor(context.getResources().getColor(R.color.darker_light_blue));
             notifyItemChanged(lastPosition);
             lastPosition = position;
@@ -31,7 +31,7 @@ public class CapabilitiesAdapter extends RecyclerView.Adapter<CapabilitiesAdapte
     }
 
     public interface OnCapabilityItemClickListener {
-        void onClickListener(String name, int ID);
+        void onClickListener(TalentItem talent);
     }
 
     public CapabilitiesAdapter(OnCapabilityItemClickListener clickListener) {
@@ -39,8 +39,8 @@ public class CapabilitiesAdapter extends RecyclerView.Adapter<CapabilitiesAdapte
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setInformation(Context context) {
-        this.information = TalentsDatabase.getHavingTalents(context);
+    public void setInformation(Context context, List<TalentItem> talents) {
+        this.information = talents;
         this.context = context;
         notifyDataSetChanged();
     }
@@ -72,9 +72,9 @@ public class CapabilitiesAdapter extends RecyclerView.Adapter<CapabilitiesAdapte
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(CapabilitiesInformation capabilitiesInformation, Context context) {
+        public void bind(TalentItem talent, Context context) {
             binding.capability.setBackgroundColor(context.getResources().getColor(R.color.light_blue));
-            binding.capabilityName.setText(capabilitiesInformation.getCapabilityName());
+            binding.capabilityName.setText(context.getResources().getString(talent.getName()));
         }
     }
 }
