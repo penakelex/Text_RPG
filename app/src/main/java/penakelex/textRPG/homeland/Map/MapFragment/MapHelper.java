@@ -227,4 +227,8 @@ public class MapHelper {
             binding.button9.setText("");
         }
     }
+
+    public void setLocation() {
+        startLocalLocation();
+    }
 }

@@ -23,6 +23,8 @@ public class MapFragment extends Fragment {
             if (currentLocation != 1 && currentLocation != 4 && currentLocation != 7) {
                 currentLocation--;
                 mapHelper.changeImage(currentLocation);
+                settingNothing();
+                mapHelper.setLocation();
             }
         }
 
@@ -31,6 +33,8 @@ public class MapFragment extends Fragment {
             if (currentLocation != 1 && currentLocation != 2 && currentLocation != 3) {
                 currentLocation -= 3;
                 mapHelper.changeImage(currentLocation);
+                settingNothing();
+                mapHelper.setLocation();
             }
         }
 
@@ -39,6 +43,8 @@ public class MapFragment extends Fragment {
             if (currentLocation != 7 && currentLocation != 8 && currentLocation != 9) {
                 currentLocation += 3;
                 mapHelper.changeImage(currentLocation);
+                settingNothing();
+                mapHelper.setLocation();
             }
         }
 
@@ -47,6 +53,8 @@ public class MapFragment extends Fragment {
             if (currentLocation != 9 && currentLocation != 6 && currentLocation != 3) {
                 currentLocation++;
                 mapHelper.changeImage(currentLocation);
+                settingNothing();
+                mapHelper.setLocation();
             }
         }
 
@@ -88,5 +96,17 @@ public class MapFragment extends Fragment {
 
     public OnMapClickListener getClickListener() {
         return clickListener;
+    }
+
+    private void settingNothing() {
+        binding.button1.setText("");
+        binding.button2.setText("");
+        binding.button3.setText("");
+        binding.button4.setText("");
+        binding.button5.setText("");
+        binding.button6.setText("");
+        binding.button7.setText("");
+        binding.button8.setText("");
+        binding.button9.setText("");
     }
 }
