@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.ReputationViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -25,11 +24,11 @@ public class ReputationViewModel extends ViewModel {
         repository.update(newReputation, ID);
     }
 
-    public LiveData<List<ReputationItem>> getAllReputation() {
+    public List<ReputationItem> getAllReputation() {
         return repository.getAllReputations();
     }
 
-    public LiveData<ReputationItem> getReputation(short ID) {
-        return repository.getReputation(ID);
+    public ReputationItem getReputation(int name) {
+        return repository.getReputation(name);
     }
 }

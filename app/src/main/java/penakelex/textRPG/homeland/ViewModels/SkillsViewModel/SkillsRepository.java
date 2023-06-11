@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.SkillsViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -27,11 +25,11 @@ public class SkillsRepository {
         new UpdateSkillValueAsyncTask(dao).execute(newValue, ID);
     }
 
-    public void updateIsMain(boolean isMain, byte ID) {
+    public void updateIsMain(byte isMain, byte ID) {
         new UpdateSkillIsMainAsyncTask(dao).execute(isMain, ID);
     }
 
-    public LiveData<List<SkillsItem>> getAllSkills() {
+    public List<SkillsItem> getAllSkills() {
         try {
             return new GetAllSkillsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -39,7 +37,7 @@ public class SkillsRepository {
         }
     }
 
-    public LiveData<SkillsItem> getSkill(byte ID) {
+    public SkillsItem getSkill(byte ID) {
         try {
             return new GetSkillAsyncTask(dao).execute(ID).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -75,7 +73,7 @@ public class SkillsRepository {
         }
     }
 
-    private static class UpdateSkillIsMainAsyncTask extends AsyncTask<Object, Void, Void> {
+    private static class UpdateSkillIsMainAsyncTask extends AsyncTask<Byte, Void, Void> {
         private final SkillsDao dao;
 
         public UpdateSkillIsMainAsyncTask(SkillsDao dao) {
@@ -83,13 +81,13 @@ public class SkillsRepository {
         }
 
         @Override
-        protected Void doInBackground(Object... objects) {
-            dao.updateIsMain((byte) ((boolean) objects[0] ? 1 : 0), (byte) objects[1]);
+        protected Void doInBackground(Byte... bytes) {
+            dao.updateIsMain(bytes[0], bytes[1]);
             return null;
         }
     }
 
-    private static class GetAllSkillsAsyncTask extends AsyncTask<Void, Void, LiveData<List<SkillsItem>> > {
+    private static class GetAllSkillsAsyncTask extends AsyncTask<Void, Void, List<SkillsItem>> {
         private final SkillsDao dao;
 
         public GetAllSkillsAsyncTask(SkillsDao dao) {
@@ -97,12 +95,12 @@ public class SkillsRepository {
         }
 
         @Override
-        protected LiveData<List<SkillsItem>> doInBackground(Void... voids) {
+        protected List<SkillsItem> doInBackground(Void... voids) {
             return dao.getAllSkills();
         }
     }
 
-    private static class GetSkillAsyncTask extends AsyncTask<Byte, Void, LiveData<SkillsItem>> {
+    private static class GetSkillAsyncTask extends AsyncTask<Byte, Void, SkillsItem> {
         private final SkillsDao dao;
 
         public GetSkillAsyncTask(SkillsDao dao) {
@@ -110,7 +108,7 @@ public class SkillsRepository {
         }
 
         @Override
-        protected LiveData<SkillsItem> doInBackground(Byte... bytes) {
+        protected SkillsItem doInBackground(Byte... bytes) {
             return dao.getSkill(bytes[0]);
         }
     }

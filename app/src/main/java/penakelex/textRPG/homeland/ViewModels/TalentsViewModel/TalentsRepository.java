@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.TalentsViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +17,7 @@ public class TalentsRepository {
         this.dao = Database.getDatabase(application).talentsDao();
     }
 
-    public LiveData<List<TalentItem>> getAllTalents() {
+    public List<TalentItem> getAllTalents() {
         try {
             return new GetAllTalentsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -35,7 +33,7 @@ public class TalentsRepository {
         new ChangeIsHavingAsyncTask(dao).execute(isHaving, ID);
     }
 
-    public LiveData<TalentItem> getTalent(byte ID) {
+    public TalentItem getTalent(byte ID) {
         try {
             return new GetTalentAsyncTask(dao).execute(ID).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -43,7 +41,7 @@ public class TalentsRepository {
         }
     }
 
-    public LiveData<List<TalentItem>> getHavingTalents() {
+    public List<TalentItem> getHavingTalents() {
         try {
             return new GetHavingTalentsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -51,7 +49,7 @@ public class TalentsRepository {
         }
     }
 
-    private static class GetAllTalentsAsyncTask extends AsyncTask<Void, Void, LiveData<List<TalentItem>> > {
+    private static class GetAllTalentsAsyncTask extends AsyncTask<Void, Void, List<TalentItem>> {
         private final TalentsDao dao;
 
         public GetAllTalentsAsyncTask(TalentsDao dao) {
@@ -59,7 +57,7 @@ public class TalentsRepository {
         }
 
         @Override
-        protected LiveData<List<TalentItem>> doInBackground(Void... voids) {
+        protected List<TalentItem> doInBackground(Void... voids) {
             return dao.getAllTalents();
         }
     }
@@ -92,7 +90,7 @@ public class TalentsRepository {
         }
     }
 
-    private static class GetTalentAsyncTask extends AsyncTask<Byte, Void, LiveData<TalentItem>> {
+    private static class GetTalentAsyncTask extends AsyncTask<Byte, Void, TalentItem> {
         private final TalentsDao dao;
 
         public GetTalentAsyncTask(TalentsDao dao) {
@@ -100,12 +98,12 @@ public class TalentsRepository {
         }
 
         @Override
-        protected LiveData<TalentItem> doInBackground(Byte... bytes) {
+        protected TalentItem doInBackground(Byte... bytes) {
             return dao.getTalent(bytes[0]);
         }
     }
 
-    private static class GetHavingTalentsAsyncTask extends AsyncTask<Void, Void, LiveData<List<TalentItem>>> {
+    private static class GetHavingTalentsAsyncTask extends AsyncTask<Void, Void, List<TalentItem>> {
         private final TalentsDao dao;
 
         public GetHavingTalentsAsyncTask(TalentsDao dao) {
@@ -113,7 +111,7 @@ public class TalentsRepository {
         }
 
         @Override
-        protected LiveData<List<TalentItem>> doInBackground(Void... voids) {
+        protected List<TalentItem> doInBackground(Void... voids) {
             return dao.getHavingTalents(true);
         }
     }

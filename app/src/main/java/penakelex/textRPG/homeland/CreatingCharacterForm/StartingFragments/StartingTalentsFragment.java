@@ -16,15 +16,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-
 import penakelex.textRPG.homeland.Adapters.StartingTalents.StartingTalentsAdapter;
-
 
 import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentItem;
 import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentsTableHelper;
@@ -34,7 +30,6 @@ import penakelex.textRPG.homeland.ViewModels.OtherInformationViewModel.OtherInfo
 import penakelex.textRPG.homeland.ViewModels.SkillsViewModel.SkillsViewModel;
 import penakelex.textRPG.homeland.ViewModels.TalentsViewModel.TalentsViewModel;
 import penakelex.textRPG.homeland.databinding.FragmentStartingTalentsBinding;
-
 
 public class StartingTalentsFragment extends Fragment {
     private FragmentStartingTalentsBinding binding;
@@ -103,7 +98,7 @@ public class StartingTalentsFragment extends Fragment {
         skillsViewModel.initiate(requireActivity().getApplication());
         OtherInformationViewModel otherInformationViewModel = new ViewModelProvider(requireActivity()).get(OtherInformationViewModel.class);
         otherInformationViewModel.initiate(requireActivity().getApplication());
-        tableHelper = new TalentsTableHelper(characteristicsViewModel, skillsViewModel, talentsViewModel, otherInformationViewModel, requireActivity());
+        tableHelper = new TalentsTableHelper(characteristicsViewModel, skillsViewModel, talentsViewModel, otherInformationViewModel);
     }
 
     @Override
@@ -132,17 +127,20 @@ public class StartingTalentsFragment extends Fragment {
         if (sharedPreferences == null) {
             sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         }
-        tableHelper.choosingTalent(sharedPreferences, ID, binding.getRoot(), requireActivity());
+        tableHelper.choosingTalent(sharedPreferences, ID, binding, requireActivity());
         setNewInformation();
     }
 
     private void setNewInformation() {
-        LiveData<List<TalentItem>> liveData = talentsViewModel.getAllTalents();
-        liveData.observe(requireActivity(), talentItems -> {
-            liveData.removeObservers(requireActivity());
-            startingTalentsAdapter.setInformation(talentItems, requireActivity());
-        });
+        startingTalentsAdapter.setInformation(talentsViewModel.getAllTalents(), requireActivity());
         setPointsInformation();
+        updateButtonTitle();
+    }
+
+    private void updateButtonTitle() {
+        if (ID != -1) {
+            binding.chooseTalent.setText(!talentsViewModel.getTalent(ID).isHaving() ? requireActivity().getResources().getString(R.string.choose_talent) : requireActivity().getResources().getString(R.string.unchoose_talent));
+        }
     }
 
     private void endForm() {

@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -35,6 +34,7 @@ public class QuestsActivity extends TopPanelParentActivity {
             stagesAdapter.setInformation(quest, getApplicationContext());
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +54,8 @@ public class QuestsActivity extends TopPanelParentActivity {
 
     private void questsAdapter() {
         QuestsAdapter questsAdapter = new QuestsAdapter(clickListener);
-        LiveData<List<QuestItem>> quests = questsViewModel.getAllQuests();
-        quests.observe(this, questItems -> {
-            quests.removeObservers(QuestsActivity.this);
-            questsAdapter.setInformation(questItems, getApplicationContext());
-        });
+        List<QuestItem> quests = questsViewModel.getAllQuests();
+        questsAdapter.setInformation(quests, getApplicationContext());
         binding.containerForQuests.setAdapter(questsAdapter);
     }
 

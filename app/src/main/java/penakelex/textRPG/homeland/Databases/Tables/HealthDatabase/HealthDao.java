@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface HealthDao {
     @Query("SELECT * FROM health_status")
-    LiveData<List<HealthItem>> getAllHealthStatuses();
+    List<HealthItem> getAllHealthStatuses();
 
     @Insert
     void insert(HealthItem item);

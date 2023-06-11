@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.HealthViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class HealthViewModel extends ViewModel {
         this.healthRepository = new HealthRepository(application);
     }
 
-    public LiveData<List<HealthItem>> getAllHealthStatuses() {
+    public List<HealthItem> getAllHealthStatuses() {
         return healthRepository.getAllHealthStatuses();
     }
 

@@ -1,13 +1,13 @@
 package penakelex.textRPG.homeland.Map;
 
 import static penakelex.textRPG.homeland.Main.Constants.Current_Activity;
-
 import static penakelex.textRPG.homeland.Main.Constants.Global_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
+import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
 import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location;
 import static penakelex.textRPG.homeland.Main.Constants.Local_Map_Location_Def_Value;
-import static penakelex.textRPG.homeland.Main.Constants.Static_Position;
 import static penakelex.textRPG.homeland.Main.Constants.Starting;
+import static penakelex.textRPG.homeland.Main.Constants.Static_Position;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +26,7 @@ import penakelex.textRPG.homeland.Main.MainActionParentActivity;
 import penakelex.textRPG.homeland.Map.MapFragment.MapFragment;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ActivityMapBinding;
+
 public class Map extends MainActionParentActivity {
     private ActivityMapBinding binding;
     private SharedPreferences sharedPreferences;
@@ -36,6 +37,10 @@ public class Map extends MainActionParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapBinding.inflate(getLayoutInflater());
+        MapFragment fragment = new MapFragment();
+        assert binding.containerForMapFragment != null;
+        getSupportFragmentManager().beginTransaction().replace(binding.containerForMapFragment.getId(), fragment).commit();
+        clickListener = fragment.getClickListener();
         setContentView(binding.getRoot());
         toolbar();
         startLocation();
@@ -65,20 +70,36 @@ public class Map extends MainActionParentActivity {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         }
         switch (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value)) {
-            case 2 -> goingToDialog(); //Службный въезд
-            case 12 -> goingToDialog();  //Гараж
-            case 20 -> goingToDialog(); //Медпункт
-            case 5, 6 -> goingToDialog(); //Технические помещения
-            case 15, 24 -> goingToDialog(); //Столовая
-            case 27 -> goingToDialog(); //Пост охраны
-            case 43, 35 -> goingToDialog(); //Тренировочный комплекс
-            case 44, 63, 34 -> goingToDialog(); //Спальные районы
-            case 42, 51 -> goingToDialog(); //Технические помещения
-            case 30 -> goingToDialog(); //Склад
-            case 46, 47 -> goingToDialog(); //Антены слева
-            case 73 -> goingToDialog(); //Ракета
-            case 57 -> goingToDialog(); //Диспетчерская
-            case 67 -> goingToDialog(); //Антены справа
+            case 2 -> {
+                if (sharedPreferences.getInt(ID_Dialog, 1) == 100) {
+                    sharedPreferences.edit().putInt(ID_Dialog, 15).apply();
+                    goingToDialog();
+                }
+            } //Служебный въезд
+            case 20 -> {
+                if (sharedPreferences.getInt(ID_Dialog, 1) == 100) {
+                    sharedPreferences.edit().putInt(ID_Dialog, 16).apply();
+                }
+                goingToDialog();
+            } //Медпункт
+            case 15, 24 -> {
+                if (sharedPreferences.getInt(ID_Dialog, 1) == 100) {
+                    sharedPreferences.edit().putInt(ID_Dialog, 17).apply();
+                }
+                goingToDialog();
+            } //Столовая
+            case 43, 35 -> {
+                if (sharedPreferences.getInt(ID_Dialog, 1) == 100) {
+                    sharedPreferences.edit().putInt(ID_Dialog, 18).apply();
+                }
+                goingToDialog();
+            } //Тренировочный комплекс
+            case 44, 63, 34 -> {
+                if (sharedPreferences.getInt(ID_Dialog, 1) == 100) {
+                    Snackbar.make(binding.getRoot(), getResources().getString(R.string.u_dont_see_anything_intresting), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+                } else goingToDialog();
+            } //Спальные районы
+            default -> Snackbar.make(binding.getRoot(), getResources().getString(R.string.u_dont_see_anything_intresting), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }
     }
 
@@ -185,10 +206,6 @@ public class Map extends MainActionParentActivity {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         }
         sharedPreferences.edit().putBoolean(Starting, true).apply();
-        MapFragment fragment = new MapFragment();
-        assert binding.containerForMapFragment != null;
-        getSupportFragmentManager().beginTransaction().replace(binding.containerForMapFragment.getId(), fragment).commit();
-        clickListener = fragment.getClickListener();
         byte location = (byte) sharedPreferences.getInt(Global_Map_Location, 1);
         switch (location) {
             case 1 ->
@@ -210,7 +227,7 @@ public class Map extends MainActionParentActivity {
             case 9 ->
                     binding.currentLocation.setText(getResources().getString(R.string.current_location_northeast));
         }
-        clickListener.startLocation((byte) location);
+        clickListener.startLocation(location);
         setClickable();
     }
 

@@ -10,33 +10,47 @@
     tools:ignore="MissingDefaultResource"
     android:baselineAligned="false">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="bottom"
         android:padding="10dp"
         android:orientation="vertical">
-
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/game_font1"
+            android:gravity="start"
+            android:text="@string/ask_registrar"
+            android:textColor="@color/blue"
+            android:textSize="35sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/game_font2"
             android:text="@string/signature"
             android:textColor="@color/black"
-            android:textSize="80sp" />
+            android:textSize="80sp"
+            app:layout_constraintBottom_toTopOf="@+id/signature"
+            tools:layout_editor_absoluteX="10dp" />
 
         <EditText
             android:id="@+id/signature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/game_font2"
-            android:textColor="@color/blue"
-            android:textSize="100sp"
             android:importantForAutofill="no"
             android:inputType="text"
+            android:textColor="@color/blue"
+            android:textSize="100sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="LabelFor" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

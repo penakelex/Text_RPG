@@ -10,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -54,7 +53,7 @@ public class SaleFragment extends Fragment {
         characteristicsViewModel.initiate(requireActivity().getApplication());
         SkillsViewModel skillsViewModel = new ViewModelProvider(requireActivity()).get(SkillsViewModel.class);
         skillsViewModel.initiate(requireActivity().getApplication());
-        tableHelper = new InventoryTableHelper(inventoryViewModel, characteristicsViewModel, skillsViewModel, requireActivity());
+        tableHelper = new InventoryTableHelper(inventoryViewModel, characteristicsViewModel, skillsViewModel);
         return binding.getRoot();
     }
 
@@ -68,11 +67,9 @@ public class SaleFragment extends Fragment {
     }
 
     private void settingAdapterInformation() {
-        LiveData<List<InventoryItem>> inventory = inventoryViewModel.getInventory((short) 1);
-        inventory.observe(requireActivity(), inventoryItems -> {
-            inventory.removeObservers(requireActivity());
-            adapter.setInformation(requireActivity(), inventoryItems);
-        });
+        List<InventoryItem> inventory = inventoryViewModel.getInventory((short) 1);
+        adapter.setLastPosition(-1);
+        adapter.setInformation(requireActivity(), inventory);
     }
 
     private void sellingItem() {
@@ -91,7 +88,7 @@ public class SaleFragment extends Fragment {
     private void settingNothing() {
         item = null;
         binding.itemDescription.setText("");
-        binding.itemName.setText("");
+        binding.itemName.setText(requireActivity().getResources().getString(R.string.choose_item_on_sell));
         binding.itemValue.setText("");
     }
 }

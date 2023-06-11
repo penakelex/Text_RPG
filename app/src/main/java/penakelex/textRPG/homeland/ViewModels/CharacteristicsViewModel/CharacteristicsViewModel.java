@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.CharacteristicsViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class CharacteristicsViewModel extends ViewModel {
         this.repository = new CharacteristicsRepository(application);
     }
 
-    public LiveData<List<CharacteristicItem>> getAllCharacteristics() {
+    public List<CharacteristicItem> getAllCharacteristics() {
         return repository.getAllCharacteristics();
     }
 
@@ -29,7 +28,7 @@ public class CharacteristicsViewModel extends ViewModel {
         repository.update(newValue, ID);
     }
 
-    public LiveData<CharacteristicItem> getCharacteristic(byte ID) {
+    public CharacteristicItem getCharacteristic(byte ID) {
         return repository.getCharacteristic(ID);
     }
 }

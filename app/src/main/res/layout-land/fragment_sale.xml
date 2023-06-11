@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/sale_word"
+            android:fontFamily="@font/game_font1"
             android:textColor="@color/black"
             android:textSize="32sp" />
 
@@ -50,14 +51,18 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemName"
+                android:gravity="center"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:fontFamily="@font/game_font1"
+                android:text="@string/choose_item_on_sell"
                 android:textSize="32sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemValue"
+                android:fontFamily="@font/game_font1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -72,6 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/game_font1"
                     android:textSize="24sp" />
             </ScrollView>
         </LinearLayout>

@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.StatisticsViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +17,7 @@ public class StatisticsRepository {
         this.dao = Database.getDatabase(application).statisticsDao();
     }
 
-    public LiveData<List<StatisticItem>> getAllStatistic() {
+    public List<StatisticItem> getAllStatistic() {
         try {
             return new GetAllStatisticsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -35,7 +33,7 @@ public class StatisticsRepository {
         new UpdateCountAsyncTask(dao).execute(newCount, (short) ID);
     }
 
-    private static class GetAllStatisticsAsyncTask extends AsyncTask<Void, Void, LiveData<List<StatisticItem>>> {
+    private static class GetAllStatisticsAsyncTask extends AsyncTask<Void, Void, List<StatisticItem>> {
         private final StatisticsDao dao;
 
         public GetAllStatisticsAsyncTask(StatisticsDao dao) {
@@ -43,7 +41,7 @@ public class StatisticsRepository {
         }
 
         @Override
-        protected LiveData<List<StatisticItem>> doInBackground(Void... voids) {
+        protected List<StatisticItem> doInBackground(Void... voids) {
             return dao.getAllStatistic();
         }
     }

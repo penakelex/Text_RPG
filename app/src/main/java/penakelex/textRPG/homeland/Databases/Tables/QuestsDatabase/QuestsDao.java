@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface QuestsDao {
     @Query("SELECT * FROM quests")
-    LiveData<List<QuestItem>> getQuests();
+    List<QuestItem> getQuests();
 
     @Insert
     void addQuest(QuestItem quest);

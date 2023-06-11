@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -71,11 +70,8 @@ public class HealthInformationFragment extends Fragment {
 
     private void adapter() {
         HealthStatusAdapter adapter = new HealthStatusAdapter(clickListener);
-        LiveData<List<HealthItem>> health = healthViewModel.getAllHealthStatuses();
-        health.observe(requireActivity(), healthItems -> {
-            health.removeObservers(requireActivity());
-            adapter.setInformation(requireActivity(), healthItems);
-        });
+        List<HealthItem> health = healthViewModel.getAllHealthStatuses();
+        adapter.setInformation(requireActivity(), health);
         binding.containerForHealthStatuses.setAdapter(adapter);
     }
 }

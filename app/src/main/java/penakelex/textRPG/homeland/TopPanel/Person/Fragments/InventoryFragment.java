@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -58,7 +57,7 @@ public class InventoryFragment extends Fragment {
         binding = FragmentInventoryBinding.inflate(inflater, container, false);
         inventoryViewModel = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
         inventoryViewModel.initiate(requireActivity().getApplication());
-        tableHelper = new InventoryTableHelper(inventoryViewModel, requireActivity());
+        tableHelper = new InventoryTableHelper(inventoryViewModel);
         otherInformationViewModel = new ViewModelProvider(requireActivity()).get(OtherInformationViewModel.class);
         otherInformationViewModel.initiate(requireActivity().getApplication());
         return binding.getRoot();
@@ -76,18 +75,15 @@ public class InventoryFragment extends Fragment {
     }
 
     private void settingAdapterInformation() {
-        LiveData<List<InventoryItem>> inventory = inventoryViewModel.getInventory((short) 1);
-        inventory.observe(requireActivity(), inventoryItems -> inventoryAdapter.setInformation(requireActivity(), inventoryItems));
+        List<InventoryItem> inventory = inventoryViewModel.getInventory((short) 1);
+        inventoryAdapter.setInformation(requireActivity(), inventory);
     }
 
     @SuppressLint("DefaultLocale")
     private void settingVolumeAndWeight() {
-        LiveData<List<OtherInformationItem>> information = otherInformationViewModel.getAllOtherInformation();
-        information.observe(requireActivity(), otherInformationItems -> {
-            information.removeObservers(requireActivity());
-            binding.volume.setText(String.format("%s %f/%d", getResources().getString(R.string.volume), sharedPreferences.getFloat(Using_Volume, 0), otherInformationItems.get(3).getValue()));
-            binding.weight.setText(String.format("%s %f/%d", getResources().getString(R.string.weight), sharedPreferences.getFloat(Using_Weight, 0), otherInformationItems.get(2).getValue()));
-        });
+        List<OtherInformationItem> information = otherInformationViewModel.getAllOtherInformation();
+        binding.volume.setText(String.format("%s %f/%d", getResources().getString(R.string.volume), sharedPreferences.getFloat(Using_Volume, 0), information.get(3).getValue()));
+        binding.weight.setText(String.format("%s %f/%d", getResources().getString(R.string.weight), sharedPreferences.getFloat(Using_Weight, 0), information.get(2).getValue()));
     }
 
     private void throwingAwayItem() {

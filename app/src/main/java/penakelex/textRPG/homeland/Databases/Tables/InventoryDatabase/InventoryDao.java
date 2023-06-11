@@ -1,6 +1,5 @@
 package penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,7 +10,7 @@ import java.util.List;
 @Dao
 public interface InventoryDao {
     @Query("SELECT * FROM inventory")
-    LiveData<List<InventoryItem>> getAllInventories();
+    List<InventoryItem> getAllInventories();
 
 
     @Insert
@@ -27,5 +26,5 @@ public interface InventoryDao {
     void deleteAll();
 
     @Query("SELECT * FROM inventory WHERE owner_id=:owner")
-    LiveData<List<InventoryItem>> getInventory(short owner);
+    List<InventoryItem> getInventory(short owner);
 }

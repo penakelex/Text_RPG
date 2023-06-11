@@ -8,10 +8,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -27,46 +23,37 @@ import penakelex.textRPG.homeland.ViewModels.SkillsViewModel.SkillsViewModel;
 
 public class InventoryTableHelper {
     private final InventoryViewModel inventoryViewModel;
-    private final LifecycleOwner lifecycleOwner;
     private CharacteristicsViewModel characteristicsViewModel = null;
     private SkillsViewModel skillsViewModel = null;
     private OtherInformationViewModel otherInformationViewModel = null;
 
-    public InventoryTableHelper(InventoryViewModel inventoryViewModel, LifecycleOwner lifecycleOwner) {
+    public InventoryTableHelper(InventoryViewModel inventoryViewModel) {
         this.inventoryViewModel = inventoryViewModel;
-        this.lifecycleOwner = lifecycleOwner;
+
     }
 
-    public InventoryTableHelper(InventoryViewModel inventoryViewModel, CharacteristicsViewModel characteristicsViewModel, SkillsViewModel skillsViewModel, LifecycleOwner lifecycleOwner) {
+    public InventoryTableHelper(InventoryViewModel inventoryViewModel, CharacteristicsViewModel characteristicsViewModel, SkillsViewModel skillsViewModel) {
         this.inventoryViewModel = inventoryViewModel;
-        this.lifecycleOwner = lifecycleOwner;
         this.characteristicsViewModel = characteristicsViewModel;
         this.skillsViewModel = skillsViewModel;
     }
 
-    public InventoryTableHelper(InventoryViewModel inventoryViewModel, LifecycleOwner lifecycleOwner, CharacteristicsViewModel characteristicsViewModel, SkillsViewModel skillsViewModel, OtherInformationViewModel otherInformationViewModel) {
+    public InventoryTableHelper(InventoryViewModel inventoryViewModel, CharacteristicsViewModel characteristicsViewModel, SkillsViewModel skillsViewModel, OtherInformationViewModel otherInformationViewModel) {
         this.inventoryViewModel = inventoryViewModel;
-        this.lifecycleOwner = lifecycleOwner;
         this.characteristicsViewModel = characteristicsViewModel;
         this.skillsViewModel = skillsViewModel;
         this.otherInformationViewModel = otherInformationViewModel;
     }
 
     public void trading(InventoryItem inventoryItem, short owner) {
-        LiveData<CharacteristicItem> attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
-        attractiveness.observe(lifecycleOwner, characteristicItem -> {
-            attractiveness.removeObservers(lifecycleOwner);
-            LiveData<SkillsItem> trading = skillsViewModel.getSkill((byte) 5);
-            trading.observe(lifecycleOwner, skillsItem -> {
-                trading.removeObservers(lifecycleOwner);
-                short basePrice = getBaseItemPrice(inventoryItem.getId());
-                if (owner == 1) {
-                    inventoryViewModel.changeOwner(owner, (float) (basePrice - basePrice * (characteristicItem.getValue() * 0.1 + skillsItem.getValue() * 0.005)), (short) inventoryItem.getId());
-                } else {
-                    inventoryViewModel.changeOwner(owner, (float) (basePrice + basePrice * (characteristicItem.getValue() * 0.1 + skillsItem.getValue() * 0.005)), (short) inventoryItem.getId());
-                }
-            });
-        });
+        CharacteristicItem attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
+        SkillsItem trading = skillsViewModel.getSkill((byte) 5);
+        short basePrice = getBaseItemPrice(inventoryItem.getId());
+        if (owner == 1) {
+            inventoryViewModel.changeOwner(owner, (float) (basePrice - basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getId());
+        } else {
+            inventoryViewModel.changeOwner(owner, (float) (basePrice + basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getId());
+        }
     }
 
     public boolean throwAwayItem(InventoryItem item, SharedPreferences sharedPreferences, Context context) {
@@ -102,48 +89,26 @@ public class InventoryTableHelper {
         String[] itemInformation = getAllInventoryItemInformation(context, ID);
         float weight = Float.parseFloat(itemInformation[2]), volume = Float.parseFloat(itemInformation[3]);
         SharedPreferences sharedPreferences = context.getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
-        LiveData<List<OtherInformationItem>> otherInformation = otherInformationViewModel.getAllOtherInformation();
-        otherInformation.observe(lifecycleOwner, new Observer<>() {
-            @Override
-            public void onChanged(List<OtherInformationItem> otherInformationItems) {
-                otherInformation.removeObservers(lifecycleOwner);
-                if (isHavingFreeSpace(otherInformationItems)) {
-                    LiveData<CharacteristicItem> attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
-                    attractiveness.observe(lifecycleOwner, characteristicItem -> {
-                        attractiveness.removeObservers(lifecycleOwner);
-                        LiveData<SkillsItem> trading = skillsViewModel.getSkill((byte) 5);
-                        trading.observe(lifecycleOwner, skillsItem -> {
-                            trading.removeObservers(lifecycleOwner);
-                            short basePrice = getBaseItemPrice(ID);
-                            inventoryViewModel.add(new InventoryItem(ID, (short) 1, (float) (basePrice + basePrice * (characteristicItem.getValue() * 0.1 + skillsItem.getValue() * 0.005))));
-                        });
-                    });
-                } else
-                    Snackbar.make(view, context.getResources().getString(R.string.too_many_items), Snackbar.LENGTH_SHORT).setTextColor(context.getResources().getColor(R.color.golden_yellow)).setBackgroundTint(context.getResources().getColor(R.color.dark_purple)).show();
-            }
-
-            private boolean isHavingFreeSpace(List<OtherInformationItem> otherInformationItems) {
-                return sharedPreferences.getFloat(Using_Weight, 0) + weight <= otherInformationItems.get(2).getValue() ||
-                        sharedPreferences.getFloat(Using_Volume, 0) + volume <= otherInformationItems.get(2).getValue();
-            }
-        });
+        List<OtherInformationItem> otherInformation = otherInformationViewModel.getAllOtherInformation();
+        if (isHavingFreeSpace(otherInformation, sharedPreferences, weight, volume)) {
+            SkillsItem trading = skillsViewModel.getSkill((byte) 5);
+            CharacteristicItem attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
+            short basePrice = getBaseItemPrice(ID);
+            inventoryViewModel.add(new InventoryItem(ID, (short) 1, (float) (basePrice + basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005))));
+        } else
+            Snackbar.make(view, context.getResources().getString(R.string.too_many_items), Snackbar.LENGTH_SHORT).setTextColor(context.getResources().getColor(R.color.golden_yellow)).setBackgroundTint(context.getResources().getColor(R.color.dark_purple)).show();
     }
 
     public void insertNewItemToSomeoneInventory(short ID, short owner) {
-        LiveData<List<OtherInformationItem>> otherInformation = otherInformationViewModel.getAllOtherInformation();
-        otherInformation.observe(lifecycleOwner, otherInformationItems -> {
-            otherInformation.removeObservers(lifecycleOwner);
-                LiveData<CharacteristicItem> attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
-                attractiveness.observe(lifecycleOwner, characteristicItem -> {
-                    attractiveness.removeObservers(lifecycleOwner);
-                    LiveData<SkillsItem> trading = skillsViewModel.getSkill((byte) 5);
-                    trading.observe(lifecycleOwner, skillsItem -> {
-                        trading.removeObservers(lifecycleOwner);
-                        short basePrice = getBaseItemPrice(ID);
-                        inventoryViewModel.add(new InventoryItem(ID, owner, (float) (basePrice - basePrice * (characteristicItem.getValue() * 0.1 + skillsItem.getValue() * 0.005))));
-                    });
-                });
-        });
+        CharacteristicItem attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
+        SkillsItem trading = skillsViewModel.getSkill((byte) 5);
+        short basePrice = getBaseItemPrice(ID);
+        inventoryViewModel.add(new InventoryItem(ID, owner, (float) (basePrice - basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005))));
+    }
+
+    private boolean isHavingFreeSpace(List<OtherInformationItem> otherInformationItems, SharedPreferences sharedPreferences, float weight, float volume) {
+        return sharedPreferences.getFloat(Using_Weight, 0) + weight <= otherInformationItems.get(2).getValue() ||
+                sharedPreferences.getFloat(Using_Volume, 0) + volume <= otherInformationItems.get(2).getValue();
     }
 
     public boolean isItemForQuest(short ID) {

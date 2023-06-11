@@ -1,4 +1,5 @@
 package penakelex.textRPG.homeland.TopPanel.Person.Fragments;
+
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -61,11 +61,8 @@ public class CharacteristicsFragment extends Fragment {
 
     private void adapter() {
         CharacteristicsAdapter characteristicsAdapter = new CharacteristicsAdapter(clickListener);
-        LiveData<List<CharacteristicItem>> characteristics = characteristicsViewModel.getAllCharacteristics();
-        characteristics.observe(requireActivity(), characteristicItems -> {
-            characteristics.removeObservers(requireActivity());
-            characteristicsAdapter.setInformation(requireActivity(), characteristicItems);
-        });
+        List<CharacteristicItem> characteristics = characteristicsViewModel.getAllCharacteristics();
+        characteristicsAdapter.setInformation(requireActivity(), characteristics);
         binding.containerForCharacteristics.setAdapter(characteristicsAdapter);
     }
 }

@@ -55,11 +55,12 @@ public class StartingInformationFragment extends Fragment {
             binding.characterHeight.setHint(getResources().getString(R.string.input_height));
         }
         if (sharedPreferences.getInt(Main_Character_Age, 0) != 0) {
-            binding.characterAge.setText(String.valueOf(sharedPreferences.getInt(Main_Character_Age, 0)));
+            binding.characterAge.setValue(sharedPreferences.getInt(Main_Character_Age, 0));
         } else {
-            binding.characterAge.setText("");
-            binding.characterAge.setHint(R.string.input_age);
+            binding.characterAge.setValue(16);
         }
+        binding.characterAge.setMinValue(16);
+        binding.characterAge.setMaxValue(35);
         if (sharedPreferences.getInt(Gender, 0) != 0) {
             switch (sharedPreferences.getInt(Gender, 0)) {
                 case 1 -> binding.male.setChecked(true);
@@ -77,38 +78,11 @@ public class StartingInformationFragment extends Fragment {
             binding.characterName.setHint(getResources().getString(R.string.did_not_input_ur_name));
             binding.characterName.setHintTextColor(getResources().getColor(R.color.red));
             isAllGood = false;
-            binding.characterAge.setText("");
         } else {
             String name = binding.characterName.getText().toString().replace("\n", "").replace(" ", "");
             sharedPreferences.edit().putString(Main_Character_Name, name).apply();
         }
-        if (binding.characterAge.getText().toString().equals("")) {
-            binding.characterAge.setHint(getResources().getString(R.string.did_not_input_ur_age));
-            binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
-            isAllGood = false;
-            binding.characterAge.setText("");
-        } else {
-            if (binding.characterAge.getText().toString().split("").length <= 4) {
-                if (Integer.parseInt(binding.characterAge.getText().toString()) > 35) {
-                    binding.characterAge.setHint(getResources().getString(R.string.ur_too_old));
-                    binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
-                    isAllGood = false;
-                    binding.characterAge.setText("");
-                } else if (Integer.parseInt(binding.characterAge.getText().toString()) < 16) {
-                    binding.characterAge.setHint(getResources().getString(R.string.ur_not_enough_old));
-                    binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
-                    isAllGood = false;
-                    binding.characterAge.setText("");
-                } else {
-                    sharedPreferences.edit().putInt(Main_Character_Age, Integer.parseInt(binding.characterAge.getText().toString())).apply();
-                }
-            } else {
-                binding.characterAge.setHintTextColor(getResources().getColor(R.color.red));
-                binding.characterAge.setHint(getResources().getString(R.string.ur_sooo_old));
-                isAllGood = false;
-                binding.characterAge.setText("");
-            }
-        }
+        sharedPreferences.edit().putInt(Main_Character_Age, binding.characterAge.getValue()).apply();
         if (binding.characterHeight.getText().toString().equals("")) {
             binding.characterHeight.setHint(getResources().getString(R.string.did_not_input_ur_height));
             binding.characterHeight.setHintTextColor(getResources().getColor(R.color.red));

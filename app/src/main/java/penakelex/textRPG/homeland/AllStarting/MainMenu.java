@@ -41,7 +41,7 @@ public class MainMenu extends AppCompatActivity {
             new StartingNewGameWithProgress().show(getFragmentManager().beginTransaction(), "new or not");
         } else {
             sharedPreferences.edit().putInt(ID_Dialog, 0).putBoolean(Is_Game_Started, true).apply();
-            new DatabaseCallback(getApplication(), this, this, this);
+            new DatabaseCallback(getApplication(), this);
             startActivity(new Intent(MainMenu.this, DialogActivity.class));
             finish();
         }

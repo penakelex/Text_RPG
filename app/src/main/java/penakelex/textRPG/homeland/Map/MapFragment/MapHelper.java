@@ -27,16 +27,19 @@ import penakelex.textRPG.homeland.databinding.MapFragmentBinding;
 public class MapHelper {
     private int[] currentLocation;
     private final SharedPreferences sharedPreferences;
-    private final MapFragmentBinding binding;
+    private MapFragmentBinding binding;
     private final Context context;
 
-    public MapHelper(Context context, MapFragmentBinding binding) {
+    public MapHelper(Context context) {
         this.sharedPreferences = context.getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
-        this.binding = binding;
         this.context = context;
     }
 
-    private void setCurrentLocation(byte currentLocation) {
+    public void setBinding(MapFragmentBinding binding) {
+        this.binding = binding;
+    }
+
+    public void setCurrentLocation(byte currentLocation) {
         switch (currentLocation) {
             case 1 -> this.currentLocation = Global_Map_1;
             case 2 -> this.currentLocation = Global_Map_2;
@@ -54,15 +57,15 @@ public class MapHelper {
     public void changeImage(byte location) {
         sharedPreferences.edit().putInt(Global_Map_Location, location).apply();
         switch (location) {
-            case 1 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_1));
-            case 2 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_2));
-            case 3 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_3));
+            case 7 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_1));
+            case 8 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_2));
+            case 9 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_3));
             case 4 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_4));
             case 5 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_5));
             case 6 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_6));
-            case 7 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_7));
-            case 8 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_8));
-            case 9 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_9));
+            case 1 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_7));
+            case 2 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_8));
+            case 3 -> binding.background.setBackground(context.getDrawable(R.drawable.map_part_9));
         }
         setCurrentLocation(location);
     }
@@ -126,7 +129,7 @@ public class MapHelper {
         settingNothing(currentLocation[1]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[1]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[1]).apply();
-            binding.button1.setText(U_Here);
+            binding.button2.setText(U_Here);
         }
     }
 
@@ -134,7 +137,7 @@ public class MapHelper {
         settingNothing(currentLocation[2]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[2]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[2]).apply();
-            binding.button1.setText(U_Here);
+            binding.button3.setText(U_Here);
         }
     }
 
@@ -142,7 +145,7 @@ public class MapHelper {
         settingNothing(currentLocation[3]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[3]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[3]).apply();
-            binding.button1.setText(U_Here);
+            binding.button4.setText(U_Here);
         }
     }
 
@@ -150,7 +153,7 @@ public class MapHelper {
         settingNothing(currentLocation[4]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[4]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[4]).apply();
-            binding.button1.setText(U_Here);
+            binding.button5.setText(U_Here);
         }
     }
 
@@ -158,7 +161,7 @@ public class MapHelper {
         settingNothing(currentLocation[5]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[5]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[5]).apply();
-            binding.button1.setText(U_Here);
+            binding.button6.setText(U_Here);
         }
     }
 
@@ -166,7 +169,7 @@ public class MapHelper {
         settingNothing(currentLocation[6]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[6]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[6]).apply();
-            binding.button1.setText(U_Here);
+            binding.button7.setText(U_Here);
         }
     }
 
@@ -174,7 +177,7 @@ public class MapHelper {
         settingNothing(currentLocation[7]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[7]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[7]).apply();
-            binding.button1.setText(U_Here);
+            binding.button8.setText(U_Here);
         }
     }
 
@@ -182,7 +185,7 @@ public class MapHelper {
         settingNothing(currentLocation[8]);
         if (sharedPreferences.getInt(Local_Map_Location, Local_Map_Location_Def_Value) != currentLocation[8]) {
             sharedPreferences.edit().putInt(Local_Map_Location, currentLocation[8]).apply();
-            binding.button1.setText(U_Here);
+            binding.button9.setText(U_Here);
         }
     }
 

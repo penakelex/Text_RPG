@@ -1,6 +1,5 @@
 package penakelex.textRPG.homeland.Map.MapFragment;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +53,6 @@ public class MapFragment extends Fragment {
         @Override
         public void startLocation(byte location) {
             currentLocation = location;
-            mapHelper.changeImage(currentLocation);
         }
     };
 
@@ -62,13 +60,15 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = MapFragmentBinding.inflate(inflater, container, false);
+        mapHelper = new MapHelper(requireActivity());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapHelper = new MapHelper(requireActivity(), binding);
+        mapHelper.setBinding(binding);
+        mapHelper.changeImage(currentLocation);
         mapHelper.startLocalLocation();
         mapHelper.setClickable();
         buttons();

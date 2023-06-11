@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -39,11 +38,8 @@ public class OtherInformationFragment extends Fragment {
 
     private void adapter() {
         OtherInformationAdapter adapter = new OtherInformationAdapter();
-        LiveData<List<OtherInformationItem>> otherInformation = otherInformationViewModel.getAllOtherInformation();
-        otherInformation.observe(requireActivity(), otherInformationItems -> {
-            otherInformation.removeObservers(requireActivity());
-            adapter.setInformation(requireActivity(), otherInformationItems);
-        });
+        List<OtherInformationItem> otherInformation = otherInformationViewModel.getAllOtherInformation();
+        adapter.setInformation(requireActivity(), otherInformation);
         binding.containerForOtherInformation.setAdapter(adapter);
     }
 }

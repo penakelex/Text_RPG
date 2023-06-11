@@ -2,12 +2,8 @@ package penakelex.textRPG.homeland.Databases.Database;
 
 
 import android.app.Application;
-import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -43,10 +39,8 @@ public class DatabaseCallback {
     private final StatisticsViewModel statisticsViewModel;
     private final TalentsViewModel talentsViewModel;
     private final OtherInformationViewModel otherInformationViewModel;
-    private final LifecycleOwner lifecycleOwner;
 
-    public DatabaseCallback(@NonNull Application application, ViewModelStoreOwner owner, LifecycleOwner lifecycleOwner, Context context) {
-        this.lifecycleOwner = lifecycleOwner;
+    public DatabaseCallback(@NonNull Application application, ViewModelStoreOwner owner) {
         this.characteristicsViewModel = new ViewModelProvider(owner).get(CharacteristicsViewModel.class);
         this.characteristicsViewModel.initiate(application);
         this.healthViewModel = new ViewModelProvider(owner).get(HealthViewModel.class);
@@ -65,11 +59,11 @@ public class DatabaseCallback {
         this.talentsViewModel.initiate(application);
         this.otherInformationViewModel = new ViewModelProvider(owner).get(OtherInformationViewModel.class);
         this.otherInformationViewModel.initiate(application);
-        initiate(context);
+        initiate();
     }
 
-    private void initiate(Context context) {
-        characteristics(context);
+    private void initiate() {
+        characteristics();
         health();
         inventory();
         quests();
@@ -80,149 +74,121 @@ public class DatabaseCallback {
         otherInformation();
     }
 
-    private void characteristics(Context context) {
-        LiveData<List<CharacteristicItem>> liveData = characteristicsViewModel.getAllCharacteristics();
-        liveData.observe(lifecycleOwner, characteristicItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            Toast.makeText(context, String.valueOf(characteristicItems.size()), Toast.LENGTH_LONG).show();
-            if (characteristicItems.size() == 0) {
-                characteristicsViewModel.add(new CharacteristicItem(R.string.strength));
-                characteristicsViewModel.add(new CharacteristicItem(R.string.physique));
-                characteristicsViewModel.add(new CharacteristicItem(R.string.dexterity));
-                characteristicsViewModel.add(new CharacteristicItem(R.string.mentality));
-                characteristicsViewModel.add(new CharacteristicItem(R.string.luckiness));
-                characteristicsViewModel.add(new CharacteristicItem(R.string.watchfulness));
-                characteristicsViewModel.add(new CharacteristicItem(R.string.attractiveness));
-            } else {
-                for (CharacteristicItem item : characteristicItems) {
-                    characteristicsViewModel.update((byte) 2, item.getID());
-                }
+    private void characteristics() {
+        List<CharacteristicItem> characteristicItems = characteristicsViewModel.getAllCharacteristics();
+        if (characteristicItems.size() == 0) {
+            characteristicsViewModel.add(new CharacteristicItem(R.string.strength));
+            characteristicsViewModel.add(new CharacteristicItem(R.string.physique));
+            characteristicsViewModel.add(new CharacteristicItem(R.string.dexterity));
+            characteristicsViewModel.add(new CharacteristicItem(R.string.mentality));
+            characteristicsViewModel.add(new CharacteristicItem(R.string.luckiness));
+            characteristicsViewModel.add(new CharacteristicItem(R.string.watchfulness));
+            characteristicsViewModel.add(new CharacteristicItem(R.string.attractiveness));
+        } else {
+            for (CharacteristicItem item : characteristicItems) {
+                characteristicsViewModel.update((byte) 2, item.getID());
             }
-        });
+        }
     }
 
     private void health() {
-        LiveData<List<HealthItem>> liveData = healthViewModel.getAllHealthStatuses();
-        liveData.observe(lifecycleOwner, healthItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (healthItems.size() == 0) {
-                healthViewModel.add(new HealthItem(R.string.health_points));
-                healthViewModel.add(new HealthItem(R.string.left_arm));
-                healthViewModel.add(new HealthItem(R.string.right_arm));
-                healthViewModel.add(new HealthItem(R.string.head));
-                healthViewModel.add(new HealthItem(R.string.left_leg));
-                healthViewModel.add(new HealthItem(R.string.right_leg));
-                healthViewModel.add(new HealthItem(R.string.torso));
-            }
-        });
+        List<HealthItem> healthStatuses = healthViewModel.getAllHealthStatuses();
+        if (healthStatuses.size() == 0) {
+            healthViewModel.add(new HealthItem(R.string.health_points));
+            healthViewModel.add(new HealthItem(R.string.left_arm));
+            healthViewModel.add(new HealthItem(R.string.right_arm));
+            healthViewModel.add(new HealthItem(R.string.head));
+            healthViewModel.add(new HealthItem(R.string.left_leg));
+            healthViewModel.add(new HealthItem(R.string.right_leg));
+            healthViewModel.add(new HealthItem(R.string.torso));
+        }
     }
 
     private void inventory() {
-        LiveData<List<InventoryItem>> liveData = inventoryViewModel.getAllInventoriesItems();
-        liveData.observe(lifecycleOwner, inventoryItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (inventoryItems.size() != 0) {
-                inventoryViewModel.deleteAll();
-            }
-        });
+        List<InventoryItem> inventoriesItems = inventoryViewModel.getAllInventoriesItems();
+        if (inventoriesItems.size() != 0) {
+            inventoryViewModel.deleteAll();
+        }
     }
 
     private void quests() {
-        LiveData<List<QuestItem>> liveData = questsViewModel.getAllQuests();
-        liveData.observe(lifecycleOwner, questItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (questItems.size() != 0) {
-                for (QuestItem item : questItems) {
-                    questsViewModel.updateQuestStage((short) 0, item.getID());
-                }
-                questsViewModel.updateQuestStage((short) 1, 1);
-            } else {
-                questsViewModel.add(new QuestItem(R.string.quest_registration));
+        List<QuestItem> quests = questsViewModel.getAllQuests();
+        if (quests.size() != 0) {
+            for (QuestItem item : quests) {
+                questsViewModel.updateQuestStage((short) 0, item.getID());
             }
-        });
+            questsViewModel.updateQuestStage((short) 1, 1);
+        } else {
+            questsViewModel.add(new QuestItem(R.string.quest_registration));
+        }
     }
 
     private void reputation() {
-        LiveData<List<ReputationItem>> liveData = reputationViewModel.getAllReputation();
-        liveData.observe(lifecycleOwner, reputationItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (reputationItems.size() != 0) {
-                for (ReputationItem item : reputationItems) {
-                    reputationViewModel.update((byte) 0, item.getID());
-                }
+        List<ReputationItem> reputations = reputationViewModel.getAllReputation();
+        if (reputations.size() != 0) {
+            for (ReputationItem item : reputations) {
+                reputationViewModel.update((byte) 0, item.getID());
             }
-        });
+        }
     }
 
     private void skills() {
-        LiveData<List<SkillsItem>> liveData = skillsViewModel.getAllSkills();
-        liveData.observe(lifecycleOwner, skillsItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (skillsItems.size() == 0) {
-                skillsViewModel.add(new SkillsItem(R.string.lightWeapons));
-                skillsViewModel.add(new SkillsItem(R.string.heavyWeapons));
-                skillsViewModel.add(new SkillsItem(R.string.meleeWeapons));
-                skillsViewModel.add(new SkillsItem(R.string.communication));
-                skillsViewModel.add(new SkillsItem(R.string.trading));
-                skillsViewModel.add(new SkillsItem(R.string.survival));
-                skillsViewModel.add(new SkillsItem(R.string.medicine));
-                skillsViewModel.add(new SkillsItem(R.string.scince));
-                skillsViewModel.add(new SkillsItem(R.string.repair));
-            } else {
-                for (SkillsItem skillsItem : skillsItems) {
-                    skillsViewModel.updateIsMain(false, skillsItem.getID());
-                }
+        List<SkillsItem> skills = skillsViewModel.getAllSkills();
+        if (skills.size() == 0) {
+            skillsViewModel.add(new SkillsItem(R.string.lightWeapons));
+            skillsViewModel.add(new SkillsItem(R.string.heavyWeapons));
+            skillsViewModel.add(new SkillsItem(R.string.meleeWeapons));
+            skillsViewModel.add(new SkillsItem(R.string.communication));
+            skillsViewModel.add(new SkillsItem(R.string.trading));
+            skillsViewModel.add(new SkillsItem(R.string.survival));
+            skillsViewModel.add(new SkillsItem(R.string.medicine));
+            skillsViewModel.add(new SkillsItem(R.string.scince));
+            skillsViewModel.add(new SkillsItem(R.string.repair));
+        } else {
+            for (SkillsItem skillsItem : skills) {
+                skillsViewModel.updateIsMain((byte) 0, skillsItem.getID());
             }
-        });
+        }
     }
 
     private void statistics() {
-        LiveData<List<StatisticItem>> liveData = statisticsViewModel.getAllStatistic();
-        liveData.observe(lifecycleOwner, statisticItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (statisticItems.size() == 0) {
-                statisticsViewModel.add(new StatisticItem(R.string.successful_persuasion));
-            } else {
-                for (StatisticItem item : statisticItems) {
-                    statisticsViewModel.updateCount((short) 0, item.getID());
-                }
+        List<StatisticItem> statistics = statisticsViewModel.getAllStatistic();
+        if (statistics.size() == 0) {
+            statisticsViewModel.add(new StatisticItem(R.string.successful_skill_using));
+        } else {
+            for (StatisticItem item : statistics) {
+                statisticsViewModel.updateCount((short) 0, item.getID());
             }
-        });
+        }
     }
 
     private void talents() {
-        LiveData<List<TalentItem>> liveData = talentsViewModel.getAllTalents();
-        liveData.observe(lifecycleOwner, talentItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (talentItems.size() == 0) {
-                talentsViewModel.add(new TalentItem(R.string.singer));
-                talentsViewModel.add(new TalentItem(R.string.bull));
-                talentsViewModel.add(new TalentItem(R.string.strong_kick));
-                talentsViewModel.add(new TalentItem(R.string.experienced));
-                talentsViewModel.add(new TalentItem(R.string.trained));
-                talentsViewModel.add(new TalentItem(R.string.heavyweight));
-                talentsViewModel.add(new TalentItem(R.string.kind_one));
-            } else {
-                for (TalentItem item : talentItems) {
-                    talentsViewModel.changeIsHaving(false, item.getID());
-                }
+        List<TalentItem> talents = talentsViewModel.getAllTalents();
+        if (talents.size() == 0) {
+            talentsViewModel.add(new TalentItem(R.string.singer));
+            talentsViewModel.add(new TalentItem(R.string.bull));
+            talentsViewModel.add(new TalentItem(R.string.strong_kick));
+            talentsViewModel.add(new TalentItem(R.string.experienced));
+            talentsViewModel.add(new TalentItem(R.string.trained));
+            talentsViewModel.add(new TalentItem(R.string.heavyweight));
+            talentsViewModel.add(new TalentItem(R.string.kind_one));
+        } else {
+            for (TalentItem item : talents) {
+                talentsViewModel.changeIsHaving(false, item.getID());
             }
-        });
+        }
     }
 
     private void otherInformation() {
-        LiveData<List<OtherInformationItem>> liveData = otherInformationViewModel.getAllOtherInformation();
-        liveData.observe(lifecycleOwner, otherInformationItems -> {
-            liveData.removeObservers(lifecycleOwner);
-            if (otherInformationItems.size() == 0) {
-                otherInformationItems.add(new OtherInformationItem(R.string.armor_class));
-                otherInformationItems.add(new OtherInformationItem(R.string.ap));
-                otherInformationItems.add(new OtherInformationItem(R.string.max_carry_weight));
-                otherInformationItems.add(new OtherInformationItem(R.string.max_carry_volume));
-                otherInformationItems.add(new OtherInformationItem(R.string.melee_damage));
-                otherInformationItems.add(new OtherInformationItem(R.string.critical_damage));
-                otherInformationItems.add(new OtherInformationItem(R.string.health_points));
-            }
-        });
+        List<OtherInformationItem> information = otherInformationViewModel.getAllOtherInformation();
+        if (information.size() == 0) {
+            otherInformationViewModel.add(new OtherInformationItem(R.string.armor_class));
+            otherInformationViewModel.add(new OtherInformationItem(R.string.ap));
+            otherInformationViewModel.add(new OtherInformationItem(R.string.max_carry_weight));
+            otherInformationViewModel.add(new OtherInformationItem(R.string.max_carry_volume));
+            otherInformationViewModel.add(new OtherInformationItem(R.string.melee_damage));
+            otherInformationViewModel.add(new OtherInformationItem(R.string.critical_damage));
+            otherInformationViewModel.add(new OtherInformationItem(R.string.health_points));
+        }
     }
 }

@@ -2,9 +2,6 @@ package penakelex.textRPG.homeland.ViewModels.ReputationViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +16,7 @@ public class ReputationRepository {
         this.dao = Database.getDatabase(application).reputationDao();
     }
 
-    public LiveData<List<ReputationItem>> getAllReputations() {
+    public List<ReputationItem> getAllReputations() {
         try {
             return new GetAllReputationsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -31,9 +28,9 @@ public class ReputationRepository {
         new AddReputationAsyncTask(dao).execute(item);
     }
 
-    public LiveData<ReputationItem> getReputation(short ID) {
+    public ReputationItem getReputation(int name) {
         try {
-            return new GetReputationAsyncTask(dao).execute(ID).get();
+            return new GetReputationAsyncTask(dao).execute(name).get();
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +40,7 @@ public class ReputationRepository {
         new UpdateReputationAsyncTask(dao).execute((short) newReputation, ID);
     }
 
-    private static class GetAllReputationsAsyncTask extends AsyncTask<Void, Void, LiveData<List<ReputationItem>>> {
+    private static class GetAllReputationsAsyncTask extends AsyncTask<Void, Void, List<ReputationItem>> {
         private final ReputationDao dao;
 
         public GetAllReputationsAsyncTask(ReputationDao dao) {
@@ -51,7 +48,7 @@ public class ReputationRepository {
         }
 
         @Override
-        protected LiveData<List<ReputationItem>> doInBackground(Void... voids) {
+        protected List<ReputationItem> doInBackground(Void... voids) {
             return dao.getAllReputation();
         }
     }
@@ -70,7 +67,7 @@ public class ReputationRepository {
         }
     }
 
-    private static class GetReputationAsyncTask extends AsyncTask<Short, Void, LiveData<ReputationItem>> {
+    private static class GetReputationAsyncTask extends AsyncTask<Integer, Void, ReputationItem> {
         private final ReputationDao dao;
 
         public GetReputationAsyncTask(ReputationDao dao) {
@@ -78,8 +75,8 @@ public class ReputationRepository {
         }
 
         @Override
-        protected LiveData<ReputationItem> doInBackground(Short... shorts) {
-            return dao.getItem(shorts[0]);
+        protected ReputationItem doInBackground(Integer... integers) {
+            return dao.getItem(integers[0]);
         }
     }
 

@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.InventoryViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class InventoryViewModel extends ViewModel {
         this.repository = new InventoryRepository(application);
     }
 
-    public LiveData<List<InventoryItem>> getAllInventoriesItems() {
+    public List<InventoryItem> getAllInventoriesItems() {
         return repository.getAllInventoryItems();
     }
 
@@ -37,7 +36,7 @@ public class InventoryViewModel extends ViewModel {
         repository.deleteAll();
     }
 
-    public LiveData<List<InventoryItem>> getInventory(short ID) {
+    public List<InventoryItem> getInventory(short ID) {
         return repository.getInventory(ID);
     }
 }

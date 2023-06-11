@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -76,11 +75,8 @@ public class CapabilitiesFragment extends Fragment {
 
     private void adapter() {
         CapabilitiesAdapter talentAdapter = new CapabilitiesAdapter(clickListener);
-        LiveData<List<TalentItem>> talents = talentsViewModel.getHavingTalents();
-        talents.observe(requireActivity(), talentItems -> {
-            talents.removeObservers(requireActivity());
-            talentAdapter.setInformation(requireActivity(), talentItems);
-        });
+        List<TalentItem> talents = talentsViewModel.getHavingTalents();
+        talentAdapter.setInformation(requireActivity(), talents);
         binding.containerForCapabilities.setAdapter(talentAdapter);
     }
 }

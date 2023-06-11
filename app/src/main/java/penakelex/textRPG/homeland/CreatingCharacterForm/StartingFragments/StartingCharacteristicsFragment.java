@@ -14,13 +14,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
-
-
-import java.util.List;
 
 import penakelex.textRPG.homeland.Adapters.StartingCharacteristics.StartingCharacteristicsAdapter;
 
@@ -37,7 +33,6 @@ public class StartingCharacteristicsFragment extends Fragment {
     private CharacteristicsViewModel viewModel;
     private StartingCharacteristicsAdapter startingCharacteristicsAdapter;
     private CharacteristicsTableHelper tableHelper;
-    private LiveData<List<CharacteristicItem>> characteristicsItems;
     private final StartingCharacteristicsAdapter.OnStartingCharacteristicItemClickListener listener = new StartingCharacteristicsAdapter.OnStartingCharacteristicItemClickListener() {
         @Override
         public void onClickListener(CharacteristicItem item) {
@@ -67,7 +62,7 @@ public class StartingCharacteristicsFragment extends Fragment {
         binding = FragmentStartingCharacteristicsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(CharacteristicsViewModel.class);
         viewModel.initiate(requireActivity().getApplication());
-        tableHelper = new CharacteristicsTableHelper(viewModel, requireActivity());
+        tableHelper = new CharacteristicsTableHelper(viewModel);
         startingCharacteristicsAdapter = new StartingCharacteristicsAdapter(listener);
         return binding.getRoot();
     }
@@ -75,15 +70,14 @@ public class StartingCharacteristicsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (characteristicsItems == null) {
-            characteristicsItems = viewModel.getAllCharacteristics();
-        }
-        characteristicsItems.observe(requireActivity(), characteristicItems ->
-                startingCharacteristicsAdapter.setInformation(characteristicItems, requireActivity())
-        );
-        setNewPoints();
+        settingInformation();
         binding.containerForSCharacteristics.setAdapter(startingCharacteristicsAdapter);
         buttons();
+    }
+
+    private void settingInformation() {
+        startingCharacteristicsAdapter.setInformation(viewModel.getAllCharacteristics(), requireActivity());
+        setNewPoints();
     }
 
     private void buttons() {
@@ -98,6 +92,7 @@ public class StartingCharacteristicsFragment extends Fragment {
             sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         }
         tableHelper.raiseCharacteristic(sharedPreferences, ID, binding, requireActivity());
+        settingInformation();
     }
 
     private void downgradingCharacteristic() {
@@ -105,6 +100,7 @@ public class StartingCharacteristicsFragment extends Fragment {
             sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
         }
         tableHelper.downgradeCharacteristic(sharedPreferences, ID, binding, requireActivity());
+        settingInformation();
     }
 
     private void settingSkillsFragment() {

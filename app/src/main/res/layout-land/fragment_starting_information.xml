@@ -42,10 +42,10 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/name"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name"
                     android:fontFamily="@font/game_font2"
                     android:text="@string/ur_name"
                     android:textColor="@color/black"
@@ -70,25 +70,20 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/age"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/age"
                     android:fontFamily="@font/game_font2"
                     android:text="@string/ur_age"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/characterAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/game_font2"
-                    android:hint="@string/input_age"
-                    android:inputType="number"
-                    android:textColor="@color/blue"
-                    android:textSize="22sp"
-                    tools:ignore="Autofill" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center" />
             </LinearLayout>
 
         </LinearLayout>
@@ -106,10 +101,10 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/height"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/height"
                     android:fontFamily="@font/game_font2"
                     android:text="@string/ur_height"
                     android:textColor="@color/black"
@@ -121,9 +116,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/game_font2"
                     android:hint="@string/input_height"
+                    android:inputType="number"
                     android:textColor="@color/blue"
                     android:textSize="22sp"
-                    android:inputType="number"
                     tools:ignore="Autofill" />
             </LinearLayout>
 
@@ -160,10 +155,10 @@
                         android:textSize="22sp" />
 
                     <RadioButton
+                        android:id="@+id/female"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:id="@+id/female"
                         android:fontFamily="@font/game_font2"
                         android:text="@string/female"
                         android:textColor="@color/black"
@@ -194,8 +189,8 @@
             android:layout_weight="1"
             android:fontFamily="@font/game_font2"
             android:gravity="center"
-            android:textAllCaps="false"
             android:text="@string/next_to_characteristics"
+            android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:rippleColor="@color/white" />

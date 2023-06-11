@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/game_font2"
                 android:gravity="center"
+                android:text="@string/choose_talent_"
                 android:textColor="@color/black"
                 android:textSize="80sp" />
 

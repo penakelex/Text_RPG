@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -39,11 +38,8 @@ public class StatisticsFragment extends Fragment {
 
     private void adapter() {
         StatisticsAdapter adapter = new StatisticsAdapter();
-        LiveData<List<StatisticItem>> statistics = statisticsViewModel.getAllStatistic();
-        statistics.observe(requireActivity(), statisticItems -> {
-            statistics.removeObservers(requireActivity());
-            adapter.setInformation(requireContext(), statisticItems);
-        });
+        List<StatisticItem> statistics = statisticsViewModel.getAllStatistic();
+        adapter.setInformation(requireContext(), statistics);
         binding.containerForStatistics.setAdapter(adapter);
     }
 }

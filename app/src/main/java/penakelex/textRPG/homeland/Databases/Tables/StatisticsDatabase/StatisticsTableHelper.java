@@ -1,29 +1,19 @@
 package penakelex.textRPG.homeland.Databases.Tables.StatisticsDatabase;
 
-
-
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 import penakelex.textRPG.homeland.ViewModels.StatisticsViewModel.StatisticsViewModel;
 
 public class StatisticsTableHelper {
     private final StatisticsViewModel statisticsViewModel;
-    private final LifecycleOwner lifecycleOwner;
 
-    public StatisticsTableHelper(StatisticsViewModel statisticsViewModel, LifecycleOwner lifecycleOwner) {
+    public StatisticsTableHelper(StatisticsViewModel statisticsViewModel) {
         this.statisticsViewModel = statisticsViewModel;
-        this.lifecycleOwner = lifecycleOwner;
     }
 
     public void updateStatistic(short plusStatistic, byte position) {
-        LiveData<List<StatisticItem>> statistics = statisticsViewModel.getAllStatistic();
-        statistics.observe(lifecycleOwner, statisticItems -> {
-            statistics.removeObservers(lifecycleOwner);
-            statisticsViewModel.updateCount((short) (statisticItems.get(position).getCount() + plusStatistic), statisticItems.get(position).getID());
-        });
+        List<StatisticItem> statistics = statisticsViewModel.getAllStatistic();
+        statisticsViewModel.updateCount((short) (statistics.get(position).getCount() + plusStatistic), statistics.get(position).getID());
     }
 /*    public static void settingStartingValues(Context context, String[] names) {
         StatisticsDao statisticsDao = StatisticsDatabase.getDatabase(context.getApplicationContext()).statisticsDao();

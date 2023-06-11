@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface CharacteristicsDao {
     @Query("SELECT * FROM characteristics")
-    LiveData<List<CharacteristicItem>> getAllCharacteristics();
+    List<CharacteristicItem> getAllCharacteristics();
 
     @Insert
     void addCharacteristic(CharacteristicItem item);
@@ -19,5 +19,5 @@ public interface CharacteristicsDao {
     void updateValue(byte newValue, byte ID);
 
     @Query("SELECT * FROM characteristics WHERE id=:ID")
-    LiveData<CharacteristicItem> getCharacteristic(byte ID);
+    CharacteristicItem getCharacteristic(byte ID);
 }

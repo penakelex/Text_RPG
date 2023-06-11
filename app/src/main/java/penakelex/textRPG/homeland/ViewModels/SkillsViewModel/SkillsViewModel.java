@@ -4,7 +4,6 @@ package penakelex.textRPG.homeland.ViewModels.SkillsViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class SkillsViewModel extends ViewModel {
         this.repository = new SkillsRepository(application);
     }
 
-    public LiveData<List<SkillsItem>> getAllSkills() {
+    public List<SkillsItem> getAllSkills() {
         return repository.getAllSkills();
     }
 
@@ -30,11 +29,11 @@ public class SkillsViewModel extends ViewModel {
         repository.updateValue(newValue, ID);
     }
 
-    public void updateIsMain(boolean isMain, byte ID) {
+    public void updateIsMain(byte isMain, byte ID) {
         repository.updateIsMain(isMain, ID);
     }
 
-    public LiveData<SkillsItem> getSkill(byte ID) {
+    public SkillsItem getSkill(byte ID) {
         return repository.getSkill(ID);
     }
 }

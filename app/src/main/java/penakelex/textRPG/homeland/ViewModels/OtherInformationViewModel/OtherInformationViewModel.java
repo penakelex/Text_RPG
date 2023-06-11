@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.OtherInformationViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -21,11 +20,11 @@ public class OtherInformationViewModel extends ViewModel {
         repository.add(item);
     }
 
-    public LiveData<OtherInformationItem> getOtherInformationItemByID(byte ID) {
+    public OtherInformationItem getOtherInformationItemByID(byte ID) {
         return repository.getOtherInformationItem(ID);
     }
 
-    public LiveData<List<OtherInformationItem>> getAllOtherInformation() {
+    public List<OtherInformationItem> getAllOtherInformation() {
         return repository.getAllOtherInformation();
     }
 

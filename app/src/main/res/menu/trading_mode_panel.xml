@@ -8,4 +8,8 @@
         android:id="@+id/sale"
         android:icon="@drawable/sell_icon"
         android:title="@string/sale" />
+    <item
+        android:id="@+id/exit_from_trading"
+        android:icon="@drawable/exit"
+        android:title="@string/exit" />
 </menu>

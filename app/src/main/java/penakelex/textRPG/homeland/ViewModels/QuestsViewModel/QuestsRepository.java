@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.QuestsViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +17,7 @@ public class QuestsRepository {
         this.dao = Database.getDatabase(application).questsDao();
     }
 
-    public LiveData<List<QuestItem>> getAllQuests() {
+    public List<QuestItem> getAllQuests() {
         try {
             return new GetAllQuestsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -35,7 +33,7 @@ public class QuestsRepository {
         new UpdateQuestStageAsyncTask(dao).execute(newStage, ID);
     }
 
-    private static class GetAllQuestsAsyncTask extends AsyncTask<Void, Void, LiveData<List<QuestItem>>> {
+    private static class GetAllQuestsAsyncTask extends AsyncTask<Void, Void, List<QuestItem>> {
         private final QuestsDao dao;
 
         public GetAllQuestsAsyncTask(QuestsDao dao) {
@@ -43,7 +41,7 @@ public class QuestsRepository {
         }
 
         @Override
-        protected LiveData<List<QuestItem>> doInBackground(Void... voids) {
+        protected List<QuestItem> doInBackground(Void... voids) {
             return dao.getQuests();
         }
     }

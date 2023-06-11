@@ -1,6 +1,5 @@
 package penakelex.textRPG.homeland.Databases.Tables.OtherInfromationDatabase;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -10,10 +9,10 @@ import java.util.List;
 @Dao
 public interface OtherInformationDao {
     @Query("SELECT * FROM other_information")
-    LiveData<List<OtherInformationItem>> getAllOtherInformation();
+    List<OtherInformationItem> getAllOtherInformation();
 
     @Query("SELECT * FROM other_information WHERE id=:ID")
-    LiveData<OtherInformationItem> getOtherInformationItem(byte ID);
+    OtherInformationItem getOtherInformationItem(byte ID);
 
     @Insert
     void addItem(OtherInformationItem item);

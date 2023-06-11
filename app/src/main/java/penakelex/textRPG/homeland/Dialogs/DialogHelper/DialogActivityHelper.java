@@ -20,8 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -30,6 +28,7 @@ import java.util.ArrayList;
 import penakelex.textRPG.homeland.Databases.Tables.CharacteristicsDatabase.CharacteristicItem;
 import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryTableHelper;
 import penakelex.textRPG.homeland.Databases.Tables.QuestsDatabase.QuestItem;
+import penakelex.textRPG.homeland.Databases.Tables.ReputationsDatabase.ReputationItem;
 import penakelex.textRPG.homeland.Databases.Tables.SkillsDatabase.SkillsItem;
 import penakelex.textRPG.homeland.Databases.Tables.StatisticsDatabase.StatisticsTableHelper;
 import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentItem;
@@ -39,6 +38,7 @@ import penakelex.textRPG.homeland.ViewModels.CharacteristicsViewModel.Characteri
 import penakelex.textRPG.homeland.ViewModels.InventoryViewModel.InventoryViewModel;
 import penakelex.textRPG.homeland.ViewModels.OtherInformationViewModel.OtherInformationViewModel;
 import penakelex.textRPG.homeland.ViewModels.QuestsViewModel.QuestsViewModel;
+import penakelex.textRPG.homeland.ViewModels.ReputationViewModel.ReputationViewModel;
 import penakelex.textRPG.homeland.ViewModels.SkillsViewModel.SkillsViewModel;
 import penakelex.textRPG.homeland.ViewModels.StatisticsViewModel.StatisticsViewModel;
 import penakelex.textRPG.homeland.ViewModels.TalentsViewModel.TalentsViewModel;
@@ -50,7 +50,7 @@ public class DialogActivityHelper {
     private final StatisticsTableHelper statisticsTableHelper;
     private final InventoryTableHelper inventoryTableHelper;
     private final QuestsViewModel questsViewModel;
-    private final LifecycleOwner lifecycleOwner;
+    private final ReputationViewModel reputationViewModel;
     private final SharedPreferences sharedPreferences;
 
     public DialogActivityHelper(Activity activity) {
@@ -63,42 +63,34 @@ public class DialogActivityHelper {
         talentsViewModel.initiate(activity.getApplication());
         StatisticsViewModel statisticsViewModel = viewModelProvider.get(StatisticsViewModel.class);
         statisticsViewModel.initiate(activity.getApplication());
-        this.statisticsTableHelper = new StatisticsTableHelper(statisticsViewModel, (LifecycleOwner) activity);
+        this.statisticsTableHelper = new StatisticsTableHelper(statisticsViewModel);
         InventoryViewModel inventoryViewModel = viewModelProvider.get(InventoryViewModel.class);
         inventoryViewModel.initiate(activity.getApplication());
         OtherInformationViewModel otherInformationViewModel = viewModelProvider.get(OtherInformationViewModel.class);
         otherInformationViewModel.initiate(activity.getApplication());
-        this.inventoryTableHelper = new InventoryTableHelper(inventoryViewModel, (LifecycleOwner) activity, characteristicsViewModel, skillsViewModel, otherInformationViewModel);
+        this.inventoryTableHelper = new InventoryTableHelper(inventoryViewModel, characteristicsViewModel, skillsViewModel, otherInformationViewModel);
         this.questsViewModel = viewModelProvider.get(QuestsViewModel.class);
         questsViewModel.initiate(activity.getApplication());
-        this.lifecycleOwner = (LifecycleOwner) activity;
+        this.reputationViewModel = viewModelProvider.get(ReputationViewModel.class);
+        reputationViewModel.initiate(activity.getApplication());
         this.sharedPreferences = activity.getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
     }
 
     @SuppressLint("NonConstantResourceId")
-    public void replicaListener(Dialogs.Quote.CharacterQuote characterQuote, int[] array, short[] plusStatistics) {
+    public int replicaListener(Dialogs.Quote.CharacterQuote characterQuote, int[] array, short[] plusStatistics) {
         int checkingParameter = characterQuote.getChecking();
         if (checkingParameter != -1) {
             if (checkingParameter >= 1 && checkingParameter <= 7) {
-                LiveData<CharacteristicItem> characteristic = characteristicsViewModel.getCharacteristic((byte) checkingParameter);
-                characteristic.observe(lifecycleOwner, characteristicItem -> {
-                    characteristic.removeObservers(lifecycleOwner);
-                    sharedPreferences.edit().putBoolean(Satisfactory_Value, characteristicItem.getValue() >= characterQuote.getCheckingValue()).apply();
-                });
+                CharacteristicItem characteristic = characteristicsViewModel.getCharacteristic((byte) checkingParameter);
+                sharedPreferences.edit().putBoolean(Satisfactory_Value, characteristic.getValue() >= characterQuote.getCheckingValue()).apply();
             } else if (checkingParameter >= 8 && checkingParameter <= 16) {
                 checkingParameter -= 7;
-                LiveData<SkillsItem> skill = skillsViewModel.getSkill((byte) checkingParameter);
-                skill.observe(lifecycleOwner, skillsItem -> {
-                    skill.removeObservers(lifecycleOwner);
-                    sharedPreferences.edit().putBoolean(Satisfactory_Value, skillsItem.getValue() >= characterQuote.getCheckingValue()).apply();
-                });
+                SkillsItem skill = skillsViewModel.getSkill((byte) checkingParameter);
+                sharedPreferences.edit().putBoolean(Satisfactory_Value, skill.getValue() >= characterQuote.getCheckingValue()).apply();
             } else {
                 checkingParameter -= 16;
-                LiveData<TalentItem> talent = talentsViewModel.getTalent((byte) checkingParameter);
-                talent.observe(lifecycleOwner, talentItem -> {
-                    talent.removeObservers(lifecycleOwner);
-                    sharedPreferences.edit().putBoolean(Satisfactory_Value, (talentItem.isHaving() ? 1 : 0) == characterQuote.getCheckingValue()).apply();
-                });
+                TalentItem talent = talentsViewModel.getTalent((byte) checkingParameter);
+                sharedPreferences.edit().putBoolean(Satisfactory_Value, (talent.isHaving() ? 1 : 0) == characterQuote.getCheckingValue()).apply();
             }
             if (sharedPreferences.getBoolean(Satisfactory_Value, false)) {
                 array[0] += characterQuote.getReputation();
@@ -118,6 +110,7 @@ public class DialogActivityHelper {
             array[1] += characterQuote.getCheckingValue();
             array[2] += characterQuote.getMoney();
         }
+        return characterQuote.getNextStep();
     }
 
     public String getSettingValueForCharacterQuote(int quote, Context context) {
@@ -164,6 +157,7 @@ public class DialogActivityHelper {
             case 3 -> ContextCompat.getDrawable(context, R.drawable.alena);
             case 4 -> ContextCompat.getDrawable(context, R.drawable.andrey);
             case 5 -> ContextCompat.getDrawable(context, R.drawable.filipp_2);
+            case 6 -> ContextCompat.getDrawable(context, R.drawable.doctor);
             default -> null;
         };
     }
@@ -204,5 +198,13 @@ public class DialogActivityHelper {
             editor.putInt(intSP.getTag(), intSP.getValue());
         }
         editor.apply();
+    }
+
+    public void addReputation(int... names) {
+        for (int name : names) {
+            if (reputationViewModel.getReputation(name) == null) {
+                reputationViewModel.add(new ReputationItem(name));
+            }
+        }
     }
 }

@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.HealthViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +17,7 @@ public class HealthRepository {
         this.dao = Database.getDatabase(application).healthDao();
     }
 
-    public LiveData<List<HealthItem>> getAllHealthStatuses() {
+    public List<HealthItem> getAllHealthStatuses() {
         try {
             return new GetAllHealthStatusesAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -63,7 +61,7 @@ public class HealthRepository {
         }
     }
 
-    private static class GetAllHealthStatusesAsyncTask extends AsyncTask<Void, Void, LiveData<List<HealthItem>>> {
+    private static class GetAllHealthStatusesAsyncTask extends AsyncTask<Void, Void, List<HealthItem>> {
         private final HealthDao dao;
 
         public GetAllHealthStatusesAsyncTask(HealthDao dao) {
@@ -71,7 +69,7 @@ public class HealthRepository {
         }
 
         @Override
-        protected LiveData<List<HealthItem>> doInBackground(Void... voids) {
+        protected List<HealthItem> doInBackground(Void... voids) {
             return dao.getAllHealthStatuses();
         }
     }

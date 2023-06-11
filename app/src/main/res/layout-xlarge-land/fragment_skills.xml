@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:background="@color/white"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
     tools:context=".TopPanel.Person.Fragments.SkillsFragment"
-    tools:ignore="MissingDefaultResource"
-    android:baselineAligned="false">
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,8 +62,8 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@drawable/black_small_rectangle"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/black_small_rectangle">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,6 +77,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/game_font1"
                         android:gravity="center"
+                        android:text="@string/choose_skill"
                         android:textColor="@color/black"
                         android:textSize="80sp" />
 
@@ -123,8 +124,8 @@
             android:background="@drawable/buttons_background"
             android:fontFamily="@font/game_font1"
             android:gravity="center"
-            android:textAllCaps="false"
             android:text="@string/save_changes"
+            android:textAllCaps="false"
             android:textColor="@color/golden_yellow"
             android:textSize="60sp" />
 

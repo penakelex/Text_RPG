@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface TalentsDao {
     @Query("SELECT * FROM talents")
-    LiveData<List<TalentItem>> getAllTalents();
+    List<TalentItem> getAllTalents();
 
     @Insert
     void add(TalentItem talentItem);
@@ -19,8 +19,8 @@ public interface TalentsDao {
     void changeIsHaving(boolean isHaving, byte ID);
 
     @Query("SELECT * FROM talents WHERE id=:ID")
-    LiveData<TalentItem> getTalent(byte ID);
+    TalentItem getTalent(byte ID);
 
     @Query("SELECT * FROM talents WHERE is_having=:isHaving")
-    LiveData<List<TalentItem>> getHavingTalents(boolean isHaving);
+    List<TalentItem> getHavingTalents(boolean isHaving);
 }

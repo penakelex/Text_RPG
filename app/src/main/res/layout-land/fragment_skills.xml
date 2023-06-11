@@ -75,6 +75,7 @@
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/choose_skill"
                         android:fontFamily="@font/game_font1"
                         android:gravity="center"
                         android:textColor="@color/black"

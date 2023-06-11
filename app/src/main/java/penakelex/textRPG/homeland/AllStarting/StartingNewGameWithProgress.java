@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -59,6 +58,6 @@ public class StartingNewGameWithProgress extends DialogFragment {
                 putString(Main_Character_Name, "").putInt(Gender, 0).
                 putInt(Characteristics_Points, 2).putInt(Main_Skills, 3).putInt(Talents_Points, 2).
                 putInt(Level, 0).apply();
-        new DatabaseCallback(getActivity().getApplication(), (ViewModelStoreOwner) getActivity(), (LifecycleOwner) getActivity(), getActivity());
+        new DatabaseCallback(getActivity().getApplication(), (ViewModelStoreOwner) getActivity());
     }
 }

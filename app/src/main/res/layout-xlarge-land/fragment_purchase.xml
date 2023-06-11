@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:baselineAligned="false"
     android:orientation="horizontal"
     tools:context=".Trading.Fragments.PurchaseFragment"
-    tools:ignore="MissingDefaultResource"
-    android:baselineAligned="false">
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,13 +22,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/purchase_word"
+            android:fontFamily="@font/game_font1"
             android:textColor="@color/black"
             android:textSize="80sp" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/containerForBuyingItems"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/containerForBuyingItems"
             android:background="@drawable/black_small_rectangle"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_trading" />
@@ -53,6 +54,9 @@
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/game_font1"
+                android:gravity="center"
+                android:text="@string/choose_item_on_buying"
                 android:textColor="@color/black"
                 android:textSize="80sp" />
 
@@ -60,6 +64,7 @@
                 android:id="@+id/itemValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/game_font1"
                 android:textColor="@color/black"
                 android:textSize="50sp" />
 
@@ -71,6 +76,7 @@
                     android:id="@+id/itemDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/game_font1"
                     android:textColor="@color/black"
                     android:textSize="60sp" />
             </ScrollView>
@@ -86,8 +92,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/money_icon"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                android:src="@drawable/money_icon" />
         </LinearLayout>
     </LinearLayout>
 

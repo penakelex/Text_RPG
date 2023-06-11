@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.CharacteristicsViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,7 +18,7 @@ public class CharacteristicsRepository {
         this.dao = Database.getDatabase(application).characteristicsDao();
     }
 
-    public LiveData<List<CharacteristicItem>> getAllCharacteristics() {
+    public List<CharacteristicItem> getAllCharacteristics() {
         try {
             return new GetAllCharacteristicsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -35,7 +34,7 @@ public class CharacteristicsRepository {
         new UpdateCharacteristicAsyncTask(dao).execute(newValue, ID);
     }
 
-    public LiveData<CharacteristicItem> getCharacteristic(byte ID) {
+    public CharacteristicItem getCharacteristic(byte ID) {
         try {
             return new GetCharacteristicAsyncTask(dao).execute(ID).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -71,7 +70,7 @@ public class CharacteristicsRepository {
         }
     }
 
-    private static class GetAllCharacteristicsAsyncTask extends AsyncTask<Void, Void, LiveData<List<CharacteristicItem>>> {
+    private static class GetAllCharacteristicsAsyncTask extends AsyncTask<Void, Void, List<CharacteristicItem>> {
         private final CharacteristicsDao dao;
 
         public GetAllCharacteristicsAsyncTask(CharacteristicsDao dao) {
@@ -79,12 +78,12 @@ public class CharacteristicsRepository {
         }
 
         @Override
-        protected LiveData<List<CharacteristicItem>> doInBackground(Void... voids) {
+        protected List<CharacteristicItem> doInBackground(Void... voids) {
             return dao.getAllCharacteristics();
         }
     }
 
-    private static class GetCharacteristicAsyncTask extends AsyncTask<Byte, Void, LiveData<CharacteristicItem>> {
+    private static class GetCharacteristicAsyncTask extends AsyncTask<Byte, Void, CharacteristicItem> {
         private final CharacteristicsDao dao;
 
         public GetCharacteristicAsyncTask(CharacteristicsDao dao) {
@@ -92,7 +91,7 @@ public class CharacteristicsRepository {
         }
 
         @Override
-        protected LiveData<CharacteristicItem> doInBackground(Byte... bytes) {
+        protected CharacteristicItem doInBackground(Byte... bytes) {
             return dao.getCharacteristic(bytes[0]);
         }
     }

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import penakelex.textRPG.homeland.Databases.Tables.ReputationsDatabase.Reputatio
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.ViewModels.ReputationViewModel.ReputationViewModel;
 import penakelex.textRPG.homeland.databinding.FragmentReputationBinding;
-//TODO: Переделать статусы в зависимости от репутации
+
 public class ReputationFragment extends Fragment {
     private FragmentReputationBinding binding;
     private ReputationViewModel reputationViewModel;
@@ -27,14 +26,24 @@ public class ReputationFragment extends Fragment {
         public void onClickListener(ReputationItem reputationItem) {
             binding.reputationName.setText(requireActivity().getResources().getString(reputationItem.getName()));
             byte reputation = reputationItem.getReputation();
-            if (reputation == 0) {
+            if (reputation >= -100 && reputation <= -75) {
+                binding.reputationTitle.setText(getResources().getString(R.string.disgusting));
+            } else if (reputation > -75 && reputation <= -50) {
+                binding.reputationTitle.setText(getResources().getString(R.string.bad_person));
+            } else if (reputation > -50 && reputation <= -25) {
+                binding.reputationTitle.setText(getResources().getString(R.string.unpleasant));
+            } else if (reputation > -25 && reputation < 0) {
+                binding.reputationTitle.setText(getResources().getString(R.string.strange));
+            } else if (reputation == 0) {
                 binding.reputationTitle.setText(getResources().getString(R.string.first_meet));
-            } else if (reputation >= 1 && reputation <= 25) {
+            } else if (reputation > 0 && reputation <= 25) {
                 binding.reputationTitle.setText(getResources().getString(R.string.know_a_little));
             } else if (reputation > 25 && reputation <= 50) {
                 binding.reputationTitle.setText(getResources().getString(R.string.well_known));
-            } else {
+            } else if (reputation > 50 && reputation <= 75) {
                 binding.reputationTitle.setText(getResources().getString(R.string.insider));
+            } else if (reputation > 75 && reputation <= 100) {
+                binding.reputationTitle.setText(getResources().getString(R.string.favourite));
             }
         }
     };
@@ -56,11 +65,8 @@ public class ReputationFragment extends Fragment {
 
     private void adapter() {
         ReputationAdapter adapter = new ReputationAdapter(clickListener);
-        LiveData<List<ReputationItem>> reputations = reputationViewModel.getAllReputation();
-        reputations.observe(requireActivity(), reputationItems -> {
-            reputations.removeObservers(requireActivity());
-            adapter.setInformation(requireActivity(), reputationItems);
-        });
+        List<ReputationItem> reputations = reputationViewModel.getAllReputation();
+        adapter.setInformation(requireActivity(), reputations);
         binding.containerForReputations.setAdapter(adapter);
     }
 }

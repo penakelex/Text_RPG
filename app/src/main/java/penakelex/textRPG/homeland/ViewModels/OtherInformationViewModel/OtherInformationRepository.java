@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.OtherInformationViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +17,7 @@ public class OtherInformationRepository {
         this.dao = Database.getDatabase(application).otherInformationDao();
     }
 
-    public LiveData<List<OtherInformationItem>> getAllOtherInformation() {
+    public List<OtherInformationItem> getAllOtherInformation() {
         try {
             return new GetAllOtherInformationAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException exception) {
@@ -27,7 +25,7 @@ public class OtherInformationRepository {
         }
     }
 
-    public LiveData<OtherInformationItem> getOtherInformationItem(byte ID) {
+    public OtherInformationItem getOtherInformationItem(byte ID) {
         try {
             return new GetOtherInformationItemAsyncTask(dao).execute(ID).get();
         } catch (ExecutionException | InterruptedException exception) {
@@ -43,7 +41,7 @@ public class OtherInformationRepository {
         new UpdateInformationAsyncTask(dao).execute(newValue, (int) ID);
     }
 
-    private static class GetOtherInformationItemAsyncTask extends AsyncTask<Byte, Void, LiveData<OtherInformationItem>> {
+    private static class GetOtherInformationItemAsyncTask extends AsyncTask<Byte, Void, OtherInformationItem> {
         private final OtherInformationDao dao;
 
         public GetOtherInformationItemAsyncTask(OtherInformationDao dao) {
@@ -51,12 +49,12 @@ public class OtherInformationRepository {
         }
 
         @Override
-        protected LiveData<OtherInformationItem> doInBackground(Byte... bytes) {
+        protected OtherInformationItem doInBackground(Byte... bytes) {
             return dao.getOtherInformationItem(bytes[0]);
         }
     }
 
-    private static class GetAllOtherInformationAsyncTask extends AsyncTask<Void, Void, LiveData<List<OtherInformationItem>>> {
+    private static class GetAllOtherInformationAsyncTask extends AsyncTask<Void, Void, List<OtherInformationItem>> {
         private final OtherInformationDao dao;
 
         public GetAllOtherInformationAsyncTask(OtherInformationDao dao) {
@@ -64,7 +62,7 @@ public class OtherInformationRepository {
         }
 
         @Override
-        protected LiveData<List<OtherInformationItem>> doInBackground(Void... voids) {
+        protected List<OtherInformationItem> doInBackground(Void... voids) {
             return dao.getAllOtherInformation();
         }
     }

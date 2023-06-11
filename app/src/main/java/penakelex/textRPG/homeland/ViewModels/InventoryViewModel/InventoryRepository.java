@@ -3,8 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.InventoryViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +17,7 @@ public class InventoryRepository {
         this.dao = Database.getDatabase(application).inventoryDao();
     }
 
-    public LiveData<List<InventoryItem>> getAllInventoryItems() {
+    public List<InventoryItem> getAllInventoryItems() {
         try {
             return new GetAllInventoriesItemsAsyncTask(dao).execute().get();
         } catch (ExecutionException | InterruptedException e) {
@@ -39,7 +37,7 @@ public class InventoryRepository {
         new DeleteInventoryItemAsyncTask(dao).execute(item);
     }
 
-    public LiveData<List<InventoryItem>> getInventory(short owner) {
+    public List<InventoryItem> getInventory(short owner) {
         try {
             return new GetInventoryAsyncTask(dao).execute(owner).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -93,7 +91,7 @@ public class InventoryRepository {
         }
     }
 
-    private static class GetAllInventoriesItemsAsyncTask extends AsyncTask<Void, Void, LiveData<List<InventoryItem>>> {
+    private static class GetAllInventoriesItemsAsyncTask extends AsyncTask<Void, Void, List<InventoryItem>> {
         private final InventoryDao dao;
 
         public GetAllInventoriesItemsAsyncTask(InventoryDao dao) {
@@ -101,7 +99,7 @@ public class InventoryRepository {
         }
 
         @Override
-        protected LiveData<List<InventoryItem>> doInBackground(Void... voids) {
+        protected List<InventoryItem> doInBackground(Void... voids) {
             return dao.getAllInventories();
         }
     }
@@ -120,7 +118,7 @@ public class InventoryRepository {
         }
     }
 
-    private static class GetInventoryAsyncTask extends AsyncTask<Short, Void, LiveData<List<InventoryItem>>> {
+    private static class GetInventoryAsyncTask extends AsyncTask<Short, Void, List<InventoryItem>> {
         private final InventoryDao dao;
 
         public GetInventoryAsyncTask(InventoryDao dao) {
@@ -128,7 +126,7 @@ public class InventoryRepository {
         }
 
         @Override
-        protected LiveData<List<InventoryItem>> doInBackground(Short... shorts) {
+        protected List<InventoryItem> doInBackground(Short... shorts) {
             return dao.getInventory(shorts[0]);
         }
     }

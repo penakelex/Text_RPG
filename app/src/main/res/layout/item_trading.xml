@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/game_font1"
             android:text="Название"
             android:textColor="@color/white"
             android:textSize="24sp" />
@@ -31,6 +32,7 @@
             android:layout_weight="2"
             android:gravity="end"
             android:text="Цена"
+            android:fontFamily="@font/game_font1"
             android:textColor="@color/white"
             android:textSize="24sp" />
 

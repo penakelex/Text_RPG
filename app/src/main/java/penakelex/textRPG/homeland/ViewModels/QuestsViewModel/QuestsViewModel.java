@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.QuestsViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class QuestsViewModel extends ViewModel {
         this.repository = new QuestsRepository(application);
     }
 
-    public LiveData<List<QuestItem>> getAllQuests() {
+    public List<QuestItem> getAllQuests() {
         return repository.getAllQuests();
     }
 

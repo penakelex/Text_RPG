@@ -79,16 +79,11 @@
                     android:textColor="@color/black"
                     android:textSize="70sp" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/characterAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/game_font2"
-                    android:hint="@string/input_age"
-                    android:inputType="number"
-                    android:textColor="@color/blue"
-                    android:textSize="60sp"
-                    tools:ignore="Autofill" />
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center" />
             </LinearLayout>
 
         </LinearLayout>

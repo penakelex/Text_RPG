@@ -5,7 +5,6 @@ import static penakelex.textRPG.homeland.Main.Constants.Experience;
 import static penakelex.textRPG.homeland.Main.Constants.Going_To_Starting_Information;
 import static penakelex.textRPG.homeland.Main.Constants.Homeland_Tag;
 import static penakelex.textRPG.homeland.Main.Constants.ID_Dialog;
-import static penakelex.textRPG.homeland.Main.Constants.Is_Going_To_Starting_Information_First_Time;
 import static penakelex.textRPG.homeland.Main.Constants.Trader;
 
 import android.content.Intent;
@@ -13,6 +12,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -33,9 +34,14 @@ import penakelex.textRPG.homeland.Trading.TradingActivity;
 import penakelex.textRPG.homeland.databinding.ActivityDialogBinding;
 import penakelex.textRPG.homeland.databinding.ReplicaButtonBinding;
 
+/** DialogActivity
+ *      Активность с диалогами
+ * */
+
 public class DialogActivity extends MainActionParentActivity {
     private final Dialogs dialogs = new Dialogs();
     private ActivityDialogBinding binding;
+    private Animation animation;
     private Dialogs.Quote[] quotes;
     private DialogActivityHelper dialogActivityHelper;
     private final int[] array = {0, 0, 0}; //репутация, опыт, деньги
@@ -50,9 +56,13 @@ public class DialogActivity extends MainActionParentActivity {
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         handlingToolBar(toolbar);
+        //Анимация для текста
+        animation = AnimationUtils.loadAnimation(this, R.anim.text_animation);
+        //Помощник активности
         dialogActivityHelper = new DialogActivityHelper(this);
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         sharedPreferences.edit().putInt(Current_Activity, 3).apply();
+        //Начало диалога по идентификатору
         initiateDialog(sharedPreferences.getInt(ID_Dialog, 0));
     }
 
@@ -66,11 +76,20 @@ public class DialogActivity extends MainActionParentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /** initiateDialog - процедура
+     *      Инициализация диалога
+     * @param ID - идентификатор диалога
+     * */
     private void initiateDialog(int ID) {
         quotes = dialogs.getQuotes(ID);
         startQuote(0);
     }
 
+    /** startQuote - процедура
+     *      Выполнение некоторых действий, либо переход на следующий шаг
+     * @param step - следующий шаг (если отрицателен, то выполнение определённых действий,
+     *            если положителен, то переход на следующий шаг)
+     * */
     private void startQuote(int step) {
         switch (step) {
             case -1 -> {
@@ -87,15 +106,14 @@ public class DialogActivity extends MainActionParentActivity {
                 binding = null;
             }
             case -3 -> {
-                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, true), new BooleanSP(Is_Going_To_Starting_Information_First_Time, true));
-                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(ID_Dialog, 2));
+                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, true));
                 saveChanges();
                 binding = null;
                 goingToCreatingCharacter();
             }
             case -4 -> {
-                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, true), new BooleanSP(Is_Going_To_Starting_Information_First_Time, false));
-                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(Experience, 200), new IntSP(ID_Dialog, 3));
+                dialogActivityHelper.putBooleansToSharedPreferences(new BooleanSP(Going_To_Starting_Information, true));
+                dialogActivityHelper.putIntsToSharedPreferences(new IntSP(Experience, 200));
                 saveChanges();
                 dialogActivityHelper.updateQuestStage((short) 2, (short) 1);
                 binding = null;
@@ -104,6 +122,7 @@ public class DialogActivity extends MainActionParentActivity {
             case -5 -> initiateDialog(4);
             case -6 -> {
                 dialogActivityHelper.addQuest(R.string.excursion);
+                dialogActivityHelper.addReputation(R.string.instructor_serdcev);
                 dialogActivityHelper.updateLocationForDialog(5, 1, 20, true);
                 saveChanges();
                 binding = null;
@@ -116,7 +135,7 @@ public class DialogActivity extends MainActionParentActivity {
                 goingToMap();
             }
             case -8 -> {
-                dialogActivityHelper.updateLocationForDialog(7, 6, 43,  true);
+                dialogActivityHelper.updateLocationForDialog(7, 6, 43, true);
                 saveChanges();
                 binding = null;
                 goingToMap();
@@ -139,6 +158,7 @@ public class DialogActivity extends MainActionParentActivity {
                 goingToMap();
             }
             case -12 -> {
+                dialogActivityHelper.addReputation(R.string.andrey, R.string.alena);
                 saveChanges();
                 binding = null;
                 dialogActivityHelper.updateLocationForDialog(10, 2, 24, false);
@@ -159,6 +179,7 @@ public class DialogActivity extends MainActionParentActivity {
                 for (int i = 0; i < 10; i++) {
                     itemsToAdd.add(new ShortItemInformation((short) 2, (short) 2));
                 }
+                dialogActivityHelper.updateLocationForDialog(12, 2, 24, false);
                 saveChanges();
                 binding = null;
                 goingToTrading();
@@ -167,15 +188,36 @@ public class DialogActivity extends MainActionParentActivity {
                 dialogActivityHelper.updateLocationForDialog(12, 2, 24, false);
                 saveChanges();
             }
+            case -17 -> {
+                dialogActivityHelper.updateLocationForDialog(13, 2, 24, false);
+                saveChanges();
+                initiateDialog(13);
+            }
+            case -18 -> {
+                dialogActivityHelper.updateLocationForDialog(14, 2, 24, false);
+                saveChanges();
+                initiateDialog(14);
+            }
+            case -19 -> {
+                dialogActivityHelper.updateLocationForDialog(100, 2, 24, false);
+                saveChanges();
+                goingToMap();
+            }
             default -> fillReplicas(quotes[step]);
         }
     }
 
+    /** goingToTrading - процедура
+     *      Переход на активность с торговлей
+     * */
     private void goingToTrading() {
         startActivity(new Intent(this, TradingActivity.class));
         finish();
     }
 
+    /** saveChanges - процедура
+     *      Сохранение изменений
+     * */
     private void saveChanges() {
         dialogActivityHelper.saveChanges(array, itemsToAdd, plusStatistics, binding.getRoot(), getApplicationContext());
         Arrays.fill(array, 0);
@@ -183,16 +225,25 @@ public class DialogActivity extends MainActionParentActivity {
         Arrays.fill(plusStatistics, (short) 0);
     }
 
+    /** goingToMap - процедура
+     *      Переход на активность с картой
+     * */
     private void goingToMap() {
         startActivity(new Intent(DialogActivity.this, Map.class));
         finish();
     }
 
+    /** goingToCreatingCharacter - процедура
+     *      Переход на активность с созданием персонажа
+     * */
     private void goingToCreatingCharacter() {
         startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
         finish();
     }
 
+    /** fillReplicas - процедура
+     *      Заполнение текста говорящего персонажа, его изображения, имени, заполнения реплик главного персонажа
+     * */
     private void fillReplicas(Dialogs.Quote quote) {
         binding.containerForReplicasVariants.removeAllViews();
         settingTalkingCharacterImage(quote.getImage());
@@ -208,11 +259,11 @@ public class DialogActivity extends MainActionParentActivity {
 
     private void settingTalkingCharacterQuote(int quote) {
         binding.text.setText(dialogActivityHelper.getTalkingCharacterQuote(quote, getApplicationContext()));
+        binding.text.startAnimation(animation);
     }
 
     private void replicaListener(Dialogs.Quote.CharacterQuote characterQuote) {
-        dialogActivityHelper.replicaListener(characterQuote, array, plusStatistics);
-        startQuote(characterQuote.getNextStep());
+        startQuote(dialogActivityHelper.replicaListener(characterQuote, array, plusStatistics));
     }
 
     private void settingTalkingCharacterName(int name) {

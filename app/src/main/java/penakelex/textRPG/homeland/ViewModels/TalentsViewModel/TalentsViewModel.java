@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.TalentsViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class TalentsViewModel extends ViewModel {
         this.repository = new TalentsRepository(application);
     }
 
-    public LiveData<List<TalentItem>> getAllTalents() {
+    public List<TalentItem> getAllTalents() {
         return repository.getAllTalents();
     }
 
@@ -29,11 +28,11 @@ public class TalentsViewModel extends ViewModel {
         repository.changeIsHaving(isHaving, ID);
     }
 
-    public LiveData<TalentItem> getTalent(byte ID) {
+    public TalentItem getTalent(byte ID) {
         return repository.getTalent(ID);
     }
 
-    public LiveData<List<TalentItem>> getHavingTalents() {
+    public List<TalentItem> getHavingTalents() {
         return repository.getHavingTalents();
     }
 }

@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -41,7 +40,7 @@ public class StartingSkillsFragment extends Fragment {
     private SkillsViewModel skillsViewModel;
     private SharedPreferences sharedPreferences;
     private SkillTableHelper tableHelper;
-    private LiveData<List<SkillsItem>> skills;
+    private List<SkillsItem> skills;
     private final StartingSkillsAdapter.OnSkillItemClickListener clickListener = new StartingSkillsAdapter.OnSkillItemClickListener() {
         @Override
         public void onClickListener(SkillsItem item) {
@@ -101,7 +100,7 @@ public class StartingSkillsFragment extends Fragment {
         characteristicsViewModel.initiate(requireActivity().getApplication());
         skillsViewModel = new ViewModelProvider(requireActivity()).get(SkillsViewModel.class);
         skillsViewModel.initiate(requireActivity().getApplication());
-        tableHelper = new SkillTableHelper(characteristicsViewModel, skillsViewModel, requireActivity());
+        tableHelper = new SkillTableHelper(characteristicsViewModel, skillsViewModel);
         return binding.getRoot();
     }
 
@@ -111,14 +110,15 @@ public class StartingSkillsFragment extends Fragment {
         tableHelper.updateSkillValues();
         startingSkillsAdapter = new StartingSkillsAdapter(clickListener);
         binding.containerForSSkills.setAdapter(startingSkillsAdapter);
-        skills = skillsViewModel.getAllSkills();
         setNewInformation();
         setPointsInformation();
         buttons();
     }
 
     private void setNewInformation() {
-        skills.observe(requireActivity(), skillsItems -> startingSkillsAdapter.setInformation(skillsItems, requireActivity()));
+        skills = skillsViewModel.getAllSkills();
+        startingSkillsAdapter.setInformation(skills, requireActivity());
+        setPointsInformation();
     }
 
     private void buttons() {

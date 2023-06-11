@@ -55,6 +55,10 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
         return information.size();
     }
 
+    public void setLastPosition(long lastPosition) {
+        this.lastPosition = lastPosition;
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     public void setInformation(Context context, List<InventoryItem> inventoryItems) {
         this.information = inventoryItems;

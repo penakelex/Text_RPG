@@ -1,6 +1,7 @@
 package penakelex.textRPG.homeland.Trading;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import penakelex.textRPG.homeland.Dialogs.DialogActivity;
 import penakelex.textRPG.homeland.Main.MainActionParentActivity;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.Trading.Fragments.PurchaseFragment;
@@ -24,6 +26,7 @@ public class TradingActivity extends MainActionParentActivity {
         binding = ActivityTradingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolBar();
+        getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
         binding.navigationViewForTrading.setOnNavigationItemSelectedListener(listener -> {
             switch (listener.getItemId()) {
                 case R.id.sale -> {
@@ -33,6 +36,10 @@ public class TradingActivity extends MainActionParentActivity {
                 case R.id.purchase -> {
                     getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
                     return true;
+                }
+                case R.id.exit_from_trading -> {
+                    startActivity(new Intent(this, DialogActivity.class));
+                    finish();
                 }
             }
             return false;

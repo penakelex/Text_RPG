@@ -9,7 +9,7 @@ public class QuestStageInformation {
 
     public QuestStageInformation(int ID, int stage, Context context) {
         switch (ID) {
-            case 0:
+            case 1:
                 switch (stage) {
                     case 0 ->
                             this.stage = context.getResources().getString(R.string.quest_stage_register);
@@ -17,7 +17,7 @@ public class QuestStageInformation {
                             this.stage = context.getResources().getString(R.string.quest_completed);
                 }
                 break;
-            case 1:
+            case 2:
                 switch (stage) {
                     case 0 ->
                             this.stage = context.getResources().getString(R.string.quest_stage_take_a_tour);

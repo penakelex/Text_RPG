@@ -1,9 +1,9 @@
 package penakelex.textRPG.homeland.Databases.Tables.HealthDatabase;
 
-import android.app.Activity;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
+import android.app.Activity;
+import android.util.Log;
+
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -14,44 +14,17 @@ import penakelex.textRPG.homeland.ViewModels.OtherInformationViewModel.OtherInfo
 public class HealthTableHelper {
     private final HealthViewModel healthViewModel;
     private final OtherInformationViewModel otherInformationViewModel;
-    private final LifecycleOwner lifecycleOwner;
-
-    public HealthTableHelper(HealthViewModel healthViewModel, OtherInformationViewModel otherInformationViewModel, LifecycleOwner lifecycleOwner) {
-        this.healthViewModel = healthViewModel;
-        this.otherInformationViewModel = otherInformationViewModel;
-        this.lifecycleOwner = lifecycleOwner;
-    }
 
     public HealthTableHelper(Activity activity) {
         this.healthViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(HealthViewModel.class);
         this.healthViewModel.initiate(activity.getApplication());
         this.otherInformationViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(OtherInformationViewModel.class);
         this.otherInformationViewModel.initiate(activity.getApplication());
-        this.lifecycleOwner = (LifecycleOwner) activity;
     }
 
     public void updateInformation() {
-        LiveData<OtherInformationItem> healthPoints = otherInformationViewModel.getOtherInformationItemByID((byte) 1);
-        healthPoints.observe(lifecycleOwner, item -> {
-            healthPoints.removeObservers(lifecycleOwner);
-            healthViewModel.update((short) item.getValue(), (byte) 1);
-        });
+        OtherInformationItem healthPoints = otherInformationViewModel.getOtherInformationItemByID((byte) 7);
+        healthViewModel.update((short) healthPoints.getValue(), (byte) 1);
+        Log.d("healthPointsTetValue()", String.valueOf(healthPoints.getValue()));
     }
-    /*public static ArrayList<HealthStatusInformation> getHealthStatusInformation(Context context) {
-        ArrayList<HealthStatusInformation> arrayList = new ArrayList<>();
-        List<HealthItem> list = HealthDatabase.getDatabase(context).healthDao().getAllHealthStatuses();
-        for (HealthItem item : list) {
-            arrayList.add(new HealthStatusInformation(item.getName(), item.getValue(), item.getBaseValue()));
-        }
-        return (ArrayList<HealthStatusInformation>) arrayList.clone();
-    }
-
-    public static void settingStartingValues(Context context, String[] names) {
-        HealthDao healthDao = HealthDatabase.getDatabase(context).healthDao();
-        healthDao.deleteAll();
-        healthDao.insert(new HealthItem(names[0], (short) OtherInformationTableHelper.getValue(new OtherInformationDatabaseHelper(context).getReadableDatabase(), 7)));
-        for (int i = 1; i < names.length; i++) {
-            healthDao.insert(new HealthItem(names[i], (short) 1));
-        }
-    }*/
 }

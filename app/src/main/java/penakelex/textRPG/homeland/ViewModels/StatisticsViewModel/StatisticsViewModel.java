@@ -3,7 +3,6 @@ package penakelex.textRPG.homeland.ViewModels.StatisticsViewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class StatisticsViewModel extends ViewModel {
         this.repository = new StatisticsRepository(application);
     }
 
-    public LiveData<List<StatisticItem>> getAllStatistic() {
+    public List<StatisticItem> getAllStatistic() {
         return repository.getAllStatistic();
     }
 

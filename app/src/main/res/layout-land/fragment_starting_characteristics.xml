@@ -68,6 +68,7 @@
                 android:id="@+id/characteristicName"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
+                android:text="@string/choose_characteristic"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/game_font2"
                 android:gravity="center"

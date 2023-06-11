@@ -1,6 +1,5 @@
 package penakelex.textRPG.homeland.Databases.Tables.StatisticsDatabase;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -11,7 +10,7 @@ import java.util.List;
 @Dao
 public interface StatisticsDao {
     @Query("SELECT * FROM statistics")
-    LiveData<List<StatisticItem>> getAllStatistic();
+    List<StatisticItem> getAllStatistic();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(StatisticItem item);
