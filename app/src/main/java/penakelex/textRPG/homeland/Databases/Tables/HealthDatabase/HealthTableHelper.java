@@ -23,8 +23,10 @@ public class HealthTableHelper {
     }
 
     public void updateInformation() {
-        OtherInformationItem healthPoints = otherInformationViewModel.getOtherInformationItemByID((byte) 7);
-        healthViewModel.update((short) healthPoints.getValue(), (byte) 1);
-        Log.d("healthPointsTetValue()", String.valueOf(healthPoints.getValue()));
+        healthViewModel.update((short) otherInformationViewModel.getOtherInformationItemByID((byte) 7).getValue(), (byte) 1);
+        /*Log.d("dqwdqwdqdqwdsadad", String.valueOf((short) healthPoints.getValue()));
+        Log.d("dqwdqwdqdqwdsadad", String.valueOf(healthViewModel.getAllHealthStatuses().get(0).getBaseValue()));
+        Log.d("dqwdqwdqdqwdsadad", String.valueOf(healthViewModel.getAllHealthStatuses().get(0).getValue()));
+        Log.d("dqwdqwdqdqwdsadad", String.valueOf(healthViewModel.getAllHealthStatuses().get(0).getID()));*/
     }
 }

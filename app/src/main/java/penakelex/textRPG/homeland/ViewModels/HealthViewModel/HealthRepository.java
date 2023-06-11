@@ -57,6 +57,7 @@ public class HealthRepository {
         @Override
         protected Void doInBackground(Short... shorts) {
             dao.updateValue(shorts[0], Byte.parseByte(String.valueOf(shorts[1])));
+            dao.updateBaseValue(shorts[0], Byte.parseByte(String.valueOf(shorts[1])));
             return null;
         }
     }

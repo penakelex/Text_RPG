@@ -1,6 +1,5 @@
 package penakelex.textRPG.homeland.Databases.Tables.HealthDatabase;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -15,6 +14,9 @@ public interface HealthDao {
     @Insert
     void insert(HealthItem item);
 
-    @Query("UPDATE health_status SET value=:newValue AND base_value=:newValue WHERE id=:ID")
+    @Query("UPDATE health_status SET value=:newValue WHERE id=:ID")
     void updateValue(short newValue, byte ID);
+
+    @Query("UPDATE health_status SET base_value=:newValue WHERE id=:ID")
+    void updateBaseValue(short newValue, byte ID);
 }
