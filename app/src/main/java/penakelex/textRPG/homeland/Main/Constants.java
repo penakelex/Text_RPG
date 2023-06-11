@@ -1,5 +1,8 @@
 package penakelex.textRPG.homeland.Main;
 
+/** Constants
+ *      Класс с константами
+ * */
 public class Constants {
     public static final String Characteristics_Points = "Characteristics Points", Is_All_Good = "Is All Good",
             Satisfactory_Value = "Satisfactory Value",

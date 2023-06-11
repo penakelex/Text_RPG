@@ -243,6 +243,7 @@ public class DialogActivity extends MainActionParentActivity {
 
     /** fillReplicas - процедура
      *      Заполнение текста говорящего персонажа, его изображения, имени, заполнения реплик главного персонажа
+     * @param quote - содержит в себе ссылки на всё перечисленное выше
      * */
     private void fillReplicas(Dialogs.Quote quote) {
         binding.containerForReplicasVariants.removeAllViews();
@@ -257,19 +258,35 @@ public class DialogActivity extends MainActionParentActivity {
         }
     }
 
+    /** settingTalkingCharacterQuote - процедура
+     *      Заполнение текста говорящего персонажа
+     * @param quote - фраза говорящего персонажа
+     * */
     private void settingTalkingCharacterQuote(int quote) {
         binding.text.setText(dialogActivityHelper.getTalkingCharacterQuote(quote, getApplicationContext()));
         binding.text.startAnimation(animation);
     }
 
+    /** replicaListener - процедура
+     *      "Слушатель" реплики, выбранной игроком
+     *  @param characterQuote - выбранная реплика игроком
+     * */
     private void replicaListener(Dialogs.Quote.CharacterQuote characterQuote) {
         startQuote(dialogActivityHelper.replicaListener(characterQuote, array, plusStatistics));
     }
 
+    /** settingTalkingCharacterName - процедура
+     *      Заполнение имени говорящего персонажа
+     * @param name - имя говорящего персонажа
+     * */
     private void settingTalkingCharacterName(int name) {
         binding.name.setText(name);
     }
 
+    /** settingTalkingCharacterImage - процедура
+     *      Заполнение изображения говорящего персонажа
+     *  @param image - ссылка на изображение говорящего персонажа
+     * */
     private void settingTalkingCharacterImage(int image) {
         binding.imageOfCharacter.setImageDrawable(DialogActivityHelper.getTalkingCharacterImage(image, getApplicationContext()));
     }

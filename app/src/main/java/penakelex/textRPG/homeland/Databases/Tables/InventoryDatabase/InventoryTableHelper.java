@@ -65,26 +65,6 @@ public class InventoryTableHelper {
             return true;
         } else return false;
     }
-
-    /*public static InventoryItem getInventoryItem(long primaryID, Context context) {
-        return InventoryDatabase.getDatabase(context).inventoryDao().getItem(primaryID);
-    }
-    public static ArrayList<TradingInformation> getTradingInformation(Context context, int ownerID, boolean typeTrading) {
-        ArrayList<TradingInformation> arrayList = new ArrayList<>();
-        List<InventoryItem> list = InventoryDatabase.getDatabase(context).inventoryDao().getInventory(ownerID);
-        for (InventoryItem item : list) {
-            arrayList.add(new TradingInformation(getAllInventoryItemInformation(context, item.getId())[0], (typeTrading ? getItemPriceForPlayerBuying(context, item.getId()) : getItemPriceForPlayerSelling(context, item.getId())), item.getPrimaryID()));
-        }
-        return arrayList;
-    }
-
-    public static String[] getInventoryItemShortInformation(Context context, int ID) {
-        String[] shortItemInformation = new String[2], itemInformation = getAllInventoryItemInformation(context, ID);
-        shortItemInformation[0] = itemInformation[0];
-        shortItemInformation[1] = itemInformation[1];
-        return shortItemInformation;
-    }
-*/
     public void insertNewItemToPlayersInventory(short ID, Context context, View view) {
         String[] itemInformation = getAllInventoryItemInformation(context, ID);
         float weight = Float.parseFloat(itemInformation[2]), volume = Float.parseFloat(itemInformation[3]);

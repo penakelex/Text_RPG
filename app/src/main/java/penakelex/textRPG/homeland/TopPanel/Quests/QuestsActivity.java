@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.List;
-
 import penakelex.textRPG.homeland.Adapters.QuestStages.QuestStagesAdapter;
 import penakelex.textRPG.homeland.Adapters.Quests.QuestsAdapter;
 import penakelex.textRPG.homeland.Databases.Tables.QuestsDatabase.QuestItem;
@@ -22,6 +20,9 @@ import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.ViewModels.QuestsViewModel.QuestsViewModel;
 import penakelex.textRPG.homeland.databinding.ActivityQuestsBinding;
 
+/** QuestsActivity
+ *      Активность с заданиями
+ * */
 public class QuestsActivity extends TopPanelParentActivity {
     private ActivityQuestsBinding binding;
     private QuestStagesAdapter stagesAdapter;
@@ -43,22 +44,32 @@ public class QuestsActivity extends TopPanelParentActivity {
         binding = ActivityQuestsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolBar();
+        //Установка адаптера с заданиями
         questsAdapter();
+        //Установка адаптера с этапами задания
         questsStagesAdapter();
     }
 
+    /** questsStagesAdapter - процедура
+     *      Установка адаптера с этапами выбранного задания
+     * */
     private void questsStagesAdapter() {
         stagesAdapter = new QuestStagesAdapter();
         binding.containerForQuestStages.setAdapter(stagesAdapter);
     }
 
+    /** questsAdapter - процедура
+     *      Установка адаптера с заданиями
+     * */
     private void questsAdapter() {
         QuestsAdapter questsAdapter = new QuestsAdapter(clickListener);
-        List<QuestItem> quests = questsViewModel.getAllQuests();
-        questsAdapter.setInformation(quests, getApplicationContext());
+        questsAdapter.setInformation(questsViewModel.getAllQuests(), getApplicationContext());
         binding.containerForQuests.setAdapter(questsAdapter);
     }
 
+    /** toolBar - процедура
+     *      Установка и управление виджетом
+     * */
     private void toolBar() {
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         sharedPreferences.edit().putInt(Current_Top_Panel_Activity, 2).apply();
@@ -68,6 +79,9 @@ public class QuestsActivity extends TopPanelParentActivity {
         toolbar.setNavigationOnClickListener(listener -> onNavigationClick());
     }
 
+    /** onNavigationClick - процедура
+     *      Возвращает назад при нажатии на кнопку
+     * */
     private void onNavigationClick() {
         binding = null;
         onBackPressed();

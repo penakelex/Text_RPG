@@ -29,6 +29,9 @@ import penakelex.textRPG.homeland.ViewModels.SkillsViewModel.SkillsViewModel;
 import penakelex.textRPG.homeland.ViewModels.StatisticsViewModel.StatisticsViewModel;
 import penakelex.textRPG.homeland.ViewModels.TalentsViewModel.TalentsViewModel;
 
+/** DatabaseCallback
+ *      Класс для установки стартовых значений в базу данных, либо обновления имеющихся
+ * */
 public class DatabaseCallback {
     private final CharacteristicsViewModel characteristicsViewModel;
     private final HealthViewModel healthViewModel;

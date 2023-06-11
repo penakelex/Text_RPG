@@ -12,6 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import penakelex.textRPG.homeland.R;
 
+/** ActionParentActivity
+ *      Родительский класс-активность для всех активностей
+ * */
 public class ActionParentActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +22,10 @@ public class ActionParentActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.tool_bar_menu, menu);
         return true;
     }
-
+    /** handlingToolBar - процедура
+     *      Управление виджетом
+     *  @param toolbar - виджет
+     * */
     public void handlingToolBar(Toolbar toolbar) {
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         String name = sharedPreferences.getString(Main_Character_Name, "");

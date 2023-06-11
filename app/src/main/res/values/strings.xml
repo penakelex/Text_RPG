@@ -387,7 +387,7 @@
     <string name="quotes8_character_quote3_0">*Продолжить*</string>
     <string name="quotes9_quote0">" "</string>
     <string name="quotes9_character_quote0_0">Доброе утро!</string>
-    <string name="press_world">Нажмите на *Мир*</string>
+    <string name="press_world">Нажмите на *Далее*</string>
     <string name="too_many_items">Слишком много вещей...</string>
     <string name="quotes9_quote1">Доброе! Познакомьтесь это Ваша команда.</string>
     <string name="quotes9_character_quote1_0">*Продолжить*</string>
@@ -666,4 +666,7 @@
     <string name="choose_item">Выберите предмет</string>
     <string name="choose_capability">Выберите способность</string>
     <string name="u_dont_see_anything_intresting">Вы не видите ничего необычного...</string>
+    <string name="ur_level">Ваш уровень:</string>
+    <string name="till_next_level">До следующего уровня:</string>
+    <string name="exp">Опыт:</string>
 </resources>

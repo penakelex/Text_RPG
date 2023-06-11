@@ -17,6 +17,9 @@ import penakelex.textRPG.homeland.Trading.Fragments.PurchaseFragment;
 import penakelex.textRPG.homeland.Trading.Fragments.SaleFragment;
 import penakelex.textRPG.homeland.databinding.ActivityTradingBinding;
 
+/** TradingActivity
+ *      Активность с торговлей
+ * */
 public class TradingActivity extends MainActionParentActivity {
     private ActivityTradingBinding binding;
     @SuppressLint("NonConstantResourceId")
@@ -29,14 +32,17 @@ public class TradingActivity extends MainActionParentActivity {
         getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
         binding.navigationViewForTrading.setOnNavigationItemSelectedListener(listener -> {
             switch (listener.getItemId()) {
+                //Установка фрагмента для продажи
                 case R.id.sale -> {
                     getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new SaleFragment()).commit();
                     return true;
                 }
+                //Установка фрагмента для покупки
                 case R.id.purchase -> {
                     getSupportFragmentManager().beginTransaction().replace(binding.containerForTradingFragments.getId(), new PurchaseFragment()).commit();
                     return true;
                 }
+                //Выход с активности на диалоги
                 case R.id.exit_from_trading -> {
                     startActivity(new Intent(this, DialogActivity.class));
                     finish();
@@ -46,6 +52,9 @@ public class TradingActivity extends MainActionParentActivity {
         });
     }
 
+    /** toolBar - процедура
+     *      Установка и управление виджетом
+     * */
     private void toolBar() {
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);

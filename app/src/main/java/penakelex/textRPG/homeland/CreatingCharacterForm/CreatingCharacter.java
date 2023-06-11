@@ -20,6 +20,9 @@ import penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.Starti
 import penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInformationFragment;
 import penakelex.textRPG.homeland.databinding.ActivityCreatingCharacterBinding;
 
+/** CreatingCharacter
+ *      Активность для создания персонажа игроком
+ * */
 public class CreatingCharacter extends MainActionParentActivity {
 
     @Override
@@ -32,6 +35,7 @@ public class CreatingCharacter extends MainActionParentActivity {
         setSupportActionBar(toolbar);
         handlingToolBar(toolbar);
         sharedPreferences.edit().putInt(Current_Activity, 1).apply();
+        //Переход на "прочую" информацию или на главную информацию о персонаже
         if (sharedPreferences.getBoolean(Going_To_Starting_Information, true)) {
             getSupportFragmentManager().beginTransaction().replace(R.id.containerForCreatingCharacter, new StartingInfoFragment()).commit();
         } else {

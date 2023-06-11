@@ -7,7 +7,9 @@ import android.os.Bundle;
 
 import penakelex.textRPG.homeland.databinding.ActivityGameStartingBinding;
 
-
+/** GameStartingActivity
+ *      Стартовая активность приложения
+ * */
 public class GameStartingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

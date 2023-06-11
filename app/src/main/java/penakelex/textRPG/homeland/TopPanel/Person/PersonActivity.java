@@ -24,6 +24,10 @@ import penakelex.textRPG.homeland.TopPanel.Person.Fragments.InventoryFragment;
 import penakelex.textRPG.homeland.TopPanel.Person.Fragments.SkillsFragment;
 import penakelex.textRPG.homeland.databinding.ActivityPersonBinding;
 
+/**
+ * PersonActivity
+ * Активность, содержащая всё о персонаже
+ */
 public class PersonActivity extends TopPanelParentActivity {
     private ActivityPersonBinding binding;
 
@@ -39,26 +43,32 @@ public class PersonActivity extends TopPanelParentActivity {
         sharedPreferences.edit().putInt(Current_Top_Panel_Activity, 1).apply();
         handlingToolBar(toolbar);
         toolbar.setNavigationOnClickListener(listener -> onNavigationClick());
-        binding.level.setText(String.format("Ваш уровень: %d. Опыт: %d. До следующего уровня: %d.", sharedPreferences.getInt(Level, 0), sharedPreferences.getInt(Experience, 0), getUntilNextLevelXP(sharedPreferences.getInt(Experience, 0))));
+        //Информация об уровне персонажа
+        binding.level.setText(String.format("%s %d. %s %d. %s %d.", getResources().getString(R.string.ur_level), sharedPreferences.getInt(Level, 0), getResources().getString(R.string.exp), sharedPreferences.getInt(Experience, 0), getResources().getString(R.string.till_next_level), getUntilNextLevelXP(sharedPreferences.getInt(Experience, 0))));
         settingStartFragment();
         binding.navigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                //Установка фрагмента с характеристиками персонажа
                 case R.id.characteristic -> {
                     getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CharacteristicsFragment()).commit();
                     return true;
                 }
+                //Установка фрагмента с навыками персонажа
                 case R.id.skills -> {
                     getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new SkillsFragment()).commit();
                     return true;
                 }
+                //Установка фрагмента со способностями персонажа
                 case R.id.capabilities -> {
                     getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CapabilitiesFragment()).commit();
                     return true;
                 }
+                //Установка фрагмента с инвентарём персонажа
                 case R.id.items -> {
                     getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new InventoryFragment()).commit();
                     return true;
                 }
+                //Установка фрагмента со статусами здоровья персонажа игрока и другой информацией
                 case R.id.healthStatus_Others -> {
                     getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new HealthAndOtherInformationFragment()).commit();
                     return true;
@@ -68,17 +78,28 @@ public class PersonActivity extends TopPanelParentActivity {
         });
     }
 
+    /** onNavigationClick - процедура
+     *      Возвращает назад при нажатии на кнопку
+     * */
     private void onNavigationClick() {
         binding = null;
         onBackPressed();
         finish();
     }
 
+    /** getUntilNextLevelXP - функция
+     *      Сколько до следующего уровня осталось опыта
+     *  @param XP - весь опыт
+     *  @return 1000 - XP - оставшийся опыт до следующего уровня
+     * */
     private int getUntilNextLevelXP(int XP) {
         while (XP > 1000) XP -= 1000;
         return 1000 - XP;
     }
 
+    /** settingStartFragment - процедура
+     *      Установка стартого фрагмента
+     * */
     private void settingStartFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.containerForPerson, new CharacteristicsFragment()).commit();
     }

@@ -20,7 +20,9 @@ import penakelex.textRPG.homeland.Dialogs.DialogActivity;
 import penakelex.textRPG.homeland.Map.Map;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ActivityMainMenuBinding;
-
+/** MainMenu
+ *      Активность - главное меню приложения
+ * */
 public class MainMenu extends AppCompatActivity {
     private ActivityMainMenuBinding binding;
 
@@ -35,8 +37,12 @@ public class MainMenu extends AppCompatActivity {
         binding.credits.setOnClickListener(l -> startActivity(new Intent(MainMenu.this, Credits.class)));
     }
 
+    /** staringNewGame - процедура
+     *      Создание новой игры
+     * */
     private void staringNewGame() {
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
+        //Если игрок уже создавал игру, то предостережение от случайного нажатия
         if (sharedPreferences.getBoolean(Is_Game_Started, false) || sharedPreferences.getBoolean(S, false)) {
             new StartingNewGameWithProgress().show(getFragmentManager().beginTransaction(), "new or not");
         } else {
@@ -47,21 +53,28 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    /** settingLastActivity - процедура
+     *      Установка последней активности
+     * */
     private void settingLastActivity() {
         SharedPreferences sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         switch (sharedPreferences.getInt(Current_Activity, 0)) {
+            //Переход на активность для создания персонажа
             case 1 -> {
                 startActivity(new Intent(this, CreatingCharacter.class));
                 finish();
             }
+            //Переход на активность с картой
             case 2 -> {
                 startActivity(new Intent(this, Map.class));
                 finish();
             }
+            //Переход на активность с диалогами
             case 3 -> {
                 startActivity(new Intent(this, DialogActivity.class));
                 finish();
             }
+            //Если игрок не начинал игру
             default -> Snackbar.make(binding.getRoot(),
                             getResources().getString(R.string.you_havent_started_game_yet),
                             Snackbar.LENGTH_SHORT).

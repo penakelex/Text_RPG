@@ -7,7 +7,9 @@ import android.os.Bundle;
 
 import penakelex.textRPG.homeland.databinding.ActivityCreditsBinding;
 
-
+/** Credits
+ *      Активность, содержащая информацию о приложении
+ * */
 public class Credits extends AppCompatActivity {
     private ActivityCreditsBinding activityCreditsBinding;
 

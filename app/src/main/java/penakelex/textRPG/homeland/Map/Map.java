@@ -26,7 +26,9 @@ import penakelex.textRPG.homeland.Main.MainActionParentActivity;
 import penakelex.textRPG.homeland.Map.MapFragment.MapFragment;
 import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ActivityMapBinding;
-
+/** Map
+ *      Активность с картой
+ * */
 public class Map extends MainActionParentActivity {
     private ActivityMapBinding binding;
     private SharedPreferences sharedPreferences;
@@ -40,9 +42,11 @@ public class Map extends MainActionParentActivity {
         MapFragment fragment = new MapFragment();
         assert binding.containerForMapFragment != null;
         getSupportFragmentManager().beginTransaction().replace(binding.containerForMapFragment.getId(), fragment).commit();
+        //Реализация интерфейса из фрагмента
         clickListener = fragment.getClickListener();
         setContentView(binding.getRoot());
         toolbar();
+        //Установка стартовой локации
         startLocation();
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
@@ -51,6 +55,9 @@ public class Map extends MainActionParentActivity {
         buttons();
     }
 
+    /** buttons - процедура
+     *      Содержит слушателей кнопок
+     * */
     private void buttons() {
         binding.north.setOnClickListener(listener -> changingFieldNorth());
         binding.east.setOnClickListener(listener -> changingFieldEast());
@@ -59,12 +66,18 @@ public class Map extends MainActionParentActivity {
         binding.button.setOnClickListener(listener -> worldButtonPressed());
     }
 
+    /** toolbar - процедура
+     *      Создание и управление виджетом
+     * */
     private void toolbar() {
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         handlingToolBar(toolbar);
     }
 
+    /** worldButtonPressed - процедура
+     *      Слушатель на нажатие кнопки "Далее"
+     * */
     private void worldButtonPressed() {
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
@@ -100,15 +113,22 @@ public class Map extends MainActionParentActivity {
                 } else goingToDialog();
             } //Спальные районы
             default -> Snackbar.make(binding.getRoot(), getResources().getString(R.string.u_dont_see_anything_intresting), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+            //Всё прочее
         }
     }
 
+    /** goingToDialog - процедура
+     *      Переход на активность с диалогами
+     * */
     private void goingToDialog() {
         startActivity(new Intent(Map.this, DialogActivity.class));
         binding = null;
         finish();
     }
 
+    /** changingFieldNorth - процедура
+     *      Переход на локацию севернее, чем текущая
+     * */
     private void changingFieldNorth() {
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
@@ -129,9 +149,13 @@ public class Map extends MainActionParentActivity {
             case 7, 8, 9 ->
                     Snackbar.make(binding.getRoot(), getResources().getString(R.string.can_not_do_that1), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }
+        //Оповещение фрагмента об изменении
         clickListener.goingNorth();
     }
 
+    /** changingFieldSouth - процедура
+     *      Переход на локацию южнее, чем текущая
+     * */
     private void changingFieldSouth() {
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
@@ -152,9 +176,13 @@ public class Map extends MainActionParentActivity {
             case 9 ->
                     binding.currentLocation.setText(getResources().getString(R.string.current_location_east));
         }
+        //Оповещение фрагмента об изменении
         clickListener.goingSouth();
     }
 
+    /** changingFieldEast - процедура
+     *      Переход на локацию восточнее, чем текущая
+     * */
     private void changingFieldEast() {
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
@@ -175,9 +203,13 @@ public class Map extends MainActionParentActivity {
             case 8 ->
                     binding.currentLocation.setText(getResources().getString(R.string.current_location_northeast));
         }
+        //Оповещение фрагмента об изменении
         clickListener.goingEast();
     }
 
+    /** changingFieldWest - процедура
+     *      Переход на локацию западнее, чем текущая
+     * */
     private void changingFieldWest() {
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
@@ -198,9 +230,13 @@ public class Map extends MainActionParentActivity {
             case 9 ->
                     binding.currentLocation.setText(getResources().getString(R.string.current_location_north));
         }
+        //Оповещение фрагмента об изменении
         clickListener.goingWest();
     }
 
+    /** startLocation - процедура
+     *      Начальная локация
+     * */
     private void startLocation() {
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
@@ -227,10 +263,15 @@ public class Map extends MainActionParentActivity {
             case 9 ->
                     binding.currentLocation.setText(getResources().getString(R.string.current_location_northeast));
         }
+        //Оповещение фрагмента о текущем положении
         clickListener.startLocation(location);
+        //Напоминание
         setClickable();
     }
 
+    /** setClickable - процедура
+     *      Напоминание игроку
+     * */
     private void setClickable() {
         if (sharedPreferences.getBoolean(Static_Position, false))
             Snackbar.make(binding.getRoot(), getResources().getString(R.string.press_world), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();

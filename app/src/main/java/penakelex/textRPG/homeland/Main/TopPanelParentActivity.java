@@ -18,6 +18,9 @@ import penakelex.textRPG.homeland.TopPanel.Menu.MenuActivity;
 import penakelex.textRPG.homeland.TopPanel.Person.PersonActivity;
 import penakelex.textRPG.homeland.TopPanel.Quests.QuestsActivity;
 
+/** TopPanelParentActivity
+ *      Родительский класс-активность для активностей верхней панели
+ * */
 public class TopPanelParentActivity extends ActionParentActivity {
     private SharedPreferences sharedPreferences;
 
@@ -27,6 +30,7 @@ public class TopPanelParentActivity extends ActionParentActivity {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
         Toolbar toolbar = findViewById(R.id.toolBar);
         switch (item.getItemId()) {
+            //Установка активности с информацией о персонаже, если она не текущая
             case R.id.personToolBar:
                 if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
                     toolbar.setTitle(getResources().getString(R.string.you8));
@@ -39,6 +43,7 @@ public class TopPanelParentActivity extends ActionParentActivity {
                     }
                 }
                 break;
+                //Установка активности с заданиями, если она не текущая
             case R.id.questsToolBar:
                 if (sharedPreferences.getBoolean(First_Visit_Talents, true)) {
                     toolbar.setTitle(getResources().getString(R.string.notes8));
@@ -51,6 +56,7 @@ public class TopPanelParentActivity extends ActionParentActivity {
                     }
                 }
                 break;
+                //Установка активности с внутриигровым меню
             case R.id.menuToolBar:
                 if (sharedPreferences.getInt(Current_Top_Panel_Activity, 0) != 3) {
                     startActivity(new Intent(this, MenuActivity.class));
@@ -63,6 +69,9 @@ public class TopPanelParentActivity extends ActionParentActivity {
         return false;
     }
 
+    /** handlingToolBar - процедура
+     *      Усправление виджетом
+     * */
     @Override
     public void handlingToolBar(Toolbar toolbar) {
         sharedPreferences = getSharedPreferences(Homeland_Tag, MODE_PRIVATE);
@@ -75,6 +84,9 @@ public class TopPanelParentActivity extends ActionParentActivity {
         }
     }
 
+    /** onBackPressed - переопределение метода
+     *      Добавление к методу родительского класса завершение активности
+     * */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

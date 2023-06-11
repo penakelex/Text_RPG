@@ -24,6 +24,9 @@ import penakelex.textRPG.homeland.Databases.Tables.StatisticsDatabase.Statistics
 import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentItem;
 import penakelex.textRPG.homeland.Databases.Tables.TalentsDatabase.TalentsDao;
 
+/** Database
+ *      База данных с таблицами
+ */
 @androidx.room.Database(entities = {CharacteristicItem.class, HealthItem.class, InventoryItem.class, OtherInformationItem.class, QuestItem.class, ReputationItem.class, SkillsItem.class, StatisticItem.class, TalentItem.class}, version = 2)
 public abstract class Database extends RoomDatabase {
     private static final String Database_Name = "main_database.db";
@@ -37,21 +40,31 @@ public abstract class Database extends RoomDatabase {
         }
         return database;
     }
+
+    //Объект доступа к данным для характеристик
     public abstract CharacteristicsDao characteristicsDao();
 
+    //Объект доступа к данным для статусов здоровья
     public abstract HealthDao healthDao();
 
+    //Объект доступа к данным для инвентаря
     public abstract InventoryDao inventoryDao();
 
+    //Объект доступа к данным для прочей информации
     public abstract OtherInformationDao otherInformationDao();
 
+    //Объект доступа к данным для заданий
     public abstract QuestsDao questsDao();
 
+    //Объект доступа к данным для репутаций
     public abstract ReputationDao reputationDao();
 
+    //Объект доступа к данным для навыков
     public abstract SkillsDao skillsDao();
 
+    //Объект доступа к данным для статистики
     public abstract StatisticsDao statisticsDao();
 
+    //Объект доступа к данным для талантов
     public abstract TalentsDao talentsDao();
 }
