@@ -27,4 +27,8 @@ public class QuestsViewModel extends ViewModel {
     public void updateQuestStage(short newStage, int ID) {
         repository.updateQuestStage(newStage, ID);
     }
+
+    public QuestItem getQuest(int name) {
+        return repository.getQuest(name);
+    }
 }

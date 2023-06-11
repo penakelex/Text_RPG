@@ -17,4 +17,7 @@ public interface QuestsDao {
 
     @Query("UPDATE quests SET stage=:newStage WHERE id=:ID")
     void updateQuestStage(short newStage, int ID);
+
+    @Query("SELECT * FROM quests WHERE name=:name")
+    QuestItem getItem(int name);
 }

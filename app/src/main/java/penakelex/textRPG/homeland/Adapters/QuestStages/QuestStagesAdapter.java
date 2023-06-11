@@ -2,6 +2,7 @@ package penakelex.textRPG.homeland.Adapters.QuestStages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import penakelex.textRPG.homeland.databinding.QuestStageItemBinding;
 
 public class QuestStagesAdapter extends RecyclerView.Adapter<QuestStagesAdapter.ViewHolder> {
     private final ArrayList<QuestStageInformation> information = new ArrayList<>();
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,7 +37,10 @@ public class QuestStagesAdapter extends RecyclerView.Adapter<QuestStagesAdapter.
     @SuppressLint("NotifyDataSetChanged")
     public void setInformation(QuestItem questItem, Context context) {
         information.clear();
-        for (int stage = 0; stage < questItem.getStages(); stage++) information.add(new QuestStageInformation(questItem.getID(), stage, context));
+        for (int stage = 0; stage < questItem.getStages(); stage++) {
+            information.add(new QuestStageInformation(questItem.getID(), stage, context));
+            Log.d("stage", String.valueOf(questItem.getStages()));
+        }
         notifyDataSetChanged();
     }
 

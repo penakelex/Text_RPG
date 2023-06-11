@@ -32,7 +32,26 @@ public class QuestsRepository {
     public void updateQuestStage(short newStage, int ID) {
         new UpdateQuestStageAsyncTask(dao).execute(newStage, ID);
     }
+    public QuestItem getQuest(int name) {
+        try {
+            return new GetQuestAsyncTask(dao).execute(name).get();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private static class GetQuestAsyncTask extends AsyncTask<Integer, Void, QuestItem> {
+        private final QuestsDao dao;
+
+        public GetQuestAsyncTask(QuestsDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected QuestItem doInBackground(Integer... integers) {
+            return dao.getItem(integers[0]);
+        }
+    }
     private static class GetAllQuestsAsyncTask extends AsyncTask<Void, Void, List<QuestItem>> {
         private final QuestsDao dao;
 

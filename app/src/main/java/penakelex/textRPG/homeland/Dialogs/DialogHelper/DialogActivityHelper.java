@@ -181,7 +181,9 @@ public class DialogActivityHelper {
     }
 
     public void addQuest(int name) {
-        questsViewModel.add(new QuestItem(name));
+        if (questsViewModel.getQuest(name) == null) {
+            questsViewModel.add(new QuestItem(name));
+        }
     }
 
     public void putBooleansToSharedPreferences(BooleanSP... booleanSPs) {

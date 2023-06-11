@@ -34,9 +34,10 @@ import penakelex.textRPG.homeland.Trading.TradingActivity;
 import penakelex.textRPG.homeland.databinding.ActivityDialogBinding;
 import penakelex.textRPG.homeland.databinding.ReplicaButtonBinding;
 
-/** DialogActivity
- *      Активность с диалогами
- * */
+/**
+ * DialogActivity
+ * Активность с диалогами
+ */
 
 public class DialogActivity extends MainActionParentActivity {
     private final Dialogs dialogs = new Dialogs();
@@ -76,20 +77,24 @@ public class DialogActivity extends MainActionParentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /** initiateDialog - процедура
-     *      Инициализация диалога
+    /**
+     * initiateDialog - процедура
+     * Инициализация диалога
+     *
      * @param ID - идентификатор диалога
-     * */
+     */
     private void initiateDialog(int ID) {
         quotes = dialogs.getQuotes(ID);
         startQuote(0);
     }
 
-    /** startQuote - процедура
-     *      Выполнение некоторых действий, либо переход на следующий шаг
+    /**
+     * startQuote - процедура
+     * Выполнение некоторых действий, либо переход на следующий шаг
+     *
      * @param step - следующий шаг (если отрицателен, то выполнение определённых действий,
-     *            если положителен, то переход на следующий шаг)
-     * */
+     *             если положителен, то переход на следующий шаг)
+     */
     private void startQuote(int step) {
         switch (step) {
             case -1 -> {
@@ -119,7 +124,10 @@ public class DialogActivity extends MainActionParentActivity {
                 binding = null;
                 goingToCreatingCharacter();
             }
-            case -5 -> initiateDialog(4);
+            case -5 -> {
+                dialogActivityHelper.updateQuestStage((short) 2, (short) 1);
+                initiateDialog(4);
+            }
             case -6 -> {
                 dialogActivityHelper.addQuest(R.string.excursion);
                 dialogActivityHelper.addReputation(R.string.instructor_serdcev);
@@ -207,17 +215,19 @@ public class DialogActivity extends MainActionParentActivity {
         }
     }
 
-    /** goingToTrading - процедура
-     *      Переход на активность с торговлей
-     * */
+    /**
+     * goingToTrading - процедура
+     * Переход на активность с торговлей
+     */
     private void goingToTrading() {
         startActivity(new Intent(this, TradingActivity.class));
         finish();
     }
 
-    /** saveChanges - процедура
-     *      Сохранение изменений
-     * */
+    /**
+     * saveChanges - процедура
+     * Сохранение изменений
+     */
     private void saveChanges() {
         dialogActivityHelper.saveChanges(array, itemsToAdd, plusStatistics, binding.getRoot(), getApplicationContext());
         Arrays.fill(array, 0);
@@ -225,26 +235,30 @@ public class DialogActivity extends MainActionParentActivity {
         Arrays.fill(plusStatistics, (short) 0);
     }
 
-    /** goingToMap - процедура
-     *      Переход на активность с картой
-     * */
+    /**
+     * goingToMap - процедура
+     * Переход на активность с картой
+     */
     private void goingToMap() {
         startActivity(new Intent(DialogActivity.this, Map.class));
         finish();
     }
 
-    /** goingToCreatingCharacter - процедура
-     *      Переход на активность с созданием персонажа
-     * */
+    /**
+     * goingToCreatingCharacter - процедура
+     * Переход на активность с созданием персонажа
+     */
     private void goingToCreatingCharacter() {
         startActivity(new Intent(DialogActivity.this, CreatingCharacter.class));
         finish();
     }
 
-    /** fillReplicas - процедура
-     *      Заполнение текста говорящего персонажа, его изображения, имени, заполнения реплик главного персонажа
+    /**
+     * fillReplicas - процедура
+     * Заполнение текста говорящего персонажа, его изображения, имени, заполнения реплик главного персонажа
+     *
      * @param quote - содержит в себе ссылки на всё перечисленное выше
-     * */
+     */
     private void fillReplicas(Dialogs.Quote quote) {
         binding.containerForReplicasVariants.removeAllViews();
         settingTalkingCharacterImage(quote.getImage());
@@ -258,35 +272,43 @@ public class DialogActivity extends MainActionParentActivity {
         }
     }
 
-    /** settingTalkingCharacterQuote - процедура
-     *      Заполнение текста говорящего персонажа
+    /**
+     * settingTalkingCharacterQuote - процедура
+     * Заполнение текста говорящего персонажа
+     *
      * @param quote - фраза говорящего персонажа
-     * */
+     */
     private void settingTalkingCharacterQuote(int quote) {
         binding.text.setText(dialogActivityHelper.getTalkingCharacterQuote(quote, getApplicationContext()));
         binding.text.startAnimation(animation);
     }
 
-    /** replicaListener - процедура
-     *      "Слушатель" реплики, выбранной игроком
-     *  @param characterQuote - выбранная реплика игроком
-     * */
+    /**
+     * replicaListener - процедура
+     * "Слушатель" реплики, выбранной игроком
+     *
+     * @param characterQuote - выбранная реплика игроком
+     */
     private void replicaListener(Dialogs.Quote.CharacterQuote characterQuote) {
         startQuote(dialogActivityHelper.replicaListener(characterQuote, array, plusStatistics));
     }
 
-    /** settingTalkingCharacterName - процедура
-     *      Заполнение имени говорящего персонажа
+    /**
+     * settingTalkingCharacterName - процедура
+     * Заполнение имени говорящего персонажа
+     *
      * @param name - имя говорящего персонажа
-     * */
+     */
     private void settingTalkingCharacterName(int name) {
         binding.name.setText(name);
     }
 
-    /** settingTalkingCharacterImage - процедура
-     *      Заполнение изображения говорящего персонажа
-     *  @param image - ссылка на изображение говорящего персонажа
-     * */
+    /**
+     * settingTalkingCharacterImage - процедура
+     * Заполнение изображения говорящего персонажа
+     *
+     * @param image - ссылка на изображение говорящего персонажа
+     */
     private void settingTalkingCharacterImage(int image) {
         binding.imageOfCharacter.setImageDrawable(DialogActivityHelper.getTalkingCharacterImage(image, getApplicationContext()));
     }
