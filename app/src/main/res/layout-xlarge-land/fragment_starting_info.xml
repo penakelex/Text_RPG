@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="horizontal"
-    tools:context="penakelex.textRPG.homeland.CreatingCharacterForm.StartingFragments.StartingInfoFragment"
+    tools:context=".CreatingCharacterForm.StartingFragments.StartingInfoFragment"
     tools:ignore="MissingDefaultResource"
     android:baselineAligned="false">
 

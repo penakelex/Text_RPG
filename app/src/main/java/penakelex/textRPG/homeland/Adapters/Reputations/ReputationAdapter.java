@@ -17,7 +17,6 @@ import penakelex.textRPG.homeland.R;
 import penakelex.textRPG.homeland.databinding.ItemReputationBinding;
 
 public class ReputationAdapter extends RecyclerView.Adapter<ReputationAdapter.ViewHolder> {
-    //TODO: Возможно механика нажатия не работает
     private List<ReputationItem> information = new ArrayList<>();
     private final OnReputationItemClickListener clickListener;
     private int lastPosition = -1;

@@ -18,12 +18,6 @@ public class OtherInformationTableHelper {
     private final CharacteristicsViewModel characteristicsViewModel;
     private final SkillsViewModel skillsViewModel;
 
-    public OtherInformationTableHelper(OtherInformationViewModel otherInformationViewModel, CharacteristicsViewModel characteristicsViewModel, SkillsViewModel skillsViewModel) {
-        this.otherInformationViewModel = otherInformationViewModel;
-        this.characteristicsViewModel = characteristicsViewModel;
-        this.skillsViewModel = skillsViewModel;
-    }
-
     public OtherInformationTableHelper(Activity activity) {
         this.otherInformationViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(OtherInformationViewModel.class);
         this.otherInformationViewModel.initiate(activity.getApplication());

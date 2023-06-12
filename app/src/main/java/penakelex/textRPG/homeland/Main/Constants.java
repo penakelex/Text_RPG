@@ -9,13 +9,12 @@ public class Constants {
             Main_Skills = "Main Skills", First_Visit_Talents = "First Visit Talents",
             Talents_Points = "Talents Points", Current_Top_Panel_Activity = "Current Top Panel Activity",
             Local_Map_Location = "Local Map Location", Starting = "Starting", U_Here = "∇",
-            Global_Map_Location = "Global Map Location", Experience = "Experience", Weight = "Weight",
-            Volume = "Volume", Using_Volume = "Using Volume", Using_Weight = "Using Weight",
-            World = "World", Going_To_Starting_Information = "Going To Starting Information",
+            Global_Map_Location = "Global Map Location", Experience = "Experience",
+            Using_Volume = "Using Volume", Using_Weight = "Using Weight",
+            Going_To_Starting_Information = "Going To Starting Information",
             Is_Game_Started = "Game Started", Homeland_Tag = "homeland", Skill_Points = "Skill Points",
             ID_Dialog = "ID dialog", Reputation = "Reputation", Money = "Money", S = "S",
             Current_Activity = "Current Activity", Level = "Level", Static_Position = "Static Position",
-            Is_Going_To_Starting_Information_First_Time = "Is Going To Starting Information First Time",
             Main_Character_Name = "Main Character Name", Gender = "Gender", Trader = "Trader",
             Main_Character_Age = "Main Character Age", Main_Character_Height = "Main Character Height";
     public static final int Local_Map_Location_Def_Value = 11;

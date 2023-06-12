@@ -31,8 +31,4 @@ public class QuestStageInformation {
     public String getStage() {
         return stage;
     }
-
-    public void setStage(String stage) {
-        this.stage = stage;
-    }
 }

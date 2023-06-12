@@ -23,7 +23,7 @@ import penakelex.textRPG.homeland.databinding.FragmentStartingInformationBinding
 
 public class StartingInformationFragment extends Fragment {
     private FragmentStartingInformationBinding binding;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

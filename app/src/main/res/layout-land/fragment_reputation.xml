@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="2dp"
+        android:layout_marginHorizontal="2dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -42,6 +42,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1.4"
         android:gravity="center"
+        android:layout_marginTop="2dp"
         android:background="@drawable/black_small_rectangle"
         android:orientation="vertical">
 
@@ -74,7 +75,6 @@
                     android:layout_marginTop="2dp"
                     android:gravity="center"
                     android:fontFamily="@font/game_font1"
-                    android:justificationMode="inter_word"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
             </LinearLayout>

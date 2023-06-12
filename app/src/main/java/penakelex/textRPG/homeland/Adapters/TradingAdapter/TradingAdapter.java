@@ -22,7 +22,6 @@ public class TradingAdapter extends RecyclerView.Adapter<TradingAdapter.ViewHold
     private final OnTradingItemClickListener clickListener;
     private long lastPosition = -1;
     private Context context;
-    //TODO: Возможно не доделана механика сохранения позиции
     private final InventoryTableHelper tableHelper;
 
     public interface OnTradingItemClickListener {

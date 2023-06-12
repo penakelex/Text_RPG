@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="2dp"
+            android:layout_marginHorizontal="2dp"
             android:layout_weight="1.2"
             android:orientation="vertical">
 
@@ -55,6 +55,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/black_small_rectangle"
                 android:orientation="vertical"
+                android:layout_marginTop="2dp"
                 tools:ignore="NestedWeights">
 
                 <LinearLayout

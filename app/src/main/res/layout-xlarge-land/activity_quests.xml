@@ -39,6 +39,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/black_small_rectangle"
                 android:padding="2dp"
+                android:layout_marginStart="2dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/quest_item" />
         </LinearLayout>

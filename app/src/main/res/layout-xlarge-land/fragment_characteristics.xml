@@ -73,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/game_font1"
-                    android:justificationMode="inter_word"
                     android:textColor="@color/black"
                     android:textSize="50sp" />
             </LinearLayout>

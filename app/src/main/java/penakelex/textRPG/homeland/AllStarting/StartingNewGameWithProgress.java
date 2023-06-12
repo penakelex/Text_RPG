@@ -23,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import penakelex.textRPG.homeland.Databases.Database.DatabaseCallback;

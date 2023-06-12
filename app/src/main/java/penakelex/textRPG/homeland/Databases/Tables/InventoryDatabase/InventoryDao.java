@@ -12,7 +12,6 @@ public interface InventoryDao {
     @Query("SELECT * FROM inventory")
     List<InventoryItem> getAllInventories();
 
-
     @Insert
     void insertItem(InventoryItem item);
 
