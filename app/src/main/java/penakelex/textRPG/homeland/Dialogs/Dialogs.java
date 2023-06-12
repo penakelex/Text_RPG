@@ -281,7 +281,7 @@ public class Dialogs {
                     new Quote.CharacterQuote(R.string.quotes11_character_quote1_0, 3),
                     new Quote.CharacterQuote(R.string.quotes11_character_quote1_1, -15)
             }),
-            new Quote(4, names[4], R.string.quotes11_quote2, new Quote.CharacterQuote[]{
+            new Quote(4, names[5], R.string.quotes11_quote2, new Quote.CharacterQuote[]{
                     new Quote.CharacterQuote(R.string.quotes11_character_quote2_0, 6),
                     new Quote.CharacterQuote(R.string.quotes11_character_quote2_1, 7)
             }),

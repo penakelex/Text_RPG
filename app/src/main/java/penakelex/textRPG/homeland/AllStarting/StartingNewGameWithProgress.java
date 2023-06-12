@@ -12,6 +12,8 @@ import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Height;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Character_Name;
 import static penakelex.textRPG.homeland.Main.Constants.Main_Skills;
 import static penakelex.textRPG.homeland.Main.Constants.Talents_Points;
+import static penakelex.textRPG.homeland.Main.Constants.Using_Volume;
+import static penakelex.textRPG.homeland.Main.Constants.Using_Weight;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,6 +58,7 @@ public class StartingNewGameWithProgress extends DialogFragment {
                 putInt(Main_Character_Age, 0).putInt(Main_Character_Height, 0).
                 putString(Main_Character_Name, "").putInt(Gender, 0).
                 putInt(Characteristics_Points, 2).putInt(Main_Skills, 3).putInt(Talents_Points, 2).
+                putFloat(Using_Volume, 0).putFloat(Using_Weight, 0).
                 putInt(Level, 0).apply();
         new DatabaseCallback(getActivity().getApplication(), (ViewModelStoreOwner) getActivity());
     }

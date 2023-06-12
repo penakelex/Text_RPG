@@ -75,8 +75,7 @@ public class InventoryFragment extends Fragment {
     }
 
     private void settingAdapterInformation() {
-        List<InventoryItem> inventory = inventoryViewModel.getInventory((short) 1);
-        inventoryAdapter.setInformation(requireActivity(), inventory);
+        inventoryAdapter.setInformation(requireActivity(), inventoryViewModel.getInventory((short) 1));
     }
 
     @SuppressLint("DefaultLocale")
@@ -90,6 +89,7 @@ public class InventoryFragment extends Fragment {
         if (tableHelper.throwAwayItem(currentInventoryItem, sharedPreferences, requireContext())) {
             settingNothing();
             settingVolumeAndWeight();
+            settingAdapterInformation();
         } else {
             Snackbar.make(binding.getRoot(), getResources().getString(R.string.have_not_chosen_inventory_item), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }

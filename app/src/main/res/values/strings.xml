@@ -669,4 +669,5 @@
     <string name="ur_level">Ваш уровень:</string>
     <string name="till_next_level">До следующего уровня:</string>
     <string name="exp">Опыт:</string>
+    <string name="you_havent_chosen_item_on_buy">Вы не выбрали предмет на покупку...</string>
 </resources>

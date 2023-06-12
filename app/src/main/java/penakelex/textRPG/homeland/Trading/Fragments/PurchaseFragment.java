@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-
 import penakelex.textRPG.homeland.Adapters.TradingAdapter.TradingAdapter;
 import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryTableHelper;
 import penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase.InventoryItem;
@@ -84,14 +82,13 @@ public class PurchaseFragment extends Fragment {
             settingNothing();
             settingAdapterInformation();
         } else {
-            Snackbar.make(binding.getRoot(), getResources().getString(R.string.you_havent_chosen_item), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
+            Snackbar.make(binding.getRoot(), getResources().getString(R.string.you_havent_chosen_item_on_buy), Snackbar.LENGTH_SHORT).setTextColor(getResources().getColor(R.color.golden_yellow)).setBackgroundTint(getResources().getColor(R.color.dark_purple)).show();
         }
     }
 
     private void settingAdapterInformation() {
-        List<InventoryItem> inventory = inventoryViewModel.getInventory((short) sharedPreferences.getInt(Trader, 0));
         adapter.setLastPosition(-1);
-        adapter.setInformation(requireActivity(), inventory);
+        adapter.setInformation(requireActivity(), inventoryViewModel.getInventory((short) sharedPreferences.getInt(Trader, 0)));
     }
 
     private void settingNothing() {

@@ -86,7 +86,7 @@ public class InventoryRepository {
 
         @Override
         protected Void doInBackground(InventoryItem... inventoryItems) {
-            dao.throwAwayItem(inventoryItems[0]);
+            dao.throwAwayItem(inventoryItems[0].getPrimaryID());
             return null;
         }
     }

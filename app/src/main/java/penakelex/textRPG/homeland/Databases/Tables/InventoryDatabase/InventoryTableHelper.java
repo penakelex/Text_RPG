@@ -50,14 +50,16 @@ public class InventoryTableHelper {
         SkillsItem trading = skillsViewModel.getSkill((byte) 5);
         short basePrice = getBaseItemPrice(inventoryItem.getId());
         if (owner == 1) {
-            inventoryViewModel.changeOwner(owner, (float) (basePrice - basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getId());
+            inventoryViewModel.changeOwner(owner, (float) (basePrice - basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getPrimaryID());
         } else {
-            inventoryViewModel.changeOwner(owner, (float) (basePrice + basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getId());
+            inventoryViewModel.changeOwner(owner, (float) (basePrice + basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getPrimaryID());
         }
     }
 
     public boolean throwAwayItem(InventoryItem item, SharedPreferences sharedPreferences, Context context) {
-        if (item != null && !isItemForQuest(item.getId())) {
+        if (item != null && !isItemForQuest(
+                //item.getId()
+        )) {
             inventoryViewModel.throwAwayItem(item);
             float[] values = getItemWeightAndVolume(item.getId(), context);
             sharedPreferences.edit().putFloat(Using_Volume, sharedPreferences.getFloat(Using_Volume, 0) - values[1]).apply();
@@ -65,6 +67,7 @@ public class InventoryTableHelper {
             return true;
         } else return false;
     }
+
     public void insertNewItemToPlayersInventory(short ID, Context context, View view) {
         String[] itemInformation = getAllInventoryItemInformation(context, ID);
         float weight = Float.parseFloat(itemInformation[2]), volume = Float.parseFloat(itemInformation[3]);
@@ -72,6 +75,7 @@ public class InventoryTableHelper {
         List<OtherInformationItem> otherInformation = otherInformationViewModel.getAllOtherInformation();
         if (isHavingFreeSpace(otherInformation, sharedPreferences, weight, volume)) {
             SkillsItem trading = skillsViewModel.getSkill((byte) 5);
+            sharedPreferences.edit().putFloat(Using_Weight, weight + sharedPreferences.getFloat(Using_Volume, 0)).putFloat(Using_Volume, volume + sharedPreferences.getFloat(Using_Volume, 0)).apply();
             CharacteristicItem attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
             short basePrice = getBaseItemPrice(ID);
             inventoryViewModel.add(new InventoryItem(ID, (short) 1, (float) (basePrice + basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005))));
@@ -91,8 +95,10 @@ public class InventoryTableHelper {
                 sharedPreferences.getFloat(Using_Volume, 0) + volume <= otherInformationItems.get(2).getValue();
     }
 
-    public boolean isItemForQuest(short ID) {
-        return ID == 2;
+    public boolean isItemForQuest(
+            //        short ID
+    ) {
+        return false;
     }
 
     private short getBaseItemPrice(short ID) {

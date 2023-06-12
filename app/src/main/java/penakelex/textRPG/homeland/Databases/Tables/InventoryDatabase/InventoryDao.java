@@ -1,7 +1,6 @@
 package penakelex.textRPG.homeland.Databases.Tables.InventoryDatabase;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -15,8 +14,8 @@ public interface InventoryDao {
     @Insert
     void insertItem(InventoryItem item);
 
-    @Delete
-    void throwAwayItem(InventoryItem inventoryItem);
+    @Query("DELETE FROM inventory WHERE primary_id=:ID")
+    void throwAwayItem(int ID);
 
     @Query("UPDATE inventory SET owner_id=:ownerID, price=:newPrice WHERE primary_id=:ID")
     void changeOwner(short ownerID, float newPrice, short ID);
