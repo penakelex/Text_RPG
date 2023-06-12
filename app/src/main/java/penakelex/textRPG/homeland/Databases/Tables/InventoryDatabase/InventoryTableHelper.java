@@ -45,13 +45,17 @@ public class InventoryTableHelper {
         this.otherInformationViewModel = otherInformationViewModel;
     }
 
-    public void trading(InventoryItem inventoryItem, short owner) {
+    public void trading(InventoryItem inventoryItem, short owner, Context context) {
         CharacteristicItem attractiveness = characteristicsViewModel.getCharacteristic((byte) 7);
         SkillsItem trading = skillsViewModel.getSkill((byte) 5);
         short basePrice = getBaseItemPrice(inventoryItem.getId());
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
+        float[] weightAndVolume = getItemWeightAndVolume(inventoryItem.getId(), context);
         if (owner == 1) {
+            sharedPreferences.edit().putFloat(Using_Weight, sharedPreferences.getFloat(Using_Weight, 0) + weightAndVolume[0]).putFloat(Using_Volume, sharedPreferences.getFloat(Using_Volume, 0) + weightAndVolume[1]).apply();
             inventoryViewModel.changeOwner(owner, (float) (basePrice - basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getPrimaryID());
         } else {
+            sharedPreferences.edit().putFloat(Using_Weight, sharedPreferences.getFloat(Using_Weight, 0) - weightAndVolume[0]).putFloat(Using_Volume, sharedPreferences.getFloat(Using_Volume, 0) - weightAndVolume[1]).apply();
             inventoryViewModel.changeOwner(owner, (float) (basePrice + basePrice * (attractiveness.getValue() * 0.1 + trading.getValue() * 0.005)), (short) inventoryItem.getPrimaryID());
         }
     }

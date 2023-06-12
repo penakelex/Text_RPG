@@ -77,7 +77,7 @@ public class SaleFragment extends Fragment {
             if (sharedPreferences == null) {
                 sharedPreferences = requireActivity().getSharedPreferences(Homeland_Tag, Context.MODE_PRIVATE);
             }
-            tableHelper.trading(item, (short) sharedPreferences.getInt(Trader, 0));
+            tableHelper.trading(item, (short) sharedPreferences.getInt(Trader, 0), requireActivity());
             settingNothing();
             settingAdapterInformation();
         } else {
